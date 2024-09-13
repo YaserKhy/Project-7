@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
-import 'package:project7/screens/create_account_screen.dart';
-import 'package:project7/screens/otp_verification_screen.dart';
+import 'package:project7/screens/create_account/create_account_screen.dart';
+import 'package:project7/screens/otp/otp_verification_screen.dart';
 import 'package:project7/widgets/buttons/auth_button.dart';
 import 'package:project7/widgets/buttons/auth_text_button.dart';
 import 'package:project7/widgets/fields/auth_field.dart';
@@ -63,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
                                   context.pushReplacement(
-                                      screen: const OtpVerificationScreen());
+                                      screen: const OtpVerificationScreen(email: "",));
                                 }
                               }),
                           AuthTextButton(
