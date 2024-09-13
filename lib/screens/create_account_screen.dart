@@ -13,44 +13,89 @@ class CreateAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+
     return GestureDetector(
-      onTap: ()=> FocusManager.instance.primaryFocus?.unfocus(),
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
-          child: Stack(
-            children: [
-              Positioned(
+          child: Stack(children: [
+            Positioned(
                 bottom: 0,
-                child: Image.asset("assets/images/tuwaiq.png", width: context.getWidth(),fit: BoxFit.cover)
-              ),
-              SizedBox(
-                height: context.getHeight(),
+                child: Image.asset("assets/images/tuwaiq.png",
+                    width: context.getWidth(), fit: BoxFit.cover)),
+            SizedBox(
+              height: context.getHeight(),
+              child: Form(
+                key: formKey,
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
                       const SizedBox(height: 36),
-                      Image.asset("assets/images/tuwaiq_logo2.png",height: 105,width: 243),
+                      Image.asset("assets/images/tuwaiq_logo2.png",
+                          height: 105, width: 243),
                       const SizedBox(height: 48),
                       const AuthTitle(title: "Create Account"),
                       const SizedBox(height: 12),
-                      const AuthField(label: "First name"),
+                      AuthField(
+                        label: "First name",
+                        validator: (fName) {
+                          if (fName!.trim().isEmpty) {
+                            return 'First name is required';
+                          }
+                          return null;
+                        },
+                      ),
                       const SizedBox(height: 12),
-                      const AuthField(label: "Last name"),
+                      AuthField(
+                        label: "Last name",
+                        validator: (lName) {
+                          if (lName!.trim().isEmpty) {
+                            return 'Last name is required';
+                          }
+                          return null;
+                        },
+                      ),
                       const SizedBox(height: 12),
-                      const AuthField(label: "Email"),
+                      AuthField(
+                        label: "Email",
+                        validator: (email) {
+                          if (email!.trim().isEmpty) {
+                            return 'Email is required';
+                          }
+                          String emailPattern =
+                              r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+                          RegExp regex = RegExp(emailPattern);
+
+                          if (!regex.hasMatch(email)) {
+                            return 'Enter a valid email';
+                          }
+
+                          return null;
+                        },
+                      ),
                       const SizedBox(height: 44),
-                      AuthButton(title: "Get Started",onPressed: ()=>context.pushRemove(screen: const OtpVerificationScreen())),
+                      AuthButton(
+                          title: "Get Started",
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              context.pushReplacement(
+                                  screen: const OtpVerificationScreen());
+                            }
+                          }),
                       AuthTextButton(
                         text: "Have an account ? ",
                         button: "Log in",
-                        onPressed: () => context.pushReplacement(screen: const LoginScreen()),
+                        onPressed: () => context.pushReplacement(
+                            screen: const LoginScreen()),
                       ),
                     ],
                   ),
                 ),
               ),
-            ]
-          ),
+            ),
+          ]),
         ),
       ),
     );

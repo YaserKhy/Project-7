@@ -13,6 +13,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -21,34 +23,58 @@ class LoginScreen extends StatelessWidget {
           child: Stack(
             children: [
               Positioned(
-                bottom: 0,
-                child: Image.asset("assets/images/tuwaiq.png", width: context.getWidth(),fit: BoxFit.cover)
-              ),
+                  bottom: 0,
+                  child: Image.asset("assets/images/tuwaiq.png",
+                      width: context.getWidth(), fit: BoxFit.cover)),
               SizedBox(
                 height: context.getHeight(),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
+                child: Form(
+                  key: formKey,
+                  child: SingleChildScrollView(
+                    child: Column(children: [
                       Column(
                         children: [
                           const SizedBox(height: 44),
-                          Image.asset("assets/images/tuwaiq_logo2.png",height: 105,width: 243),
+                          Image.asset("assets/images/tuwaiq_logo2.png",
+                              height: 105, width: 243),
                           const SizedBox(height: 44),
                           const AuthTitle(title: "Login"),
                           const SizedBox(height: 44),
-                          const AuthField(label: "Email"),
+                          AuthField(
+                            label: "Email",
+                            validator: (email) {
+                              if (email!.trim().isEmpty) {
+                                return 'Email is required';
+                              }
+                              String emailPattern =
+                                  r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+                              RegExp regex = RegExp(emailPattern);
+
+                              if (!regex.hasMatch(email)) {
+                                return 'Enter a valid email';
+                              }
+
+                              return null;
+                            },
+                          ),
                           const SizedBox(height: 44),
-                          AuthButton(title: "Login",onPressed: () {
-                            context.pushRemove(screen: const OtpVerificationScreen());
-                          }),
+                          AuthButton(
+                              title: "Login",
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  context.pushReplacement(
+                                      screen: const OtpVerificationScreen());
+                                }
+                              }),
                           AuthTextButton(
                             text: "Don't have account ?",
                             button: "Sign up",
-                            onPressed: () => context.pushReplacement(screen: const CreateAccountScreen()),
+                            onPressed: () => context.pushReplacement(
+                                screen: const CreateAccountScreen()),
                           ),
                         ],
                       ),
-                    ]
+                    ]),
                   ),
                 ),
               ),
