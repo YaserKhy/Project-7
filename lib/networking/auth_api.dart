@@ -8,7 +8,6 @@ mixin AuthApi on ConstantAPi {
       required String firstName,
       required String lastName}) async {
     try {
-      print(baseURl + createAccountEndPoint);
       final response = await dio.post(baseURl + createAccountEndPoint, data: {
         "email": email.trim(),
         "f_name": firstName.trim(),

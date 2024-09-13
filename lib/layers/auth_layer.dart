@@ -5,7 +5,7 @@ class AuthLayer {
   AuthModel? auth;
   final box = GetStorage();
 
-  AuthLayerData() {
+  AuthLayer() {
     loadDataAuth();
   }
 
