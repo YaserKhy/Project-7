@@ -17,29 +17,39 @@ class CreateAccountScreen extends StatelessWidget {
       onTap: ()=> FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 36),
-                Image.asset("assets/images/tuwaiq_logo2.png",height: 105,width: 243),
-                const SizedBox(height: 48),
-                const AuthTitle(title: "Create Account"),
-                const SizedBox(height: 12),
-                const AuthField(label: "First name"),
-                const SizedBox(height: 12),
-                const AuthField(label: "Last name"),
-                const SizedBox(height: 12),
-                const AuthField(label: "Email"),
-                const SizedBox(height: 44),
-                AuthButton(title: "Get Started",onPressed: ()=>context.pushRemove(screen: const OtpVerificationScreen())),
-                AuthTextButton(
-                  text: "Have an account ? ",
-                  button: "Log in",
-                  onPressed: () => context.pushReplacement(screen: const LoginScreen()),
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 0,
+                child: Image.asset("assets/images/tuwaiq.png", width: context.getWidth(),fit: BoxFit.cover)
+              ),
+              SizedBox(
+                height: context.getHeight(),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 36),
+                      Image.asset("assets/images/tuwaiq_logo2.png",height: 105,width: 243),
+                      const SizedBox(height: 48),
+                      const AuthTitle(title: "Create Account"),
+                      const SizedBox(height: 12),
+                      const AuthField(label: "First name"),
+                      const SizedBox(height: 12),
+                      const AuthField(label: "Last name"),
+                      const SizedBox(height: 12),
+                      const AuthField(label: "Email"),
+                      const SizedBox(height: 44),
+                      AuthButton(title: "Get Started",onPressed: ()=>context.pushRemove(screen: const OtpVerificationScreen())),
+                      AuthTextButton(
+                        text: "Have an account ? ",
+                        button: "Log in",
+                        onPressed: () => context.pushReplacement(screen: const LoginScreen()),
+                      ),
+                    ],
+                  ),
                 ),
-                Image.asset("assets/images/tuwaiq.png", width: context.getWidth(),fit: BoxFit.cover),
-              ],
-            ),
+              ),
+            ]
           ),
         ),
       ),

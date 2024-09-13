@@ -16,32 +16,43 @@ class LoginScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Column(
-                  children: [
-                    const SizedBox(height: 36),
-                    Image.asset("assets/images/tuwaiq_logo2.png",height: 105,width: 243),
-                    const SizedBox(height: 48),
-                    const AuthTitle(title: "Login"),
-                    const SizedBox(height: 84),
-                    const AuthField(label: "Email"),
-                    const SizedBox(height: 128),
-                    AuthButton(title: "Login",onPressed: () {
-                      context.pushRemove(screen: const OtpVerificationScreen());
-                    }),
-                    AuthTextButton(
-                      text: "Don't have account ?",
-                      button: "Sign up",
-                      onPressed: () => context.pushReplacement(screen: const CreateAccountScreen()),
-                    ),
-                  ],
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 0,
+                child: Image.asset("assets/images/tuwaiq.png", width: context.getWidth(),fit: BoxFit.cover)
+              ),
+              SizedBox(
+                height: context.getHeight(),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Column(
+                        children: [
+                          const SizedBox(height: 44),
+                          Image.asset("assets/images/tuwaiq_logo2.png",height: 105,width: 243),
+                          const SizedBox(height: 44),
+                          const AuthTitle(title: "Login"),
+                          const SizedBox(height: 44),
+                          const AuthField(label: "Email"),
+                          const SizedBox(height: 44),
+                          AuthButton(title: "Login",onPressed: () {
+                            context.pushRemove(screen: const OtpVerificationScreen());
+                          }),
+                          AuthTextButton(
+                            text: "Don't have account ?",
+                            button: "Sign up",
+                            onPressed: () => context.pushReplacement(screen: const CreateAccountScreen()),
+                          ),
+                        ],
+                      ),
+                    ]
+                  ),
                 ),
-                Image.asset("assets/images/tuwaiq.png", width: context.getWidth(),fit: BoxFit.cover),
-              ]
-            ),
+              ),
+            ],
           ),
         ),
       ),
