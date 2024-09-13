@@ -7,11 +7,15 @@ environment:
   sdk: ^3.5.0
 
 dependencies:
+  curved_navigation_bar: ^1.0.6
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  flutter_rating_stars: ^1.1.0
   get_it: ^7.7.0
   get_storage: ^2.1.1
+  group_list_view: ^1.1.1
+  grouped_list: ^6.0.0
   image_picker: ^1.1.2
   # google_fonts: ^6.2.1
   pinput: ^5.0.0

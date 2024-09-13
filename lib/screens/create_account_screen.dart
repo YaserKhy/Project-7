@@ -16,6 +16,7 @@ class CreateAccountScreen extends StatelessWidget {
     return GestureDetector(
       onTap: ()=> FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: Stack(
             children: [

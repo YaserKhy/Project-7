@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
 import 'package:pinput/pinput.dart';
 import 'package:project7/extensions/screen_navigation.dart';
-import 'package:project7/screens/home_screen.dart';
+import 'package:project7/screens/navigation/navigation_screen.dart';
 
 class OtpVerificationScreen extends StatelessWidget {
   const OtpVerificationScreen({super.key});
@@ -31,7 +30,7 @@ class OtpVerificationScreen extends StatelessWidget {
                   keyboardType: TextInputType.number,
                   length: 6,
                   onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-                  onCompleted: (value) =>context.pushReplacement(screen: const HomeScreen()),
+                  onCompleted: (value) =>context.pushReplacement(screen: const NavigationScreen()),
                   defaultPinTheme: PinTheme(
                     width: 50,
                     height: 50,
