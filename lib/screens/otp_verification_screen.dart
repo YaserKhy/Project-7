@@ -30,7 +30,7 @@ class OtpVerificationScreen extends StatelessWidget {
                 keyboardType: TextInputType.number,
                 length: 6,
                 onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
-                onCompleted: (value) =>context.pushReplacement(screen: HomeScreen()),
+                onCompleted: (value) =>context.pushReplacement(screen: const HomeScreen()),
                 defaultPinTheme: PinTheme(
                   width: 50,
                   height: 50,
