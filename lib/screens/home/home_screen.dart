@@ -6,6 +6,7 @@ import 'package:project7/extensions/screen_size.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/widgets/cards/project_card.dart';
+import 'package:project7/widgets/custom_icons_icons.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -44,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         )),
                     const Icon(
-                      Icons.filter_alt,
+                      CustomIcons.filter,
                       color: Color(0xff4d2eb4),
                     )
                   ],
@@ -55,74 +56,75 @@ class HomeScreen extends StatelessWidget {
                 // list to store all projects, groupby ['bootcamp_name']
                 BlocBuilder<HomeCubit, HomeState>(
                   builder: (context, state) {
-                    if(state is ShowProjectsState) {
-                    return Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: GroupedListView(
-                          elements: state.projects,
-                          groupBy: (e) => e.bootcampName,
-                          itemBuilder: (context, element) => Column(
-                            children: [
-                              GridView(
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 2),
-                                children: List.generate(
-                                    cubit.getBootLength(element.bootcampName), (index) {
-                                  return ProjectCard(project: element);
-                                }),
-                              )
-                            ],
-                          ),
-                          groupSeparatorBuilder: (value) => Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    value,
-                                    style: const TextStyle(
-                                        fontFamily: 'Lato',
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text("view all"),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Icon(
-                                        Icons.arrow_forward_ios_outlined,
-                                        size: 16,
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              const Divider(),
-                            ],
+                    if (state is ShowProjectsState) {
+                      return Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: GroupedListView(
+                            elements: state.projects,
+                            groupBy: (e) => e.bootcampName,
+                            itemBuilder: (context, element) => Column(
+                              children: [
+                                GridView(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 2),
+                                  children: List.generate(
+                                      cubit.getBootLength(element.bootcampName),
+                                      (index) {
+                                    return ProjectCard(project: element);
+                                  }),
+                                )
+                              ],
+                            ),
+                            groupSeparatorBuilder: (value) => Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      value,
+                                      style: const TextStyle(
+                                          fontFamily: 'Lato',
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text("view all"),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Icon(
+                                          Icons.arrow_forward_ios_outlined,
+                                          size: 16,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                const Divider(),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
+                      );
                     }
                     if (state is LoadingState) {
-                showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) =>
-                        const Center(child: CircularProgressIndicator()));
-              }
-              return Text("ERRROOOORRRR");
+                      showDialog(
+                          barrierDismissible: false,
+                          context: context,
+                          builder: (context) =>
+                              const Center(child: CircularProgressIndicator()));
+                    }
+                    return Text("ERRROOOORRRR");
                   },
                 ),
               ],
