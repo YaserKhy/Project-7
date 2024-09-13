@@ -11,23 +11,26 @@ class AuthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6),
-          boxShadow: const [
-            BoxShadow(color: Color(0xff4D2EB4), offset: Offset(2, 4))
-          ]),
+        borderRadius: BorderRadius.circular(6),
+        boxShadow: const [BoxShadow(color: Color(0xff4D2EB4), offset: Offset(2, 4))]
+      ),
       child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                  side: const BorderSide(color: Color(0xff4D2EB4), width: 2)),
-              foregroundColor: const Color(0xff4D2EB4),
-              fixedSize: Size(context.getWidth() / 1.1, 60),
-              textStyle: const TextStyle(
-                  fontFamily: "Lato",
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold)),
-          onPressed: onPressed,
-          child: Text(title)),
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6),
+            side: const BorderSide(color: Color(0xff4D2EB4), width: 2)
+          ),
+          foregroundColor: const Color(0xff4D2EB4),
+          fixedSize: Size(context.getWidth() / 1.1, 54),
+          textStyle: const TextStyle(
+            fontFamily: "Lato",
+            fontSize: 18,
+            fontWeight: FontWeight.bold
+          )
+        ),
+        child: Text(title)
+      ),
     );
   }
 }
