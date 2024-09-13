@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:project7/extensions/screen_size.dart';
+import 'package:project7/models/project_model.dart';
 
 class ProjectCard extends StatelessWidget {
-  const ProjectCard({super.key});
+  final ProjectModel project;
+  const ProjectCard({super.key, required this.project});
 
   @override
   Widget build(BuildContext context) {
@@ -16,34 +18,42 @@ class ProjectCard extends StatelessWidget {
             border: Border.all(width: 1.5, color: const Color(0xff4931af)),
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,
-            boxShadow: const [
-              BoxShadow(color: Color(0xff4931af), offset: Offset(2, 4))
-            ]),
+            boxShadow: const [BoxShadow(color: Color(0xff4931af), offset: Offset(2, 4))]),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-                child: Image.asset(
+                child: project.logoUrl.contains('assets') ? Image.asset(
+              project.logoUrl,
+              width: context.getWidth(),
+              height: context.getHeight(divideBy: 10),
+              fit: BoxFit.cover,
+            ) : Image.network(project.logoUrl, errorBuilder: (context, error, stackTrace) {
+              return Image.asset(
               'assets/images/tuwaiq_logo1.png',
               width: context.getWidth(),
               height: context.getHeight(divideBy: 10),
               fit: BoxFit.cover,
-            )),
+            );
+            }, width: context.getWidth(),
+              height: context.getHeight(divideBy: 10),
+              fit: BoxFit.cover)),
             const SizedBox(
               height: 10,
             ),
-            const Text(
-              "Project name",
+            Text(
+              project.projectName,
               style: TextStyle(
                   fontFamily: 'Lato', fontWeight: FontWeight.w500, fontSize: 14),
             ),
             const SizedBox(
               height: 10,
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 RatingStars(
+                  value: project.rating,
                   starCount: 5,
                   starSize: 20,
                   valueLabelVisibility: false,
@@ -54,7 +64,7 @@ class ProjectCard extends StatelessWidget {
                       Icons.person_2_outlined,
                       size: 20,
                     ),
-                    Text("4")
+                    Text(project.membersProject.length.toString())
                   ],
                 )
               ],

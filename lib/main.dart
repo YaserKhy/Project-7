@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project7/screens/login_screen.dart';
+import 'package:project7/screens/login/login_screen.dart';
 import 'package:project7/services/setup.dart';
 
 Future<void> main() async {
