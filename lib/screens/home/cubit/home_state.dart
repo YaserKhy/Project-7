@@ -14,3 +14,10 @@ final class ShowBottomSheetState extends HomeState {
   final double newStars;
   ShowBottomSheetState({required this.newStars});
 }
+
+final class LoadingState extends HomeState {}
+
+final class ErrorState extends HomeState {
+  final String msg;
+  ErrorState({required this.msg});
+}
