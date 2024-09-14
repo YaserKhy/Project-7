@@ -116,35 +116,44 @@ class ProjectScreen extends StatelessWidget {
                             return BlocBuilder<HomeCubit, HomeState>(
                               bloc: cubit,
                               builder: (context, state) {
-                                if(state is ShowBottomSheetState) {
-                                return Container(
-                                  width: context.getWidth(),
-                                  height: context.getHeight(divideBy: 5),
-                                  padding: const EdgeInsets.all(16),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Design",
-                                          style: TextStyle(
-                                              color: AppConstants.mainPurple,
-                                              fontFamily: 'Lato',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 28)),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      RatingStars(
-                                        value: cubit.currentStars,
-                                        onValueChanged: (value) =>cubit.changeStars(value),
-                                        starCount: 10,
-                                        starSize: 35,
-                                        valueLabelVisibility: false,
-                                      )
-                                    ],
-                                  ),
-                                );
+                                if (state is LoadingState) {
+                                  return const CircularProgressIndicator();
                                 }
-                                return SizedBox.shrink();
+                                if (state is ErrorState) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text(state.msg)));
+                                }
+                                if (state is ShowBottomSheetState) {
+                                  return Container(
+                                    width: context.getWidth(),
+                                    height: context.getHeight(divideBy: 5),
+                                    padding: const EdgeInsets.all(16),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text("Design",
+                                            style: TextStyle(
+                                                color: AppConstants.mainPurple,
+                                                fontFamily: 'Lato',
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 28)),
+                                        const SizedBox(
+                                          height: 20,
+                                        ),
+                                        RatingStars(
+                                          value: cubit.currentStars,
+                                          onValueChanged: (value) =>
+                                              cubit.changeStars(value),
+                                          starCount: 10,
+                                          starSize: 35,
+                                          valueLabelVisibility: false,
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                }
+                                return const SizedBox.shrink();
                               },
                             );
                           });

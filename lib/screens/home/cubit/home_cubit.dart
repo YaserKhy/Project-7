@@ -14,41 +14,50 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
 
   getAllProjects() async {
-    projects = await api.getAllProjects();
-    emit(ShowProjectsState(projects: projects));
+    try {
+      emit(LoadingState());
+      projects = await api.getAllProjects();
+      emit(ShowProjectsState(projects: projects));
+    } on FormatException catch (error) {
+      emit(ErrorState(msg: error.message));
+    } catch (error) {
+      emit(ErrorState(msg: "There is error with code 194FR94"));
+    }
   }
 
   List<ProjectModel> getBootcampProjects(String boot) {
     List<ProjectModel> bootProjects = [];
     for (var project in projects) {
-      if(project.bootcampName == boot) {
+      if (project.bootcampName == boot) {
         bootProjects.add(project);
       }
     }
     return bootProjects;
   }
 
-  Widget handleLogo({required String logoUrl, required BuildContext context, double? heightDivide, double? widthDivide}) {
-    Widget placeholderLogo = Image.asset(
-      'assets/images/tuwaiq_logo1.png',
-      width: context.getWidth(divideBy: widthDivide ?? 1),
-      height: context.getHeight(divideBy: heightDivide ?? 10),
-      fit: BoxFit.cover
-    );
-    return logoUrl.contains('assets') ? placeholderLogo :
-    Image.network(
-      logoUrl,
-      width: context.getWidth(divideBy: widthDivide ?? 1),
-      height: context.getHeight(divideBy: heightDivide ?? 10),
-      fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace)=> placeholderLogo
-    );
+  Widget handleLogo(
+      {required String logoUrl,
+      required BuildContext context,
+      double? heightDivide,
+      double? widthDivide}) {
+    Widget placeholderLogo = Image.asset('assets/images/tuwaiq_logo1.png',
+        width: context.getWidth(divideBy: widthDivide ?? 1),
+        height: context.getHeight(divideBy: heightDivide ?? 10),
+        fit: BoxFit.cover);
+    return logoUrl.contains('assets')
+        ? placeholderLogo
+        : Image.network(logoUrl,
+            width: context.getWidth(divideBy: widthDivide ?? 1),
+            height: context.getHeight(divideBy: heightDivide ?? 10),
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => placeholderLogo);
   }
 
   handleSearch(String term) {
+    emit(LoadingState());
     List<ProjectModel> result = [];
     for (var project in projects) {
-      if(project.projectName.toLowerCase().contains(term.toLowerCase())) {
+      if (project.projectName.toLowerCase().contains(term.toLowerCase())) {
         result.add(project);
       }
     }
@@ -56,7 +65,14 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   changeStars(double newStars) {
-    currentStars = newStars;
-    emit(ShowBottomSheetState(newStars: currentStars));
+    try {
+      emit(LoadingState());
+      currentStars = newStars;
+      emit(ShowBottomSheetState(newStars: currentStars));
+    } on FormatException catch (error) {
+      emit(ErrorState(msg: error.message));
+    } catch (error) {
+      emit(ErrorState(msg: "Erorr with rating system"));
+    }
   }
 }
