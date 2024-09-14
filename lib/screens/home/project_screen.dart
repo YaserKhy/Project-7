@@ -283,24 +283,44 @@ class ProjectScreen extends StatelessWidget {
                           )),
                     ]),
                 SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     InkWell(
                       child: Container(
-                        height: 20,
-                        width: 20,
+                        height: 45,
+                        width: 45,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: AppConstants.lightBlue),
                         child: Icon(
                           Icons.edit,
+                          size: 35,
                           color: AppConstants.blue,
                         ),
                       ),
-                    )
+                      onTap: () {},
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    InkWell(
+                      child: Container(
+                        height: 45,
+                        width: 45,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppConstants.lightRed),
+                        child: Icon(
+                          Icons.delete_outline,
+                          size: 35,
+                          color: AppConstants.red,
+                        ),
+                      ),
+                      onTap: () {},
+                    ),
                   ],
                 )
               ],
