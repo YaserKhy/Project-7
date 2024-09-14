@@ -18,7 +18,8 @@ class NavigationScreen extends StatelessWidget {
           builder: (context, state) {
             return Scaffold(
               appBar: AppBar(
-                title: Image.asset('assets/images/tuwaiq_logo2.png', height: 85, width: 197),
+                title: Image.asset('assets/images/tuwaiq_logo2.png',
+                    height: 85, width: 197),
                 centerTitle: true,
               ),
               body: cubit.screens[cubit.currentScreen],
@@ -29,9 +30,15 @@ class NavigationScreen extends StatelessWidget {
                 buttonBackgroundColor: AppConstants.mainPurple,
                 onTap: (value) => cubit.switchTo(value),
                 items: [
-                  Icon(Icons.home_outlined, color: Colors.white, size: cubit.getIconSize(0),),
-                  Icon(Icons.add, color: Colors.white, size:  cubit.getIconSize(1)),
-                  Icon(Icons.person_2_outlined, color: Colors.white, size: cubit.getIconSize(2))
+                  Icon(
+                    Icons.home_outlined,
+                    color: Colors.white,
+                    size: cubit.getIconSize(0),
+                  ),
+                  Icon(Icons.add,
+                      color: Colors.white, size: cubit.getIconSize(1)),
+                  Icon(Icons.person_2_outlined,
+                      color: Colors.white, size: cubit.getIconSize(2))
                 ],
               ),
             );

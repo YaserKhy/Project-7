@@ -143,7 +143,7 @@ class MembersProject {
     required this.email,
     required this.position,
     this.imageUrl,
-    required this.link,
+    this.link,
   });
   late final String id;
   late final String firstName;
@@ -151,7 +151,7 @@ class MembersProject {
   late final String email;
   late final String position;
   late final String? imageUrl;
-  late final Link link;
+  late final Link? link;
   
   MembersProject.fromJson(Map<String, dynamic> json){
     id = json['id'];
@@ -171,17 +171,17 @@ class MembersProject {
     data['email'] = email;
     data['position'] = position;
     data['image_url'] = imageUrl;
-    data['link'] = link.toJson();
+    data['link'] = link?.toJson();
     return data;
   }
 }
 
 class Link {
   Link({
-    required this.github,
-    required this.linkedin,
-    required this.resume,
-    required this.bindlink,
+    this.github,
+    this.linkedin,
+    this.resume,
+    this.bindlink,
   });
   late final String? github;
   late final String? linkedin;
