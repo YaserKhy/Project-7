@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:project7/constants/app_constants.dart';
+import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
+import 'package:project7/screens/home/project_screen.dart';
 
 class ProjectCard extends StatelessWidget {
   final HomeCubit cubit;
@@ -12,7 +14,7 @@ class ProjectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){},
+      onTap: ()=> context.push(screen: ProjectScreen(project: project, cubit: cubit,)),
       child: Container(
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.all(10),

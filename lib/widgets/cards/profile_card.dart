@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_size.dart';
+import 'package:project7/models/profile_model.dart';
 import 'package:project7/screens/profile/cubit/profile_cubit.dart';
 
 class ProfileCard extends StatelessWidget {
-  const ProfileCard(
-      {super.key,
-      required this.name,
-      required this.cubit,
-      required this.role,
-      required this.email,
-      required this.id,
-      required this.profileImg});
-  final String profileImg;
-  final String name;
-  final String role;
+  final ProfileModel profile;
   final ProfileCubit cubit;
-  final String email;
-  final String id;
+  const ProfileCard({super.key,required this.cubit,required this.profile});
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -28,34 +19,27 @@ class ProfileCard extends StatelessWidget {
             width: 89,
             child: CircleAvatar(
               backgroundColor: Colors.transparent,
-              backgroundImage: cubit.handleProfilePage(logoUrl: profileImg, context: context).image
+              backgroundImage: cubit.handleProfilePage(logoUrl: profile.imageUrl, context: context).image
             ),
           ),
           const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(name,
+              Text('${profile.firstName} ${profile.lastName}',
                   style: const TextStyle(
-                      color: Color(0xff4D2EB4),
-                      fontSize: 20,
-                      fontFamily: "Lato",
-                      fontWeight: FontWeight.bold)),
-              Text(role,
-                  style: const TextStyle(fontSize: 16, fontFamily: "Lato")),
-              Text(
-                email,
-                style: const TextStyle(fontSize: 16, fontFamily: "Lato"),
-              ),
+                    color: AppConstants.mainPurple,
+                    fontSize: 20,
+                    fontFamily: "Lato",
+                    fontWeight: FontWeight.bold)
+                  ),
+              Text(profile.role,style: const TextStyle(fontFamily: "Lato")),
+              Text(profile.email,style: const TextStyle(fontFamily: "Lato")),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("ID :",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.bold)),
-                  Text(id,
-                      style: const TextStyle(fontSize: 16, fontFamily: "Lato")),
+                  const Text("ID : ",style: TextStyle(fontFamily: "Lato",fontWeight: FontWeight.bold)),
+                  SizedBox(width: context.getWidth(divideBy: 2),child: Text(profile.id,overflow: TextOverflow.fade,style: const TextStyle(fontFamily: "Lato"))),
                 ],
               )
             ],

@@ -19,8 +19,7 @@ class AuthLayer {
 
   Future<void> loadDataAuth() async {
     if (box.hasData('auth')) {
-      auth = AuthModel.fromJson(
-          Map.from(await box.read("auth")).cast<String, dynamic>());
+      auth = AuthModel.fromJson(Map.from(await box.read("auth")).cast<String, dynamic>());
     }
   }
 

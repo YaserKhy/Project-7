@@ -16,40 +16,34 @@ class ProfileScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ProfileCubit(),
       child: Builder(builder: (context) {
-        final cubit = context.read<ProfileCubit>()
-          ..getProfile(token: GetIt.I.get<AuthLayer>().auth!.token);
+        final cubit = context.read<ProfileCubit>()..getProfile(token: GetIt.I.get<AuthLayer>().auth!.token);
         return Scaffold(
           appBar: AppBar(
             actions: [
               IconButton(
-                  onPressed: () {},
-                  icon: const Icon(CustomIcons.edit, color: Color(0xff4D2EB4)))
+                onPressed: () {},
+                icon: const Icon(CustomIcons.edit, color: Color(0xff4D2EB4))
+              )
             ],
           ),
           body: BlocBuilder<ProfileCubit, ProfileState>(
             builder: (context, state) {
               if(state is ShowProfileState) {
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ProfileCard(
-                    cubit: cubit,
-                    profileImg: state.profile.imageUrl,
-                    name: state.profile.firstName,
-                    role: state.profile.role,
-                    email: state.profile.email,
-                    id: state.profile.id,
+                return SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ProfileCard(cubit: cubit,profile: state.profile),
+                      const Padding(padding: EdgeInsets.all(20), child: Divider()),
+                      const ProfileTitle(title: "Links"),
+                      const SizedBox(height: 22),
+                      const AccountCard(icon: Icon(Icons.description_outlined, size: 40),title: "Resume"),
+                      const AccountCard(icon: Icon(CustomIcons.linkedin_in, size: 40),title: "LinkedIn"),
+                      const AccountCard(icon: Icon(CustomIcons.github, size: 40),title: "Github"),
+                      const AccountCard(title: "Bindlink")
+                    ],
                   ),
-                  const Padding(padding: EdgeInsets.all(20), child: Divider()),
-                  const ProfileTitle(title: "Accounts"),
-                  const SizedBox(height: 22),
-                  const AccountCard(icon: Icon(Icons.description_outlined, size: 40),title: "Resume"),
-                  const AccountCard(icon: Icon(CustomIcons.linkedin_in, size: 40),title: "Resume"),
-                  const AccountCard(icon: Icon(CustomIcons.github, size: 40),title: "Resume"),
-                  const AccountCard(title: "Bindlink")
-                ],
-              );
+                );
               }
               return const Center(child: CircularProgressIndicator());
             },

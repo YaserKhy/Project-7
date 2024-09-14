@@ -10,6 +10,7 @@ class HomeCubit extends Cubit<HomeState> {
   final api = NetworkingApi();
   List<ProjectModel> projects = [];
   TextEditingController searchController = TextEditingController();
+  double currentStars = 0;
   HomeCubit() : super(HomeInitial());
 
   getAllProjects() async {
@@ -27,13 +28,18 @@ class HomeCubit extends Cubit<HomeState> {
     return bootProjects;
   }
 
-  Widget handleLogo({required String logoUrl, required BuildContext context}) {
-    Widget placeholderLogo = Image.asset('assets/images/tuwaiq_logo1.png',width: context.getWidth(),height: context.getHeight(divideBy: 10),fit: BoxFit.cover);
+  Widget handleLogo({required String logoUrl, required BuildContext context, double? heightDivide, double? widthDivide}) {
+    Widget placeholderLogo = Image.asset(
+      'assets/images/tuwaiq_logo1.png',
+      width: context.getWidth(divideBy: widthDivide ?? 1),
+      height: context.getHeight(divideBy: heightDivide ?? 10),
+      fit: BoxFit.cover
+    );
     return logoUrl.contains('assets') ? placeholderLogo :
     Image.network(
       logoUrl,
-      width: context.getWidth(),
-      height: context.getHeight(divideBy: 10),
+      width: context.getWidth(divideBy: widthDivide ?? 1),
+      height: context.getHeight(divideBy: heightDivide ?? 10),
       fit: BoxFit.cover,
       errorBuilder: (context, error, stackTrace)=> placeholderLogo
     );
@@ -47,5 +53,10 @@ class HomeCubit extends Cubit<HomeState> {
       }
     }
     emit(ShowProjectsState(projects: result));
+  }
+
+  changeStars(double newStars) {
+    currentStars = newStars;
+    emit(ShowBottomSheetState(newStars: currentStars));
   }
 }
