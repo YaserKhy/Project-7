@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_size.dart';
 
 class AccountCard extends StatelessWidget {
@@ -15,9 +16,9 @@ class AccountCard extends StatelessWidget {
       width: context.getWidth(divideBy: 1.1),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(color: const Color(0xff4931AF), width: 2),
+        border: Border.all(color: AppConstants.mainPurple, width: 2),
         borderRadius: BorderRadius.circular(10),
-        boxShadow: const [BoxShadow(color: Color(0xff4D2EB4), offset: Offset(2, 4))],
+        boxShadow: const [BoxShadow(color: AppConstants.mainPurple, offset: Offset(2, 4))],
       ),
       child: ListTile(
         leading: icon,

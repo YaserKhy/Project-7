@@ -16,14 +16,20 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   handleProfilePage({required String logoUrl, required BuildContext context}) {
-    Widget placeholderAvatar = Image.asset('assets/images/profile_holder.png',width: context.getWidth(),height: context.getHeight(divideBy: 10),fit: BoxFit.cover);
-    return logoUrl.contains('assets') ? placeholderAvatar :
-    Image.network(
-      logoUrl,
-      width: 89,
-      height: 89,
-      fit: BoxFit.cover,
-      errorBuilder: (context, error, stackTrace)=> placeholderAvatar
-    );
+    Widget placeholderAvatar = Image.asset('assets/images/profile_holder.png',
+        width: context.getWidth(),
+        height: context.getHeight(divideBy: 10),
+        fit: BoxFit.cover);
+    return logoUrl.contains('assets')
+        ? placeholderAvatar
+        : Image.network(logoUrl,
+            width: 89,
+            height: 89,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => placeholderAvatar);
+  }
+
+  editProfile({required ProfileModel profileModel}) async {
+    api.editProfile(profile: profileModel);
   }
 }
