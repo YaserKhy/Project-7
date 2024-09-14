@@ -42,4 +42,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   logOut() {
     GetIt.I.get<AuthLayer>().logOut();
   }
+
+  editProfile({required ProfileModel profileModel}) async {
+    api.editProfile(profile: profileModel);
+  }
 }

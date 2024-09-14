@@ -15,4 +15,22 @@ mixin ProfileApi on ConstantAPi {
       throw const FormatException("~there error with API");
     }
   }
+
+  Future<ProfileModel> editProfile({required ProfileModel profile}) async {
+    final response = await dio.put(
+      baseURl + editProfileEndPoint,
+      data: {
+        "first_name": profile.firstName,
+        "last_name": profile.lastName,
+        "image": profile.imageUrl,
+        "cv": profile.link?.resume,
+        "accounts": {
+          "bindlink": profile.link?.bindlink,
+          "linkedin": profile.link?.linkedin,
+          "github": profile.link?.github
+        }
+      },
+    );
+    return response.data;
+  }
 }

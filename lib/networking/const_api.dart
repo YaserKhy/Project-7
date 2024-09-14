@@ -8,4 +8,5 @@ class ConstantAPi {
   final String verifyEndPoint = "/auth/verify";
   final String getProfileEndPoint = "/user/profile";
   final String projectsEndPoint = '/projects';
+  final String editProfileEndPoint = "/user/update/profile";
 }
