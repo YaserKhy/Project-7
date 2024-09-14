@@ -27,9 +27,10 @@ class ProfileCard extends StatelessWidget {
             height: 89,
             width: 89,
             child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              backgroundImage: cubit.handleProfilePage(logoUrl: profileImg, context: context).image
-            ),
+                backgroundColor: Colors.transparent,
+                backgroundImage: cubit
+                    .handleProfilePage(logoUrl: profileImg, context: context)
+                    .image),
           ),
           const SizedBox(width: 12),
           Column(
@@ -55,7 +56,8 @@ class ProfileCard extends StatelessWidget {
                           fontFamily: "Lato",
                           fontWeight: FontWeight.bold)),
                   Text(id,
-                      style: const TextStyle(fontSize: 16, fontFamily: "Lato")),
+                      style:
+                          const TextStyle(fontSize: 16, fontFamily: "Lato"))
                 ],
               )
             ],
