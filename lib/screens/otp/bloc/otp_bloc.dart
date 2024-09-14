@@ -15,19 +15,31 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
 
   OtpBloc() : super(OtpInitial()) {
     on<VerifyEvent>(verifyUser);
+    on<ResendOtpEvent>(resendOtp);
   }
 
   Future<void> verifyUser(VerifyEvent event, Emitter<OtpState> emit) async {
     try {
       emit(LoadingState());
-      log("1");
       final userAuth = await api.verifyOTP(email: event.email, otp: event.otp);
-      log("2");
       await GetIt.I.get<AuthLayer>().saveAuth(authData: userAuth);
-      log("3");
       emit(SuccessState());
-    } catch (error) {
-      emit(ErrorState());
+    } catch (_) {
+      emit(ErrorState(msg: "There is error with verification"));
+    }
+  }
+
+  Future<void> resendOtp(ResendOtpEvent event, Emitter<OtpState> emit) async {
+    try {
+      emit(LoadingState());
+      log("message 1");
+      await api.sendOtp(email: event.email);
+      log("message 2");
+      emit(ResendedState());
+    } on FormatException catch (error) {
+      emit(ErrorState(msg: error.message));
+    } catch (_) {
+      emit(ErrorState(msg: "There is error with resending otp"));
     }
   }
 }

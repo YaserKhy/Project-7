@@ -20,7 +20,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       emit(LoadingState());
       log("message 1");
-      await api.login(email: controllerEmail!.text);
+      await api.sendOtp(email: controllerEmail!.text);
       log("message 2");
       emit(SuccessState());
     } on FormatException catch (error) {
