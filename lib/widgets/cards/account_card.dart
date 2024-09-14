@@ -22,14 +22,8 @@ class AccountCard extends StatelessWidget {
       ),
       child: ListTile(
         leading: icon,
-        title: Text(
-          title,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: "Lato"),
-        ),
-        trailing: IconButton(
-          onPressed: onPressed,
-          icon: const Icon(Icons.arrow_outward_outlined)
-        ),
+        title: Text(title,style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: "Lato")),
+        trailing: IconButton(onPressed: onPressed,icon: const Icon(Icons.arrow_outward_outlined)),
       ),
     );
   }

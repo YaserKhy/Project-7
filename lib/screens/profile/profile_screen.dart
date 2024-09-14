@@ -1,10 +1,8 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project7/extensions/screen_navigation.dart';
-import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/layers/auth_layer.dart';
 import 'package:project7/screens/login/login_screen.dart';
 import 'package:project7/screens/profile/cubit/profile_cubit.dart';
@@ -39,54 +37,46 @@ class ProfileScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(height: 10),
-                      ProfileCard(
-                        cubit: cubit,
-                        profile: state.profile,
-                        onEdit: () => context.push(
-                            screen: EditProfileScreen(
-                          profile: state.profile,
-                          cubit: cubit,
-                        )),
+                  ProfileCard(
+                    cubit: cubit,
+                    profile: state.profile,
+                    onEdit: () => context.push(
+                      screen: EditProfileScreen(
+                      profile: state.profile,
+                      cubit: cubit,
+                      )
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.all(20), child: Divider()),
+                  const ProfileTitle(title: "Links"),
+                  const SizedBox(height: 22),
+                  const AccountCard(
+                    icon: Icon(Icons.description_outlined, size: 40),title: "Resume"),
+                      const AccountCard(
+                        icon: Icon(CustomIcons.linkedin_in, size: 40),
+                        title: "LinkedIn"
                       ),
-                      const Padding(
-                          padding: EdgeInsets.all(20), child: Divider()),
-                          const ProfileTitle(title: "Links"),
-                      const SizedBox(height: 22),
                       const AccountCard(
-                          icon: Icon(Icons.description_outlined, size: 40),
-                          title: "Resume"),
-                      const AccountCard(
-                          icon: Icon(CustomIcons.linkedin_in, size: 40),
-                          title: "LinkedIn"),
-                      const AccountCard(
-                          icon: Icon(CustomIcons.github, size: 40),
-                          title: "Github"),
+                        icon: Icon(CustomIcons.github, size: 40),
+                        title: "Github"
+                      ),
                       const AccountCard(title: "Bindlink"),
                       const SizedBox(height: 10),
-                      const ProfileButton(
+                      ProfileButton(
                         title: "Logout",
                         color: Color(0xffD12D2D),
+                        onPressed: () async {
+                          log('user was ${GetIt.I.get<AuthLayer>().auth?.token.substring(1,10)}');
+                          await cubit.logOut();
+                          log('user is ${GetIt.I.get<AuthLayer>().auth?.token}');
+                          context.pushRemove(screen: const LoginScreen());
+                        }
                       ),
                       const SizedBox(height: 20),
-                  Container(
-                        margin: EdgeInsets.all(10),
-                        padding: EdgeInsets.all(10),
-                        height: context.getHeight(divideBy: 16),
-                        width: context.getWidth(divideBy: 2),
-                        child: ElevatedButton(
-                          onPressed: ()async {
-                            log('user was ${GetIt.I.get<AuthLayer>().auth?.token.substring(1,10)}');
-                            await cubit.logOut();
-                            log('user is ${GetIt.I.get<AuthLayer>().auth?.token}');
-                            context.pushRemove(screen: LoginScreen());
-                          },
-                          style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.red)),
-                          child: Text("Log Out", style: TextStyle(fontSize: 18, color: Colors.white),)),
-                      )
                     ],
                   ),
-              );
-          }
+                );
+              }
           return const SizedBox.shrink(); 
         },
       ),

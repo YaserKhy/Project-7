@@ -40,17 +40,17 @@ class ProfileModel {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['first_name'] = firstName;
-    _data['last_name'] = lastName;
-    _data['email'] = email;
-    _data['role'] = role;
-    _data['image_url'] = imageUrl;
-    _data['link'] = link?.toJson();
-    _data['projects'] = projects.map((e)=>e.toJson()).toList();
-    _data['created_at'] = createdAt;
-    _data['updated_at'] = updatedAt;
-    return _data;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['email'] = email;
+    data['role'] = role;
+    data['image_url'] = imageUrl;
+    data['link'] = link?.toJson();
+    data['projects'] = projects.map((e)=>e.toJson()).toList();
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
   }
 }

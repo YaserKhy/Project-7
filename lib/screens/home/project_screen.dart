@@ -6,7 +6,6 @@ import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/widgets/cards/team_member.dart';
-import 'package:project7/widgets/custom_icons_icons.dart';
 
 class ProjectScreen extends StatelessWidget {
   final HomeCubit cubit;
@@ -16,7 +15,7 @@ class ProjectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(title: Text(project.projectName), centerTitle: true),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -77,18 +76,17 @@ class ProjectScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 SizedBox(
                   height: context.getHeight(divideBy: 5),
-                  child: ListView(
+                  child: ListView.separated(
                     scrollDirection: Axis.horizontal,
-                    children:
-                        List.generate(project.imagesProject.length, (index) {
+                    itemCount: project.imagesProject.length,
+                    itemBuilder: (context, index) {
                       return cubit.handleLogo(
                           logoUrl: project.imagesProject[index].url,
                           context: context,
                           heightDivide: 10,
                           widthDivide: 3);
-                    }),
+                    }, separatorBuilder: (context, index)=>const SizedBox(width: 20,)),
                   ),
-                ),
                 const SizedBox(height: 20),
                 const Text("Rating",
                     style: TextStyle(
@@ -178,26 +176,26 @@ class ProjectScreen extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                const Text("Group member",
+                const Text("Group Members",
                     style: TextStyle(
                         color: AppConstants.mainPurple,
                         fontFamily: 'Lato',
                         fontWeight: FontWeight.w400,
                         fontSize: 20)),
                 const Divider(),
-                const MemberCard(
-                    name: "Sara",
-                    role: "Team lead",
-                    boxColor: AppConstants.orange,
-                    shadowColor: AppConstants.orange),
-                const SizedBox(
-                  height: 15,
-                ),
-                const MemberCard(
-                  name: "Ahmed",
-                  role: "Team member",
-                  boxColor: AppConstants.teamMember1,
-                  shadowColor: AppConstants.teamMember1,
+                Column(
+                  children: List.generate(project.membersProject.length, (index){
+                    MembersProject member = project.membersProject[index];
+                    return Column(
+                      children: [
+                        MemberCard(
+                          member: member,
+                          boxColor: member.id == project.userId ? AppConstants.orange : AppConstants.teamMember1,
+                        ),
+                        const SizedBox(height: 15,)
+                      ],
+                    );
+                  }),
                 ),
                 const SizedBox(height: 20),
                 const Text("Links",
@@ -207,90 +205,39 @@ class ProjectScreen extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                         fontSize: 20)),
                 const Divider(),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: AppConstants.mainPurple,
-                                    offset: Offset(2, 4))
-                              ],
-                              border: Border.all(
-                                  width: 1.5, color: AppConstants.mainPurple),
-                              borderRadius: BorderRadius.circular(15)),
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          height: 50,
-                          width: 120,
-                          child: const Row(
-                            children: [
-                              Icon(Icons.video_collection_outlined),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "Video",
-                                style: TextStyle(fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          )),
-                      Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: AppConstants.mainPurple,
-                                    offset: Offset(2, 4))
-                              ],
-                              border: Border.all(
-                                  width: 1.5, color: AppConstants.mainPurple),
-                              borderRadius: BorderRadius.circular(15)),
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          height: 50,
-                          width: 120,
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                "assets/images/figma.png",
-                                height: 30,
-                                width: 40,
-                              ),
-                              Text(
-                                "Figma",
-                                style: TextStyle(fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          )),
-                      Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: AppConstants.mainPurple,
-                                    offset: Offset(2, 4))
-                              ],
-                              border: Border.all(
-                                  width: 1.5, color: AppConstants.mainPurple),
-                              borderRadius: BorderRadius.circular(15)),
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          height: 50,
-                          width: 120,
-                          child: const Row(
-                            children: [
-                              Icon(CustomIcons.github),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "GitHub",
-                                style: TextStyle(fontWeight: FontWeight.w500),
-                              )
-                            ],
-                          )),
-                    ]),
                 SizedBox(
+                  height: context.getHeight(divideBy: 17),
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: project.linksProject.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: const [BoxShadow(color: AppConstants.mainPurple, offset: Offset(2,4))],
+                          border: Border.all(width: 1.5, color: AppConstants.mainPurple),
+                          borderRadius: BorderRadius.circular(15)
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        // height: 50,
+                        width: 150,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            cubit.getLinkIcon(project.linksProject[index].type),
+                            const SizedBox(width: 5),
+                            Text(project.linksProject[index].type)
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const SizedBox(width: 10);
+                    },
+                  ),
+                ),
+                const SizedBox(
                   height: 30,
                 ),
                 Row(
@@ -303,7 +250,7 @@ class ProjectScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: AppConstants.lightBlue),
-                        child: Icon(
+                        child: const Icon(
                           Icons.edit,
                           size: 35,
                           color: AppConstants.blue,
@@ -311,7 +258,7 @@ class ProjectScreen extends StatelessWidget {
                       ),
                       onTap: () {},
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     InkWell(
@@ -321,7 +268,7 @@ class ProjectScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: AppConstants.lightRed),
-                        child: Icon(
+                        child: const Icon(
                           Icons.delete_outline,
                           size: 35,
                           color: AppConstants.red,

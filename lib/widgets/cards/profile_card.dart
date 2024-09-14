@@ -6,11 +6,10 @@ import 'package:project7/screens/profile/cubit/profile_cubit.dart';
 import 'package:project7/widgets/custom_icons_icons.dart';
 
 class ProfileCard extends StatelessWidget {
-  final ProfileModel profile;
   final ProfileCubit cubit;
+  final ProfileModel profile;
   final Function()? onEdit;
-  const ProfileCard(
-      {super.key, required this.cubit, required this.profile, this.onEdit});
+  const ProfileCard({super.key, required this.cubit, required this.profile, this.onEdit});
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -21,11 +20,8 @@ class ProfileCard extends StatelessWidget {
             height: 89,
             width: 89,
             child: CircleAvatar(
-                backgroundColor: Colors.transparent,
-                backgroundImage: cubit
-                    .handleProfilePage(
-                        logoUrl: profile.imageUrl, context: context)
-                    .image),
+              backgroundColor: Colors.transparent,
+              backgroundImage: cubit.handleProfilePage(logoUrl: profile.imageUrl, context: context).image),
           ),
           const SizedBox(width: 12),
           Column(
@@ -37,15 +33,14 @@ class ProfileCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('${profile.firstName} ${profile.lastName}',
-                        style: const TextStyle(
-                            color: AppConstants.mainPurple,
-                            fontSize: 20,
-                            fontFamily: "Lato",
-                            fontWeight: FontWeight.bold)),
-                    IconButton(
-                        onPressed: onEdit,
-                        icon: const Icon(CustomIcons.edit,
-                            color: AppConstants.mainPurple))
+                      style: const TextStyle(
+                        color: AppConstants.mainPurple,
+                        fontSize: 20,
+                        fontFamily: "Lato",
+                        fontWeight: FontWeight.bold
+                      )
+                    ),
+                    IconButton(onPressed: onEdit,icon: const Icon(CustomIcons.edit,color: AppConstants.mainPurple))
                   ],
                 ),
               ),
@@ -54,14 +49,11 @@ class ProfileCard extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text("ID : ",
-                      style: TextStyle(
-                          fontFamily: "Lato", fontWeight: FontWeight.bold)),
+                  const Text("ID : ",style: TextStyle(fontFamily: "Lato", fontWeight: FontWeight.bold)),
                   SizedBox(
-                      width: context.getWidth(divideBy: 2),
-                      child: Text(profile.id,
-                          overflow: TextOverflow.fade,
-                          style: const TextStyle(fontFamily: "Lato"))),
+                    width: context.getWidth(divideBy: 2),
+                    child: Text(profile.id, overflow: TextOverflow.fade, style: const TextStyle(fontFamily: "Lato"))
+                  ),
                 ],
               )
             ],

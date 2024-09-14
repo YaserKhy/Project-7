@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:project7/models/project_model.dart';
 
 class MemberCard extends StatelessWidget {
   const MemberCard(
       {super.key,
-      required this.name,
-      required this.role,
-      required this.boxColor,
-      required this.shadowColor});
+      required this.member,
+      required this.boxColor,});
 
-  final String name;
-  final String role;
+  final MembersProject member;
   final Color boxColor;
-  final Color shadowColor;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +17,8 @@ class MemberCard extends StatelessWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: shadowColor,
-            offset: Offset(2, 4),
+            color: boxColor,
+            offset: const Offset(2, 4),
           ),
         ],
         border: Border.all(width: 1.5, color: boxColor),
@@ -31,11 +28,15 @@ class MemberCard extends StatelessWidget {
       height: 64,
       child: Row(
         children: [
-          Icon(
-            Icons.account_circle_outlined,
-            size: 50,
+          CircleAvatar(
+            radius: 25,
+            backgroundColor: Colors.white,
+            backgroundImage: member.imageUrl.contains('assets') ? AssetImage(member.imageUrl)
+            : Image.network(member.imageUrl, errorBuilder: (context, error, stackTrace) {
+              return Image.asset('assets/images/profile_holder.png');
+            },).image
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Column(
@@ -44,12 +45,12 @@ class MemberCard extends StatelessWidget {
                 CrossAxisAlignment.start, // Align text to the left
             children: [
               Text(
-                name,
-                style: TextStyle(fontSize: 16),
+                '${member.firstName} ${member.lastName}',
+                style: const TextStyle(fontSize: 16),
               ),
               Text(
-                role,
-                style: TextStyle(fontSize: 12),
+                member.position,
+                style: const TextStyle(fontSize: 12),
               ),
             ],
           ),

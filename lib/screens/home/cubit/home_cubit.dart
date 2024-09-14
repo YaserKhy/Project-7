@@ -3,6 +3,7 @@ import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/networking/networking_api.dart';
 import 'package:flutter/material.dart';
+import 'package:project7/widgets/custom_icons_icons.dart';
 
 part 'home_state.dart';
 
@@ -73,6 +74,20 @@ class HomeCubit extends Cubit<HomeState> {
       emit(ErrorState(msg: error.message));
     } catch (error) {
       emit(ErrorState(msg: "Erorr with rating system"));
+    }
+  }
+
+  Widget getLinkIcon(String type) {
+    switch(type.toLowerCase()) {
+      case 'github': return const Icon(CustomIcons.github, size: 25,);
+      case 'figma': return Image.asset('assets/images/figma.png', width: 40);
+      case 'video' : return const Icon(Icons.video_collection_outlined, size: 25,);
+      case 'pinterest' : return const Icon(Icons.abc, size: 25);
+      case 'playstore' : return const Icon(Icons.abc, size: 25);
+      case 'applestore' : return const Icon(Icons.abc, size: 25);
+      case 'apk' : return const Icon(Icons.abc, size: 25);
+      case 'weblink' : return const Icon(Icons.abc, size: 25);
+      default: return const Icon(Icons.accessibility_new_sharp, size: 25,);
     }
   }
 }

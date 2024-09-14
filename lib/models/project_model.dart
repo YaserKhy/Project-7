@@ -142,7 +142,7 @@ class MembersProject {
     required this.lastName,
     required this.email,
     required this.position,
-    this.imageUrl,
+    required this.imageUrl,
     this.link,
   });
   late final String id;
@@ -150,7 +150,7 @@ class MembersProject {
   late final String lastName;
   late final String email;
   late final String position;
-  late final String? imageUrl;
+  late final String imageUrl;
   late final Link? link;
   
   MembersProject.fromJson(Map<String, dynamic> json){
@@ -159,7 +159,7 @@ class MembersProject {
     lastName = json['last_name'];
     email = json['email'];
     position = json['position'];
-    imageUrl = json['imageUrl'];
+    imageUrl = json['imageUrl'] ?? 'assets/images/profile_holder.png';
     link = Link.fromJson(json['link']);
   }
 
