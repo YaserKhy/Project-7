@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
@@ -7,7 +5,6 @@ import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
-import 'package:project7/widgets/custom_icons_icons.dart';
 
 class ProjectScreen extends StatelessWidget {
   final HomeCubit cubit;
@@ -119,6 +116,7 @@ class ProjectScreen extends StatelessWidget {
                             return BlocBuilder<HomeCubit, HomeState>(
                               bloc: cubit,
                               builder: (context, state) {
+                                if(state is ShowBottomSheetState) {
                                 return Container(
                                   width: context.getWidth(),
                                   height: context.getHeight(divideBy: 5),
@@ -137,8 +135,7 @@ class ProjectScreen extends StatelessWidget {
                                       ),
                                       RatingStars(
                                         value: cubit.currentStars,
-                                        onValueChanged: (value) =>
-                                            cubit.changeStars(value),
+                                        onValueChanged: (value) =>cubit.changeStars(value),
                                         starCount: 10,
                                         starSize: 35,
                                         valueLabelVisibility: false,
@@ -146,6 +143,8 @@ class ProjectScreen extends StatelessWidget {
                                     ],
                                   ),
                                 );
+                                }
+                                return SizedBox.shrink();
                               },
                             );
                           });

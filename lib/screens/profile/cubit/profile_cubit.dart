@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:project7/extensions/screen_size.dart';
+import 'package:project7/layers/auth_layer.dart';
 import 'package:project7/models/profile_model.dart';
 import 'package:project7/networking/networking_api.dart';
 
@@ -25,5 +27,9 @@ class ProfileCubit extends Cubit<ProfileState> {
       fit: BoxFit.cover,
       errorBuilder: (context, error, stackTrace)=> placeholderAvatar
     );
+  }
+
+  logOut() {
+    GetIt.I.get<AuthLayer>().logOut();
   }
 }
