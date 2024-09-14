@@ -8,6 +8,7 @@ class ProfileModel {
     required this.email,
     required this.role,
     required this.imageUrl,
+    required this.resumeUrl,
     required this.link,
     required this.projects,
     required this.createdAt,
@@ -19,6 +20,7 @@ class ProfileModel {
   late final String email;
   late final String role;
   late final String imageUrl;
+  late final String resumeUrl;
   late final Link? link;
   late final List<ProjectModel> projects;
   late final String createdAt;
