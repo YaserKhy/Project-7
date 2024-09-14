@@ -28,28 +28,35 @@ class ProfileScreen extends StatelessWidget {
           ),
           body: BlocBuilder<ProfileCubit, ProfileState>(
             builder: (context, state) {
-              if(state is ShowProfileState) {
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ProfileCard(
-                    cubit: cubit,
-                    profileImg: state.profile.imageUrl,
-                    name: state.profile.firstName,
-                    role: state.profile.role,
-                    email: state.profile.email,
-                    id: state.profile.id,
-                  ),
-                  const Padding(padding: EdgeInsets.all(20), child: Divider()),
-                  const ProfileTitle(title: "Accounts"),
-                  const SizedBox(height: 22),
-                  const AccountCard(icon: Icon(Icons.description_outlined, size: 40),title: "Resume"),
-                  const AccountCard(icon: Icon(CustomIcons.linkedin_in, size: 40),title: "Resume"),
-                  const AccountCard(icon: Icon(CustomIcons.github, size: 40),title: "Resume"),
-                  const AccountCard(title: "Bindlink")
-                ],
-              );
+              if (state is ShowProfileState) {
+                return ListView(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ProfileCard(
+                      cubit: cubit,
+                      profileImg: state.profile.imageUrl,
+                      name: state.profile.firstName,
+                      role: state.profile.role,
+                      email: state.profile.email,
+                      id: state.profile.id,
+                    ),
+                    const Padding(
+                        padding: EdgeInsets.all(20), child: Divider()),
+                    const ProfileTitle(title: "Accounts"),
+                    const SizedBox(height: 22),
+                    const AccountCard(
+                        icon: Icon(Icons.description_outlined, size: 40),
+                        title: "Resume"),
+                    const AccountCard(
+                        icon: Icon(CustomIcons.linkedin_in, size: 40),
+                        title: "Resume"),
+                    const AccountCard(
+                        icon: Icon(CustomIcons.github, size: 40),
+                        title: "Resume"),
+                    const AccountCard(title: "Bindlink")
+                  ],
+                );
               }
               return const Center(child: CircularProgressIndicator());
             },

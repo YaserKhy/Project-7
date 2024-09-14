@@ -33,34 +33,36 @@ class ProfileCard extends StatelessWidget {
                     .image),
           ),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(name,
-                  style: const TextStyle(
-                      color: Color(0xff4D2EB4),
-                      fontSize: 20,
-                      fontFamily: "Lato",
-                      fontWeight: FontWeight.bold)),
-              Text(role,
-                  style: const TextStyle(fontSize: 16, fontFamily: "Lato")),
-              Text(
-                email,
-                style: const TextStyle(fontSize: 16, fontFamily: "Lato"),
-              ),
-              Row(
-                children: [
-                  const Text("ID :",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: "Lato",
-                          fontWeight: FontWeight.bold)),
-                  Text(id,
-                      style:
-                          const TextStyle(fontSize: 16, fontFamily: "Lato"))
-                ],
-              )
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(name,
+                    style: const TextStyle(
+                        color: Color(0xff4D2EB4),
+                        fontSize: 20,
+                        fontFamily: "Lato",
+                        fontWeight: FontWeight.bold)),
+                Text(role,
+                    style: const TextStyle(fontSize: 16, fontFamily: "Lato")),
+                Text(
+                  email,
+                  style: const TextStyle(fontSize: 16, fontFamily: "Lato"),
+                ),
+                Row(
+                  children: [
+                    const Text("ID :",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: "Lato",
+                            fontWeight: FontWeight.bold)),
+                    Text(id,
+                        style:
+                            const TextStyle(fontSize: 15, fontFamily: "Lato"))
+                  ],
+                )
+              ],
+            ),
           )
         ],
       ),
