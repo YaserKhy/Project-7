@@ -5,6 +5,7 @@ import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
+import 'package:project7/widgets/cards/team_member.dart';
 
 class ProjectScreen extends StatelessWidget {
   final HomeCubit cubit;
@@ -172,6 +173,30 @@ class ProjectScreen extends StatelessWidget {
                       ],
                     ),
                   ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text("Group member",
+                    style: TextStyle(
+                        color: AppConstants.mainPurple,
+                        fontFamily: 'Lato',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20)),
+                const Divider(),
+                const MemberCard(
+                    name: "Sara",
+                    role: "Team lead",
+                    boxColor: AppConstants.orange,
+                    shadowColor: AppConstants.orange),
+                const SizedBox(
+                  height: 15,
+                ),
+                const MemberCard(
+                  name: "Ahmed",
+                  role: "Team member",
+                  boxColor: AppConstants.teamMember1,
+                  shadowColor: AppConstants.teamMember1,
                 )
               ],
             ),
