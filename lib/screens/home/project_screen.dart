@@ -6,6 +6,7 @@ import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/widgets/cards/team_member.dart';
+import 'package:project7/widgets/custom_icons_icons.dart';
 
 class ProjectScreen extends StatelessWidget {
   final HomeCubit cubit;
