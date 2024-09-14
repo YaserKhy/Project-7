@@ -197,6 +197,138 @@ class ProjectScreen extends StatelessWidget {
                   role: "Team member",
                   boxColor: AppConstants.teamMember1,
                   shadowColor: AppConstants.teamMember1,
+                ),
+                const SizedBox(height: 20),
+                const Text("Links",
+                    style: TextStyle(
+                        color: AppConstants.mainPurple,
+                        fontFamily: 'Lato',
+                        fontWeight: FontWeight.w400,
+                        fontSize: 20)),
+                const Divider(),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: const [
+                                BoxShadow(
+                                    color: AppConstants.mainPurple,
+                                    offset: Offset(2, 4))
+                              ],
+                              border: Border.all(
+                                  width: 1.5, color: AppConstants.mainPurple),
+                              borderRadius: BorderRadius.circular(15)),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          height: 50,
+                          width: 120,
+                          child: const Row(
+                            children: [
+                              Icon(Icons.video_collection_outlined),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Video",
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          )),
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: const [
+                                BoxShadow(
+                                    color: AppConstants.mainPurple,
+                                    offset: Offset(2, 4))
+                              ],
+                              border: Border.all(
+                                  width: 1.5, color: AppConstants.mainPurple),
+                              borderRadius: BorderRadius.circular(15)),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          height: 50,
+                          width: 120,
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                "assets/images/figma.png",
+                                height: 30,
+                                width: 40,
+                              ),
+                              Text(
+                                "Figma",
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          )),
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: const [
+                                BoxShadow(
+                                    color: AppConstants.mainPurple,
+                                    offset: Offset(2, 4))
+                              ],
+                              border: Border.all(
+                                  width: 1.5, color: AppConstants.mainPurple),
+                              borderRadius: BorderRadius.circular(15)),
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          height: 50,
+                          width: 120,
+                          child: const Row(
+                            children: [
+                              Icon(CustomIcons.github),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "GitHub",
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              )
+                            ],
+                          )),
+                    ]),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      child: Container(
+                        height: 45,
+                        width: 45,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppConstants.lightBlue),
+                        child: Icon(
+                          Icons.edit,
+                          size: 35,
+                          color: AppConstants.blue,
+                        ),
+                      ),
+                      onTap: () {},
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    InkWell(
+                      child: Container(
+                        height: 45,
+                        width: 45,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: AppConstants.lightRed),
+                        child: Icon(
+                          Icons.delete_outline,
+                          size: 35,
+                          color: AppConstants.red,
+                        ),
+                      ),
+                      onTap: () {},
+                    ),
+                  ],
                 )
               ],
             ),
