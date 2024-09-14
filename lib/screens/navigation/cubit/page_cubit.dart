@@ -1,18 +1,21 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/home/home_screen.dart';
+import 'package:project7/screens/profile/cubit/profile_cubit.dart';
 import 'package:project7/screens/profile/profile_screen.dart';
 
 part 'page_state.dart';
 
 class PageCubit extends Cubit<PageState> {
-  PageCubit() : super(PageInitial());
   int currentScreen = 0;
   List<Widget> screens = [
-    const HomeScreen(),
+    BlocProvider(create: (_) => HomeCubit(), child: HomeScreen()),
     const Placeholder(),
-    const ProfileScreen()
+    BlocProvider(create: (_) => ProfileCubit(), child: ProfileScreen()),
   ];
+
+  PageCubit() : super(PageInitial());
 
   switchTo(int targetPage) {
     currentScreen = targetPage;
