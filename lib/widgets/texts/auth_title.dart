@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project7/constants/app_constants.dart';
 
 class AuthTitle extends StatelessWidget {
   final String title;
@@ -11,7 +12,7 @@ class AuthTitle extends StatelessWidget {
         fontFamily: "Lato",
         fontSize: 25,
         fontWeight: FontWeight.w700,
-        color: Color(0xff4D2EB4),
+        color: AppConstants.mainPurple,
       ),
     );
   }

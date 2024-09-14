@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_size.dart';
 
 class AuthField extends StatelessWidget {
@@ -26,7 +27,7 @@ class AuthField extends StatelessWidget {
             decoration: const InputDecoration(
               contentPadding: EdgeInsets.symmetric(horizontal: 16),
               border: OutlineInputBorder(
-                borderSide: BorderSide(color: Color(0xff4D2EB4), width: .5),
+                borderSide: BorderSide(color: AppConstants.mainPurple, width: .5),
                 borderRadius: BorderRadius.all(Radius.circular(6))
               ),
             ),

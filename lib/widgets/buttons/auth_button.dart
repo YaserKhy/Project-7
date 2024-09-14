@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project7/extensions/screen_size.dart';
+import 'package:project7/constants/app_constants.dart';
 
 class AuthButton extends StatelessWidget {
   const AuthButton({super.key, required this.title, this.onPressed});
@@ -12,16 +13,16 @@ class AuthButton extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6),
-        boxShadow: const [BoxShadow(color: Color(0xff4D2EB4), offset: Offset(2, 4))]
+        boxShadow: const [BoxShadow(color: AppConstants.mainPurple, offset: Offset(2, 4))]
       ),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(6),
-            side: const BorderSide(color: Color(0xff4D2EB4), width: 2)
+            side: const BorderSide(color: AppConstants.mainPurple, width: 2)
           ),
-          foregroundColor: const Color(0xff4D2EB4),
+          foregroundColor: AppConstants.mainPurple,
           fixedSize: Size(context.getWidth() / 1.1, 54),
           textStyle: const TextStyle(
             fontFamily: "Lato",

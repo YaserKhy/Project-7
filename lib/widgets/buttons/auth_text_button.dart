@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project7/constants/app_constants.dart';
 
 class AuthTextButton extends StatelessWidget {
   final String text;
@@ -22,7 +23,7 @@ class AuthTextButton extends StatelessWidget {
                 fontSize: 15,
                 fontFamily: "Lato",
                 fontWeight: FontWeight.w700,
-                color: Color(0xff4D2EB4)
+                color: AppConstants.mainPurple
               )
             )
           )

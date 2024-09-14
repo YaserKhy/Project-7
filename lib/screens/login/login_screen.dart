@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/screens/create_account/create_account_screen.dart';
@@ -26,22 +27,18 @@ class LoginScreen extends StatelessWidget {
             listener: (context, state) {
               if (state is LoadingState) {
                 showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) =>
-                        const Center(child: CircularProgressIndicator()));
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) => const Center(child: CircularProgressIndicator())
+                );
               }
               if (state is SuccessState) {
                 Navigator.pop(context);
-                context.pushReplacement(
-                    screen: OtpVerificationScreen(
-                  email: bloc.controllerEmail!.text,
-                ));
+                context.pushReplacement(screen: OtpVerificationScreen(email: bloc.controllerEmail!.text));
               }
               if (state is ErrorState) {
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(SnackBar(content: Text(state.msg)));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.msg)));
               }
             },
             child: Scaffold(
@@ -50,58 +47,55 @@ class LoginScreen extends StatelessWidget {
                 child: Stack(
                   children: [
                     Positioned(
-                        bottom: 0,
-                        child: Image.asset("assets/images/tuwaiq.png",
-                            width: context.getWidth(), fit: BoxFit.cover)),
+                      bottom: 0,
+                      child: Image.asset("assets/images/tuwaiq.png",width: context.getWidth(), fit: BoxFit.cover)
+                    ),
                     SizedBox(
                       height: context.getHeight(),
                       child: Form(
                         key: formKey,
                         child: SingleChildScrollView(
-                          child: Column(children: [
-                            Column(
-                              children: [
-                                const SizedBox(height: 44),
-                                Image.asset("assets/images/tuwaiq_logo2.png",
-                                    height: 105, width: 243),
-                                const SizedBox(height: 44),
-                                const AuthTitle(title: "Login"),
-                                const SizedBox(height: 44),
-                                AuthField(
-                                  label: "Email",
-                                  controller: bloc.controllerEmail,
-                                  validator: (email) {
-                                    if (email!.trim().isEmpty) {
-                                      return 'Email is required';
-                                    }
-                                    String emailPattern =
-                                        r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
-                                    RegExp regex = RegExp(emailPattern);
-
-                                    if (!regex.hasMatch(email)) {
-                                      return 'Enter a valid email';
-                                    }
-
-                                    return null;
-                                  },
-                                ),
-                                const SizedBox(height: 44),
-                                AuthButton(
-                                    title: "Login",
-                                    onPressed: () {
-                                      if (formKey.currentState!.validate()) {
-                                        bloc.add(SubmitLoginEvent());
+                          child: Column(
+                            children: [
+                              Column(
+                                children: [
+                                  const SizedBox(height: 44),
+                                  Image.asset("assets/images/tuwaiq_logo2.png",height: 105, width: 243),
+                                  const SizedBox(height: 44),
+                                  const AuthTitle(title: "Login"),
+                                  const SizedBox(height: 44),
+                                  AuthField(
+                                    label: "Email",
+                                    controller: bloc.controllerEmail,
+                                    validator: (email) {
+                                      if (email!.trim().isEmpty) {
+                                        return 'Email is required';
                                       }
-                                    }),
-                                AuthTextButton(
-                                  text: "Don't have account ?",
-                                  button: "Sign up",
-                                  onPressed: () => context.pushReplacement(
-                                      screen: const CreateAccountScreen()),
-                                ),
-                              ],
-                            ),
-                          ]),
+                                      RegExp regex = RegExp(AppConstants.emailRegex);
+                                      if (!regex.hasMatch(email)) {
+                                        return 'Enter a valid email';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  const SizedBox(height: 44),
+                                  AuthButton(
+                                      title: "Login",
+                                      onPressed: () {
+                                        if (formKey.currentState!.validate()) {
+                                          bloc.add(SubmitLoginEvent());
+                                        }
+                                      }),
+                                  AuthTextButton(
+                                    text: "Don't have account ?",
+                                    button: "Sign up",
+                                    onPressed: () => context.pushReplacement(
+                                        screen: const CreateAccountScreen()),
+                                  ),
+                                ],
+                              ),
+                            ]
+                          ),
                         ),
                       ),
                     ),
