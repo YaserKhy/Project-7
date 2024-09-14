@@ -5,6 +5,10 @@ class AppConstants {
   static const Color mainLightblue = Color(0xFF57E3D8);
   static const Color orange = Color(0xffFEA255);
   static const Color teamMember1 = Color(0xff57E3D8);
+  static const Color lightBlue = Color(0xffD2DFFF);
+
+  static const Color blue = Color(0xff1D5EFF);
+  
 
   static const Color mainWhite = Color(0xffEDEDED);
 
