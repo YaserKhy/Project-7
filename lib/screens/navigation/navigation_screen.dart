@@ -89,7 +89,8 @@ class NavigationScreen extends StatelessWidget {
                       return const HomeScreen(); // Wrap HomeScreen
                     },
                   ),
-                  const Placeholder(), // Your Add screen here
+                  const Placeholder(),
+                   // Your Add screen here
                   BlocBuilder<ProfileCubit, ProfileState>(
                     builder: (context, profileState) {
                       return const ProfileScreen(); // Wrap ProfileScreen
