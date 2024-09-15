@@ -45,8 +45,9 @@ class ProjectModel {
   late final List<ImagesProject> imagesProject;
   late final List<LinksProject> linksProject;
   late final List<MembersProject> membersProject;
-  
-  ProjectModel.fromJson(Map<String, dynamic> json){
+
+  ProjectModel.fromJson(Map<String, dynamic> json) {
+    print("ProjectModel.fromJson");
     projectId = json['project_id'];
     type = json['type'];
     projectName = json['project_name'] ?? 'Untitled';
@@ -56,7 +57,8 @@ class ProjectModel {
     presentationDate = json['presentation_date'];
     projectDescription = json['project_description'] ?? 'No Description Added';
     logoUrl = json['logo_url'] ?? 'assets/images/tuwaiq_logo1.png';
-    presentationUrl = json['presentation_url'] ?? 'https://www.google.com.sa/?hl=ar';
+    presentationUrl =
+        json['presentation_url'] ?? 'https://www.google.com.sa/?hl=ar';
     userId = json['user_id'];
     adminId = json['admin_id'];
     timeEndEdit = json['time_end_edit'];
@@ -65,10 +67,19 @@ class ProjectModel {
     isPublic = json['is_public'];
     rating = json['rating'] / 1.0;
     createAt = json['create_at'];
-    updateAt = json['update_at'];
-    imagesProject = List.from(json['images_project']).map((e)=>ImagesProject.fromJson(e)).toList();
-    linksProject = List.from(json['links_project']).map((e)=>LinksProject.fromJson(e)).toList();
-    membersProject = List.from(json['members_project']).map((e)=>MembersProject.fromJson(e)).toList();
+
+    updateAt = json['update_at'] ?? "null";
+
+    imagesProject = List.from(json['images_project'])
+        .map((e) => ImagesProject.fromJson(e))
+        .toList();
+    linksProject = List.from(json['links_project'])
+        .map((e) => LinksProject.fromJson(e))
+        .toList();
+    membersProject = List.from(json['members_project'])
+        .map((e) => MembersProject.fromJson(e))
+        .toList();
+    print("ProjectModel.fromJson3");
   }
 
   Map<String, dynamic> toJson() {
@@ -92,9 +103,9 @@ class ProjectModel {
     data['rating'] = rating;
     data['create_at'] = createAt;
     data['update_at'] = updateAt;
-    data['images_project'] = imagesProject.map((e)=>e.toJson()).toList();
-    data['links_project'] = linksProject.map((e)=>e.toJson()).toList();
-    data['members_project'] = membersProject.map((e)=>e.toJson()).toList();
+    data['images_project'] = imagesProject.map((e) => e.toJson()).toList();
+    data['links_project'] = linksProject.map((e) => e.toJson()).toList();
+    data['members_project'] = membersProject.map((e) => e.toJson()).toList();
     return data;
   }
 }
@@ -102,9 +113,12 @@ class ProjectModel {
 class ImagesProject {
   late final int id;
   late final String url;
-  ImagesProject({required this.id,required this.url,});
-  
-  ImagesProject.fromJson(Map<String, dynamic> json){
+  ImagesProject({
+    required this.id,
+    required this.url,
+  });
+
+  ImagesProject.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     url = json['url'];
   }
@@ -120,9 +134,9 @@ class ImagesProject {
 class LinksProject {
   late final String url;
   late final String type;
-  LinksProject({required this.url,required this.type});
-  
-  LinksProject.fromJson(Map<String, dynamic> json){
+  LinksProject({required this.url, required this.type});
+
+  LinksProject.fromJson(Map<String, dynamic> json) {
     url = json['url'];
     type = json['type'];
   }
@@ -152,8 +166,8 @@ class MembersProject {
   late final String position;
   late final String imageUrl;
   late final Link? link;
-  
-  MembersProject.fromJson(Map<String, dynamic> json){
+
+  MembersProject.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
@@ -187,8 +201,8 @@ class Link {
   late final String? linkedin;
   late final String? resume;
   late final String? bindlink;
-  
-  Link.fromJson(Map<String, dynamic> json){
+
+  Link.fromJson(Map<String, dynamic> json) {
     github = json['github'];
     linkedin = json['linkedin'];
     resume = json['resume'];

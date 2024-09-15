@@ -50,7 +50,8 @@ class AddProjectScreen extends StatelessWidget {
             },
             child: Scaffold(
                 body: Center(
-              child: Form(
+              child: 
+              Form(
                 key: formKey,
                 child: SingleChildScrollView(
                   child: Column(
@@ -119,6 +120,7 @@ class AddProjectScreen extends StatelessWidget {
                   ),
                 ),
               ),
+            
             ))));
   }
 }

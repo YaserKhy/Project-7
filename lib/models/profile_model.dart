@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:project7/models/project_model.dart';
 
 class ProfileModel {
@@ -25,8 +27,10 @@ class ProfileModel {
   late final List<ProjectModel> projects;
   late final String createdAt;
   late final String updatedAt;
-  
-  ProfileModel.fromJson(Map<String, dynamic> json){
+
+  ProfileModel.fromJson(Map<String, dynamic> json) {
+        log("fromjson");
+
     id = json['id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
@@ -34,9 +38,12 @@ class ProfileModel {
     role = json['role'];
     imageUrl = json['image_url'] ?? "assets/images/profile_holder.png";
     link = Link.fromJson(json['link']);
-    projects = List.from(json['projects']).map((e)=>ProjectModel.fromJson(e)).toList();
+    projects = List.from(json['projects'])
+        .map((e) => ProjectModel.fromJson(e))
+        .toList();
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    log("fromjson");
   }
 
   Map<String, dynamic> toJson() {
@@ -48,7 +55,7 @@ class ProfileModel {
     data['role'] = role;
     data['image_url'] = imageUrl;
     data['link'] = link?.toJson();
-    data['projects'] = projects.map((e)=>e.toJson()).toList();
+    data['projects'] = projects.map((e) => e.toJson()).toList();
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     return data;
