@@ -21,7 +21,7 @@ class MemberCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: shadowColor,
-            offset: Offset(2, 4),
+            offset: const Offset(2, 4),
           ),
         ],
         border: Border.all(width: 1.5, color: boxColor),
@@ -31,11 +31,11 @@ class MemberCard extends StatelessWidget {
       height: 64,
       child: Row(
         children: [
-          Icon(
+          const Icon(
             Icons.account_circle_outlined,
             size: 50,
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Column(
@@ -45,11 +45,11 @@ class MemberCard extends StatelessWidget {
             children: [
               Text(
                 name,
-                style: TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16),
               ),
               Text(
                 role,
-                style: TextStyle(fontSize: 12),
+                style: const TextStyle(fontSize: 12),
               ),
             ],
           ),

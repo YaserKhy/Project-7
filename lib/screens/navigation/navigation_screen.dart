@@ -53,7 +53,6 @@ import 'package:project7/screens/profile/profile_screen.dart';
 //   }
 // }
 
-
 class NavigationScreen extends StatelessWidget {
   const NavigationScreen({super.key});
 
@@ -65,7 +64,8 @@ class NavigationScreen extends StatelessWidget {
           create: (context) => PageCubit(),
         ),
         BlocProvider(
-          create: (context) => HomeCubit()..getAllProjects(), // Initialize HomeCubit
+          create: (context) =>
+              HomeCubit()..getAllProjects(), // Initialize HomeCubit
         ),
         BlocProvider(
           create: (context) => ProfileCubit(), // Initialize ProfileCubit
@@ -76,11 +76,11 @@ class NavigationScreen extends StatelessWidget {
         return BlocBuilder<PageCubit, PageState>(
           builder: (context, state) {
             return Scaffold(
-              appBar: AppBar(
-                title: Image.asset('assets/images/tuwaiq_logo2.png',
-                    height: 85, width: 197),
-                centerTitle: true,
-              ),
+              // appBar: AppBar(
+              //   title: Image.asset('assets/images/tuwaiq_logo2.png',
+              //       height: 85, width: 197),
+              //   centerTitle: true,
+              // ),
               body: IndexedStack(
                 index: cubit.currentScreen,
                 children: [

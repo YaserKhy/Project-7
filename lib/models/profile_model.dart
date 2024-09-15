@@ -20,13 +20,13 @@ class ProfileModel {
   late final String email;
   late final String role;
   late final String imageUrl;
-  late final String resumeUrl;
+  String? resumeUrl;
   late final Link? link;
   late final List<ProjectModel> projects;
   late final String createdAt;
   late final String updatedAt;
-  
-  ProfileModel.fromJson(Map<String, dynamic> json){
+
+  ProfileModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
@@ -34,23 +34,25 @@ class ProfileModel {
     role = json['role'];
     imageUrl = json['image_url'] ?? "assets/images/profile_holder.png";
     link = Link.fromJson(json['link']);
-    projects = List.from(json['projects']).map((e)=>ProjectModel.fromJson(e)).toList();
+    projects = List.from(json['projects'])
+        .map((e) => ProjectModel.fromJson(e))
+        .toList();
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['first_name'] = firstName;
-    _data['last_name'] = lastName;
-    _data['email'] = email;
-    _data['role'] = role;
-    _data['image_url'] = imageUrl;
-    _data['link'] = link?.toJson();
-    _data['projects'] = projects.map((e)=>e.toJson()).toList();
-    _data['created_at'] = createdAt;
-    _data['updated_at'] = updatedAt;
-    return _data;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['email'] = email;
+    data['role'] = role;
+    data['image_url'] = imageUrl;
+    data['link'] = link?.toJson();
+    data['projects'] = projects.map((e) => e.toJson()).toList();
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
   }
 }

@@ -257,7 +257,7 @@ class ProjectScreen extends StatelessWidget {
                                 height: 30,
                                 width: 40,
                               ),
-                              Text(
+                              const Text(
                                 "Figma",
                                 style: TextStyle(fontWeight: FontWeight.w500),
                               )
@@ -290,7 +290,7 @@ class ProjectScreen extends StatelessWidget {
                             ],
                           )),
                     ]),
-                SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Row(
@@ -303,7 +303,7 @@ class ProjectScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: AppConstants.lightBlue),
-                        child: Icon(
+                        child: const Icon(
                           Icons.edit,
                           size: 35,
                           color: AppConstants.blue,
@@ -311,7 +311,7 @@ class ProjectScreen extends StatelessWidget {
                       ),
                       onTap: () {},
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     InkWell(
@@ -321,7 +321,7 @@ class ProjectScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: AppConstants.lightRed),
-                        child: Icon(
+                        child: const Icon(
                           Icons.delete_outline,
                           size: 35,
                           color: AppConstants.red,

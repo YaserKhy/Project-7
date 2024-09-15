@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:project7/extensions/screen_size.dart';
 
-class EditFieldRow extends StatelessWidget {
-  const EditFieldRow({
+class EditLinkField extends StatelessWidget {
+  const EditLinkField({
     super.key,
     required this.controller,
-    required this.lebal,
+    required this.hint,
+    required this.icon,
   });
 
   final TextEditingController controller;
-  final String lebal;
+  final String hint;
+  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +20,8 @@ class EditFieldRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(
-            lebal,
-            style: const TextStyle(
-                color: Color(0xff313131), fontSize: 14, fontFamily: "Lato"),
-          ),
+          Icon(icon, size: 40),
+          const SizedBox(width: 10),
           ConstrainedBox(
             constraints: BoxConstraints(
                 maxWidth: context.getWidth(divideBy: 1.5),
@@ -34,9 +33,15 @@ class EditFieldRow extends StatelessWidget {
                   border: Border.all(color: const Color(0xffD9D9D9))),
               child: TextFormField(
                 controller: controller,
-                decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(8),
-                    border: OutlineInputBorder(borderSide: BorderSide.none)),
+                decoration: InputDecoration(
+                    hintStyle: const TextStyle(
+                        color: Color(0xff313131),
+                        fontSize: 14,
+                        fontFamily: "Lato"),
+                    hintText: hint,
+                    contentPadding: const EdgeInsets.all(8),
+                    border:
+                        const OutlineInputBorder(borderSide: BorderSide.none)),
               ),
             ),
           ),

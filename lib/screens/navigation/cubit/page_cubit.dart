@@ -10,9 +10,9 @@ part 'page_state.dart';
 class PageCubit extends Cubit<PageState> {
   int currentScreen = 0;
   List<Widget> screens = [
-    BlocProvider(create: (_) => HomeCubit(), child: HomeScreen()),
+    BlocProvider(create: (_) => HomeCubit(), child: const HomeScreen()),
     const Placeholder(),
-    BlocProvider(create: (_) => ProfileCubit(), child: ProfileScreen()),
+    BlocProvider(create: (_) => ProfileCubit(), child: const ProfileScreen()),
   ];
 
   PageCubit() : super(PageInitial());
