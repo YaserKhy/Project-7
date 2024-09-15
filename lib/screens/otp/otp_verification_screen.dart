@@ -8,6 +8,7 @@ import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/screens/navigation/navigation_screen.dart';
 import 'package:project7/screens/otp/bloc/otp_bloc.dart';
 import 'package:otp_timer_button/otp_timer_button.dart';
+import 'package:project7/widgets/texts/auth_title.dart';
 
 class OtpVerificationScreen extends StatelessWidget {
   final String email;
@@ -15,6 +16,7 @@ class OtpVerificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color borderColor = Color(0xff282828).withOpacity(.5);
     return BlocProvider(
       create: (context) => OtpBloc(),
       child: Builder(builder: (context) {
@@ -24,6 +26,7 @@ class OtpVerificationScreen extends StatelessWidget {
           child: BlocListener<OtpBloc, OtpState>(
             listener: (context, state) {
               if (state is LoadingState) {
+                borderColor = Color(0xff282828).withOpacity(.5);
                 showDialog(
                     barrierDismissible: false,
                     context: context,
@@ -32,6 +35,7 @@ class OtpVerificationScreen extends StatelessWidget {
               }
               if (state is SuccessState) {
                 log("success 1");
+                borderColor = Colors.green;
                 Navigator.pop(context);
                 log("success 2");
                 context.pushReplacement(screen: const NavigationScreen());
@@ -43,6 +47,7 @@ class OtpVerificationScreen extends StatelessWidget {
               }
               if (state is ErrorState) {
                 Navigator.pop(context);
+                borderColor = Colors.red;
                 ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text("There is an error")));
               }
@@ -64,11 +69,7 @@ class OtpVerificationScreen extends StatelessWidget {
                               Image.asset('assets/images/tuwaiq_logo2.png',
                                   height: 105, width: 243),
                               const SizedBox(height: 106),
-                              const Text('OTP VERIFICATION',
-                                  style: TextStyle(
-                                      fontFamily: 'Lato',
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500)),
+                              const AuthTitle(title: 'OTP Verification'),
                               const SizedBox(height: 14),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -88,6 +89,9 @@ class OtpVerificationScreen extends StatelessWidget {
                               const SizedBox(height: 38),
                               Pinput(
                                   keyboardType: TextInputType.number,
+                                  errorPinTheme: PinTheme(
+                                    decoration: BoxDecoration(border: Border.all(width: 5,color: Colors.red))
+                                  ),
                                   length: 6,
                                   onCompleted: (otp) => bloc
                                       .add(VerifyEvent(email: email, otp: otp)),
@@ -100,8 +104,7 @@ class OtpVerificationScreen extends StatelessWidget {
                                         fontFamily: 'Lato', fontSize: 20),
                                     decoration: BoxDecoration(
                                         border: Border.all(
-                                            color: const Color(0xff282828)
-                                                .withOpacity(.5),
+                                            color: borderColor,
                                             width: .6),
                                         borderRadius:
                                             BorderRadius.circular(10)),

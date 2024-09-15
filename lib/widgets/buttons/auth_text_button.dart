@@ -9,9 +9,9 @@ class AuthTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 36),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(text,style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400, fontFamily: "Lato")),
           TextButton(

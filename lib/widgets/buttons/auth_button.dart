@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/constants/app_constants.dart';
 
 class AuthButton extends StatelessWidget {
@@ -9,24 +8,16 @@ class AuthButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-        boxShadow: const [BoxShadow(color: AppConstants.mainPurple, offset: Offset(2, 4))]
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppConstants.mainPurple,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        foregroundColor: Colors.white,
+        fixedSize: const Size(350, 45),
+        textStyle: const TextStyle(fontFamily: "Lato",fontSize: 18,fontWeight: FontWeight.bold)
       ),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(6),
-            side: const BorderSide(color: AppConstants.mainPurple, width: 2)
-          ),
-          foregroundColor: AppConstants.mainPurple,
-          fixedSize: Size(context.getWidth() / 1.1, 54),
-          textStyle: const TextStyle(fontFamily: "Lato",fontSize: 18,fontWeight: FontWeight.bold)
-        ),
-        child: Text(title)
-      ),
+      child: Text(title)
     );
   }
 }

@@ -109,7 +109,7 @@ class CreateAccountScreen extends StatelessWidget {
                                   return null;
                                 },
                               ),
-                              const SizedBox(height: 44),
+                              const SizedBox(height: 20),
                               AuthButton(
                                   title: "Get Started",
                                   onPressed: () {
@@ -118,7 +118,7 @@ class CreateAccountScreen extends StatelessWidget {
                                     }
                                   }),
                               AuthTextButton(
-                                  text: "Have an account ? ",
+                                  text: "Have an account ?",
                                   button: "Log in",
                                   onPressed: () {
                                     context.pushReplacement(
