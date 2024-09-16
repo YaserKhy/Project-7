@@ -7,25 +7,19 @@ part 'create_account_event.dart';
 part 'create_account_state.dart';
 
 class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
-  TextEditingController? controllerEmail =
-      TextEditingController(text: "nitok75649@asaud.com");
-  TextEditingController? controllerFName = TextEditingController(text: "ali");
-  TextEditingController? controllerLName = TextEditingController(text: "fahad");
+  TextEditingController? controllerEmail = TextEditingController();
+  TextEditingController? controllerFName = TextEditingController();
+  TextEditingController? controllerLName = TextEditingController();
   final api = NetworkingApi();
 
   CreateAccountBloc() : super(CreateAccountInitial()) {
     on<CreateEvent>(createMethod);
   }
 
-  FutureOr<void> createMethod(
-      CreateEvent event, Emitter<CreateAccountState> emit) async {
+  FutureOr<void> createMethod(CreateEvent event, Emitter<CreateAccountState> emit) async {
     try {
       emit(LoadingState());
-
-      await api.createNewAccount(
-          email: controllerEmail!.text,
-          firstName: controllerFName!.text,
-          lastName: controllerLName!.text);
+      await api.createNewAccount(email: controllerEmail!.text,firstName: controllerFName!.text,lastName: controllerLName!.text);
       emit(SuccessState());
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));

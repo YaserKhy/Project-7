@@ -10,5 +10,6 @@ class AppConstants {
   static const Color red = Color(0xffFF0000);
   static const Color blue = Color(0xff1D5EFF);
   static const Color mainWhite = Color(0xffEDEDED);
+  static const Color bgColor = Color(0xfff6f4fb);
   static const String emailRegex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
 }

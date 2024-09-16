@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/screens/create_account/bloc/create_account_bloc.dart';
@@ -22,118 +23,112 @@ class CreateAccountScreen extends StatelessWidget {
       child: Builder(builder: (context) {
         final bloc = context.read<CreateAccountBloc>();
         return GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: BlocListener<CreateAccountBloc, CreateAccountState>(
-              listener: (context, state) {
-                if (state is LoadingState) {
-                  showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (context) =>
-                          const Center(child: CircularProgressIndicator()));
-                }
-
-                if (state is SuccessState) {
-                  Navigator.pop(context);
-                  context.pushReplacement(
-                      screen: OtpVerificationScreen(
-                    email: bloc.controllerEmail!.text,
-                  ));
-                }
-                if (state is ErrorState) {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(state.msg)));
-                }
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: BlocListener<CreateAccountBloc, CreateAccountState>(
+            listener: (context, state) {
+              if (state is LoadingState) {
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) => const Center(child: CircularProgressIndicator())
+                );
+              }
+              if (state is SuccessState) {
+                Navigator.pop(context);
+                context.pushReplacement(screen: OtpVerificationScreen(email: bloc.controllerEmail!.text));
+              }
+              if (state is ErrorState) {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.msg)));
+              }
               },
               child: Scaffold(
+                backgroundColor: AppConstants.bgColor,
                 resizeToAvoidBottomInset: false,
                 body: SafeArea(
-                  child: Stack(children: [
-                    Positioned(
+                  child: Stack(
+                    children: [
+                      Positioned(
                         bottom: 0,
-                        child: Image.asset("assets/images/tuwaiq.png",
-                            width: context.getWidth(), fit: BoxFit.cover)),
-                    SizedBox(
-                      height: context.getHeight(),
-                      child: Form(
-                        key: formKey,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 36),
-                              Image.asset("assets/images/tuwaiq_logo2.png",
-                                  height: 105, width: 243),
-                              const SizedBox(height: 48),
-                              const AuthTitle(title: "Create Account"),
-                              const SizedBox(height: 12),
-                              AuthField(
-                                label: "First name",
-                                controller: bloc.controllerFName,
-                                validator: (fName) {
-                                  if (fName!.trim().isEmpty) {
-                                    return 'First name is required';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 12),
-                              AuthField(
-                                label: "Last name",
-                                controller: bloc.controllerLName,
-                                validator: (lName) {
-                                  if (lName!.trim().isEmpty) {
-                                    return 'Last name is required';
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 12),
-                              AuthField(
-                                label: "Email",
-                                controller: bloc.controllerEmail,
-                                validator: (email) {
-                                  if (email!.trim().isEmpty) {
-                                    return 'Email is required';
-                                  }
-                                  String emailPattern =
-                                      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
-                                  RegExp regex = RegExp(emailPattern);
-
-                                  if (!regex.hasMatch(email)) {
-                                    return 'Enter a valid email';
-                                  }
-
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 20),
-                              AuthButton(
+                        child: Image.asset("assets/images/tuwaiq.png",width: context.getWidth(), fit: BoxFit.cover)
+                      ),
+                      SizedBox(
+                        height: context.getHeight(),
+                        child: Form(
+                          key: formKey,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 36),
+                                Image.asset("assets/images/tuwaiq_logo2.png",height: 105, width: 243),
+                                const SizedBox(height: 48),
+                                const AuthTitle(title: "Create Account"),
+                                const SizedBox(height: 12),
+                                AuthField(
+                                  label: "First name",
+                                  controller: bloc.controllerFName,
+                                  validator: (fName) {
+                                    if (fName!.trim().isEmpty) {
+                                      return 'First name is required';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 12),
+                                AuthField(
+                                  label: "Last name",
+                                  controller: bloc.controllerLName,
+                                  validator: (lName) {
+                                    if (lName!.trim().isEmpty) {
+                                      return 'Last name is required';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 12),
+                                AuthField(
+                                  label: "Email",
+                                  controller: bloc.controllerEmail,
+                                  validator: (email) {
+                                    if (email!.trim().isEmpty) {
+                                      return 'Email is required';
+                                    }
+                                    RegExp regex = RegExp(AppConstants.emailRegex);
+                                    if (!regex.hasMatch(email)) {
+                                      return 'Enter a valid email';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 20),
+                                AuthButton(
                                   title: "Get Started",
                                   onPressed: () {
                                     if (formKey.currentState!.validate()) {
                                       bloc.add(CreateEvent());
                                     }
-                                  }),
-                              AuthTextButton(
+                                  }
+                                ),
+                                AuthTextButton(
                                   text: "Have an account ?",
                                   button: "Log in",
                                   onPressed: () {
-                                    context.pushReplacement(
-                                        screen: const LoginScreen());
-                                  }),
-                            ],
+                                    context.pushReplacement(screen: const LoginScreen());
+                                  }
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ]),
+                    ]
+                  ),
                 ),
               ),
-            ));
-      }),
+            )
+          );
+        }
+      ),
     );
   }
 }

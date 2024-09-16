@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
@@ -26,24 +28,26 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  List<ProjectModel> getBootcampProjects(String boot) {
-    List<ProjectModel> bootProjects = [];
-    for (var project in projects) {
-      if (project.bootcampName == boot) {
-        bootProjects.add(project);
+  Map<String,List<ProjectModel>> getGroupedProjects(List<ProjectModel> allProjects) {
+    Map<String,List<ProjectModel>> groupedProjects = {};
+      for (var project in allProjects) {
+      if (groupedProjects.containsKey(project.bootcampName)==false) {
+        groupedProjects[project.bootcampName] = [];
       }
+      groupedProjects[project.bootcampName]!.add(project);
     }
-    return bootProjects;
+    return groupedProjects;
   }
 
   Widget handleLogo(
       {required String logoUrl,
       required BuildContext context,
       double? heightDivide,
+      double? height,
       double? widthDivide}) {
     Widget placeholderLogo = Image.asset('assets/images/tuwaiq_logo1.png',
-        width: context.getWidth(divideBy: widthDivide ?? 1),
-        height: context.getHeight(divideBy: heightDivide ?? 10),
+        width: height!=null ? null : context.getWidth(divideBy: widthDivide ?? 1),
+        height: height ?? context.getHeight(divideBy: heightDivide ?? 10),
         fit: BoxFit.cover);
     return logoUrl.contains('assets')
         ? placeholderLogo

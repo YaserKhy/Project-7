@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grouped_list/grouped_list.dart';
+import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_size.dart';
+import 'package:project7/layers/auth_layer.dart';
+import 'package:project7/models/profile_model.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/widgets/cards/project_card.dart';
@@ -13,6 +15,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<HomeCubit>();
+    final ProfileModel user = GetIt.I.get<AuthLayer>().currentUser!;
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -20,139 +23,166 @@ class HomeScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: 20),
-              Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 14),
-                    width: context.getWidth() / 1.2,
-                    height: 46,
-                    child: TextFormField(
-                      controller: cubit.searchController,
-                      onChanged: (value) => cubit.handleSearch(value),
-                      decoration: const InputDecoration(
-                        hintText: "Search for a project ....",
-                        hintStyle: TextStyle(color: Colors.black45),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: AppConstants.mainPurple, width: .5),
-                          borderRadius: BorderRadius.all(Radius.circular(6)),
-                        ),
+              // home app bar
+              Container(
+                width: context.getWidth(),
+                height: 172,
+                decoration: const BoxDecoration(
+                  color: AppConstants.mainPurple,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20)
+                  )
+                ),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 25),
+                    ListTile(
+                      leading: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                        child: Image.asset('assets/images/profile_holder.png'),
+                      ),
+                      title: const Text("Welcome"),
+                      titleTextStyle: const TextStyle(
+                        inherit: false,
+                        fontFamily: "Lato",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xffdadada)
+                      ),
+                      subtitle: Text('${user.firstName} ${user.lastName}  👋'),
+                      subtitleTextStyle: const TextStyle(
+                        inherit: false,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                        fontFamily: "Lato",
+                        color: Colors.white
                       ),
                     ),
-                  ),
-                  const Icon(Icons.filter_alt, color: AppConstants.mainPurple),
-                ],
+                    const SizedBox(height: 14),
+                    Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
+                          width: context.getWidth() / 1.2,
+                          height: 30,
+                          child: TextFormField(
+                            controller: cubit.searchController,
+                            onChanged: (value) => cubit.handleSearch(value),
+                            cursorHeight: 17,
+                            style: TextStyle(fontSize: 13),
+                            decoration: const InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: "Search for a project ....",
+                              hintStyle: TextStyle(color: Colors.black45, fontSize: 13),
+                              contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(color: AppConstants.mainPurple, width: 1.5),
+                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const Icon(Icons.qr_code, color: Colors.white),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 44),
-
               BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {
                   if (state is LoadingState) {
                     return const Center(child: CircularProgressIndicator());
                   }
-
                   if (state is ErrorState) {
                     return Center(child: Text(state.msg));
                   }
-
                   if (state is ShowProjectsState) {
                     if (state.projects.isEmpty) {
-                      return const Center(
-                        child: Text(
-                          "No Projects Found.",
-                          style: TextStyle(
-                              fontFamily: 'Lato',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700),
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(height: context.getHeight(divideBy: 7)),
+                            const Text(
+                              "No Projects Found.",
+                              style: TextStyle(
+                                fontFamily: 'Lato',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700
+                              ),
+                            ),
+                          ],
                         ),
                       );
                     }
-
-                    List<String> boots = [];
-
-                    return Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: GroupedListView(
-                          elements: state.projects,
-                          groupBy: (element) => element.bootcampName,
-                          groupSeparatorBuilder: (value) => Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 10),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                    if(state.projects.isNotEmpty) {
+                      return Expanded(
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: List.generate(
+                              cubit.getGroupedProjects(state.projects).length,
+                              (index){
+                                String bootcamp = cubit.getGroupedProjects(state.projects).keys.toList()[index];
+                                List<ProjectModel> bootcampProjects = cubit.getGroupedProjects(state.projects).values.toList()[index];
+                                return Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      value,
-                                      style: const TextStyle(
-                                        fontFamily: 'Lato',
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    const Row(
+                                    const SizedBox(height: 20),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text("view all"),
-                                        SizedBox(width: 10),
-                                        Icon(
-                                          Icons.arrow_forward_ios_outlined,
-                                          size: 16,
+                                        Text(
+                                          bootcamp,
+                                          style: const TextStyle(
+                                            fontFamily: 'Lato',
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                        const Row(
+                                          children: [
+                                            Text("view all"),
+                                            SizedBox(width: 10),
+                                            Icon(
+                                              Icons.arrow_forward_ios_outlined,
+                                              size: 16,
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
+                                    const Divider(),
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: List.generate(bootcampProjects.length, (index){
+                                          return Row(
+                                            children: [
+                                              ProjectCard(project: bootcampProjects[index], cubit: cubit),
+                                              const SizedBox(width: 20,),
+                                            ],
+                                          );
+                                        }),
+                                      ),
+                                    )
                                   ],
                                 ),
-                                const Divider(),
-                              ],
-                            ),
+                              );
+                              }),
                           ),
-                          itemBuilder: (context, element) {
-                            if (boots.contains(element.bootcampName)) {
-                              return const SizedBox.shrink();
-                            }
-
-                            boots.add(element.bootcampName);
-
-                            List<ProjectModel> bootcampProjects = cubit
-                                .getBootcampProjects(element.bootcampName);
-                            
-                            List<ProjectModel> filteredProjects = bootcampProjects.where((element) => element.projectName.contains(cubit.searchController.text)).toList();
-
-                            List<ProjectModel> resultProjects = filteredProjects.isNotEmpty ? filteredProjects : bootcampProjects;
-                            return Column(
-                              children: [
-                                GridView.builder(
-                                  physics:
-                                      const NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 1 / 1.2,
-                                  ),
-                                  itemCount: resultProjects.length,
-                                  itemBuilder: (context, index) {
-                                    return ProjectCard(
-                                        project: resultProjects[index],
-                                        cubit: cubit,
-                                      );
-                                  }
-                                ),
-                              ],
-                            );
-                          },
                         ),
-                      ),
-                    );
+                      );
+                    }
                   }
-
-                  return const SizedBox.shrink();
+                  return const Text("data");
                 },
               ),
               const SizedBox(height: 20),

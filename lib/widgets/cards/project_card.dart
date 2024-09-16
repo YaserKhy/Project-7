@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/models/project_model.dart';
@@ -16,43 +15,49 @@ class ProjectCard extends StatelessWidget {
     return InkWell(
       onTap: ()=> context.push(screen: ProjectScreen(project: project, cubit: cubit,)),
       child: Container(
+        width: 150,
+        height: 170,
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          border: Border.all(width: 1.5, color: AppConstants.mainPurple),
+          border: Border.all(width: .3, color: AppConstants.mainPurple),
           borderRadius: BorderRadius.circular(10),
           color: Colors.white,
-          boxShadow: const [BoxShadow(color: AppConstants.mainPurple, offset: Offset(2, 4))]
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: cubit.handleLogo(logoUrl: project.logoUrl, context: context)
+              child: cubit.handleLogo(logoUrl: project.logoUrl, context: context, height: 66)
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             Text(
               project.projectName,
-              style: const TextStyle(fontFamily: 'Lato', fontWeight: FontWeight.w500, fontSize: 14),
+              maxLines: 2,
+              style: const TextStyle(fontFamily: 'Lato', fontWeight: FontWeight.w500, fontSize: 14, overflow: TextOverflow.fade),
             ),
-            const SizedBox(height: 10),
+            Text(
+              project.bootcampName,
+              style: const TextStyle(fontFamily: 'Lato', fontWeight: FontWeight.w500, fontSize: 11, color: Color(0xff868686)),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                RatingStars(
-                  value: project.rating,
-                  starCount: 5,
-                  starSize: 20,
-                  valueLabelVisibility: false,
+                Text(
+                  project.endDate ?? 'in progress',
+                  style: const TextStyle(fontFamily: 'Lato', fontWeight: FontWeight.w500, fontSize: 10, color: Colors.black),
                 ),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.person_2_outlined,size: 20),
-                    Text(project.membersProject.length.toString())
+                    Text(project.rating.toString(), style: const TextStyle(fontFamily: "Lato", fontSize: 10, fontWeight: FontWeight.w500),),
+                    const Icon(Icons.star_border_outlined, color: Colors.yellow, size: 15,)
                   ],
                 )
               ],
-            )
+            ),
           ],
         ),
       ),

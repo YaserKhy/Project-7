@@ -42,6 +42,7 @@ class LoginScreen extends StatelessWidget {
               }
             },
             child: Scaffold(
+              backgroundColor: AppConstants.bgColor,
               resizeToAvoidBottomInset: false,
               body: SafeArea(
                 child: Stack(
@@ -80,17 +81,17 @@ class LoginScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 44),
                                   AuthButton(
-                                      title: "Login",
-                                      onPressed: () {
-                                        if (formKey.currentState!.validate()) {
-                                          bloc.add(SubmitLoginEvent());
-                                        }
-                                      }),
+                                    title: "Login",
+                                    onPressed: () {
+                                      if (formKey.currentState!.validate()) {
+                                        bloc.add(SubmitLoginEvent());
+                                      }
+                                    }
+                                  ),
                                   AuthTextButton(
                                     text: "Don't have account ?",
                                     button: "Sign up",
-                                    onPressed: () => context.pushReplacement(
-                                        screen: const CreateAccountScreen()),
+                                    onPressed: () => context.pushReplacement(screen: const CreateAccountScreen()),
                                   ),
                                 ],
                               ),
