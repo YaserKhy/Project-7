@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
@@ -40,6 +41,8 @@ class EditProfileScreen extends StatelessWidget {
         TextEditingController(text: profile.link?.bindlink);
 
     File? image;
+    Future<Uint8List> imageBytes = File("assets/images/profile_holder.png").readAsBytes();
+    Future<Uint8List> cv = File("assets/images/profile_holder.png").readAsBytes();
 
     return Scaffold(
       backgroundColor: const Color(0xffF6F4FB),
@@ -60,14 +63,14 @@ class EditProfileScreen extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                     backgroundImage: cubit
                         .handleProfilePage(
-                            logoUrl: profile.imageUrl, context: context)
-                        .image),
+                            logoUrl: profile.imageUrl, context: context).image),
               ),
               TextButton(
                   onPressed: () async {
                     final selectedImage = await ImagePicker()
                         .pickImage(source: ImageSource.gallery);
                     image = File(selectedImage!.path);
+                    imageBytes = (await image!.readAsBytes()) as Future<Uint8List>;
                     profile.imageUrl = image?.path ?? profile.imageUrl;
                   },
                   child: const Text(
@@ -115,8 +118,14 @@ class EditProfileScreen extends StatelessWidget {
                       onPressed: () {
                         {
                           cubit.editProfile(
-                              profile: profile,
-                              token: GetIt.I.get<AuthLayer>().auth!.token);
+                            token: GetIt.I.get<AuthLayer>().auth!.token,
+                            firstName: fNameController.text,bindLink: bindlinkController.text,
+                            cv: cv,
+                            github: gitHubController.text,
+                            image: imageBytes,
+                            lastName: lNameController.text,
+                            linkedIn: linkedinController.text
+                          );
 
                           context.pop();
                         }
