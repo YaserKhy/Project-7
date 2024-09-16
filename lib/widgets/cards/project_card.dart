@@ -3,7 +3,7 @@ import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
-import 'package:project7/screens/home/project_screen.dart';
+import 'package:project7/screens/view_project/project_screen.dart';
 
 class ProjectCard extends StatelessWidget {
   final HomeCubit cubit;
@@ -45,7 +45,7 @@ class ProjectCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  project.endDate ?? 'in progress',
+                  project.endDate,
                   style: const TextStyle(fontFamily: 'Lato', fontWeight: FontWeight.w500, fontSize: 10, color: Colors.black),
                 ),
                 Row(

@@ -10,7 +10,7 @@ import 'package:project7/screens/profile/edit_profile_screen.dart';
 import 'package:project7/widgets/buttons/profile_button.dart';
 import 'package:project7/widgets/cards/account_card.dart';
 import 'package:project7/widgets/cards/profile_card.dart';
-import 'package:project7/widgets/custom_icons_icons.dart';
+import 'package:project7/widgets/icons/custom_icons_icons.dart';
 import 'package:project7/widgets/texts/profile_title.dart';
 
 class ProfileScreen extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/profile_model.dart';
 import 'package:project7/screens/profile/cubit/profile_cubit.dart';
-import 'package:project7/widgets/custom_icons_icons.dart';
+import 'package:project7/widgets/icons/custom_icons_icons.dart';
 
 class ProfileCard extends StatelessWidget {
   final ProfileCubit cubit;

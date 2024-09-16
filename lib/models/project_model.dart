@@ -28,7 +28,7 @@ class ProjectModel {
   late final String projectName;
   late final String bootcampName;
   late final String? startDate;
-  late final String? endDate;
+  late final String endDate;
   late final String? presentationDate;
   late final String projectDescription;
   late final String logoUrl;
@@ -52,7 +52,7 @@ class ProjectModel {
     projectName = json['project_name'] ?? 'Untitled';
     bootcampName = json['bootcamp_name'] ?? 'Unassigned';
     startDate = json['start_date'];
-    endDate = json['end_date'];
+    endDate = json['end_date'] ?? 'in progress';
     presentationDate = json['presentation_date'];
     projectDescription = json['project_description'] ?? 'No Description Added';
     logoUrl = json['logo_url'] ?? 'assets/images/tuwaiq_logo1.png';

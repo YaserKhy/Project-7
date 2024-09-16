@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/networking/networking_api.dart';
 import 'package:flutter/material.dart';
-import 'package:project7/widgets/custom_icons_icons.dart';
+import 'package:project7/widgets/icons/custom_icons_icons.dart';
 
 part 'home_state.dart';
 
@@ -39,13 +37,13 @@ class HomeCubit extends Cubit<HomeState> {
     return groupedProjects;
   }
 
-  Widget handleLogo(
+  Image handleLogo(
       {required String logoUrl,
       required BuildContext context,
       double? heightDivide,
       double? height,
       double? widthDivide}) {
-    Widget placeholderLogo = Image.asset('assets/images/tuwaiq_logo1.png',
+    Image placeholderLogo = Image.asset('assets/images/tuwaiq_logo1.png',
         width: height!=null ? null : context.getWidth(divideBy: widthDivide ?? 1),
         height: height ?? context.getHeight(divideBy: heightDivide ?? 10),
         fit: BoxFit.cover);
