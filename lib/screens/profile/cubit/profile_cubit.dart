@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -15,8 +17,10 @@ class ProfileCubit extends Cubit<ProfileState> {
   getProfile({required String token}) async {
     try {
       emit(LoadingState());
-
+      log("pro1");
       ProfileModel profileModel = await api.getProfile(token: token);
+      log("pro2");
+
       emit(ShowProfileState(profile: profileModel));
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));

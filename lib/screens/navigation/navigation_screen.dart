@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_size.dart';
+import 'package:project7/screens/add_project/add_project_screen.dart';
+import 'package:project7/screens/add_project/bloc/add_project_bloc.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/home/home_screen.dart';
 import 'package:project7/screens/navigation/cubit/page_cubit.dart';
@@ -17,6 +19,7 @@ class NavigationScreen extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => PageCubit()),
         BlocProvider(create: (context) => HomeCubit()..getAllProjects()), // Initialize HomeCubit
+        BlocProvider(create: (context)=> AddProjectBloc()),
         BlocProvider(create: (context) => ProfileCubit()), // Initialize ProfileCubit
       ],
       child: Builder(builder: (context) {
@@ -29,11 +32,19 @@ class NavigationScreen extends StatelessWidget {
                 index: cubit.currentScreen,
                 children: [
                   BlocBuilder<HomeCubit, HomeState>(
-                    builder: (context, homeState) => const HomeScreen() // Wrap HomeScreen
+                    builder: (context, homeState) {
+                      return const HomeScreen(); 
+                    },
                   ),
-                  const Placeholder(), // Your Add screen here
+                  BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, homeState) {
+                      return const AddProjectScreen();
+                    },
+                  ),
                   BlocBuilder<ProfileCubit, ProfileState>(
-                    builder: (context, profileState) => const ProfileScreen() // Wrap ProfileScreen
+                    builder: (context, profileState) {
+                      return const ProfileScreen();
+                    },
                   ),
                 ],
               ),

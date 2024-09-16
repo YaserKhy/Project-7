@@ -9,4 +9,5 @@ class ConstantAPi {
   final String getProfileEndPoint = "/user/profile";
   final String projectsEndPoint = '/projects';
   final String editProfileEndPoint = "/user/update/profile";
+   final String createProjectEndPoint =  "/supervisor/create/project";
 }

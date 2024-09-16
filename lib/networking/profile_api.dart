@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:project7/models/profile_model.dart';
 import 'package:project7/networking/const_api.dart';
@@ -5,8 +7,11 @@ import 'package:project7/networking/const_api.dart';
 mixin ProfileApi on ConstantAPi {
   Future<ProfileModel> getProfile({required String token}) async {
     try {
+      log("get1");
+
       final response = await dio.get(baseURl + getProfileEndPoint,
           options: Options(headers: {'Authorization': 'Bearer $token'}));
+      log("get2");
 
       return ProfileModel.fromJson(response.data['data']);
     } on DioException catch (error) {
