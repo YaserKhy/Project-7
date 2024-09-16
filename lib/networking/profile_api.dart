@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:project7/models/profile_model.dart';
@@ -20,21 +21,28 @@ mixin ProfileApi on ConstantAPi {
       throw const FormatException("~there error with API");
     }
   }
-
-  Future<ProfileModel> editProfile(
-      {required String token, required ProfileModel profile}) async {
+  Future<ProfileModel>  editProfile({
+    required String token,
+    required String firstName,
+    required String lastName,
+    required Future<Uint8List> image,
+    required Future<Uint8List> cv,
+    required String bindlink,
+    required String github,
+    required String linkedin,
+  }) async {
     final response = await dio.put(
       baseURl + editProfileEndPoint,
       options: Options(headers: {'Authorization': 'Bearer $token'}),
       data: {
-        "first_name": profile.firstName,
-        "last_name": profile.lastName,
-        "image": profile.imageUrl.codeUnits,
-        "cv": profile.resumeUrl?.codeUnits,
+        "first_name": firstName,
+        "last_name": lastName,
+        "image": image,
+        "cv": cv,
         "accounts": {
-          "bindlink": profile.link?.bindlink,
-          "linkedin": profile.link?.linkedin,
-          "github": profile.link?.github
+          "bindlink": bindlink,
+          "linkedin": linkedin,
+          "github": github
         }
       },
     );

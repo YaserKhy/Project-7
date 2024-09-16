@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,7 +48,24 @@ class ProfileCubit extends Cubit<ProfileState> {
     GetIt.I.get<AuthLayer>().logOut();
   }
 
-  editProfile({required String token, required ProfileModel profile}) async {
-    await api.editProfile(profile: profile, token: token);
+  editProfile({
+    required String token,
+    required String firstName,
+    required String lastName,
+    required Future<Uint8List> image,
+    required Future<Uint8List> cv,
+    required String bindLink,
+    required String github,
+    required String linkedIn,
+  }) async {
+    await api.editProfile(
+        token: token,
+        firstName: firstName,
+        bindlink: bindLink,
+        cv: cv,
+        github: github,
+        image: image,
+        lastName: lastName,
+        linkedin: linkedIn);
   }
 }
