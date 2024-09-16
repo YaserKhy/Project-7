@@ -3,18 +3,27 @@ import 'package:flutter/material.dart';
 class ProfileButton extends StatelessWidget {
   final String title;
   final Color color;
+  final IconData? icon;
   final Function()? onPressed;
-  const ProfileButton({super.key, required this.title, required this.color, this.onPressed});
+  const ProfileButton({super.key, required this.title, required this.color, this.onPressed, this.icon});
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      foregroundColor: Colors.white,
-      backgroundColor: color,
-      fixedSize: const Size(200, 45)),
-      onPressed: onPressed,
-      child: Text(title,style: const TextStyle(fontSize: 16, fontFamily: "Lato"))
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: TextButton(
+          onPressed: onPressed,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(icon, color: color),
+              const SizedBox(width: 10),
+              Text(title,
+                  style:  TextStyle(
+                      fontSize: 20,
+                      fontFamily: "Lato",
+                      color: color)),
+            ],
+          )),
     );
   }
 }

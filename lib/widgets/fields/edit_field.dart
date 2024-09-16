@@ -23,7 +23,7 @@ class EditField extends StatelessWidget {
         ),
         ConstrainedBox(
           constraints: BoxConstraints(
-              maxWidth: context.getWidth(divideBy: 2),
+              maxWidth: context.getWidth(divideBy: 2.3),
               minHeight: 45,
               maxHeight: 45),
           child: Container(
@@ -40,6 +40,8 @@ class EditField extends StatelessWidget {
                 return null;
               },
               decoration: const InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
                   contentPadding: EdgeInsets.all(8),
                   border: OutlineInputBorder(borderSide: BorderSide.none)),
             ),

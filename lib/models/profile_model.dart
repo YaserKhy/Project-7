@@ -22,7 +22,7 @@ class ProfileModel {
   late final String email;
   late final String role;
   late final String imageUrl;
-  late final String resumeUrl;
+  String? resumeUrl;
   late final Link? link;
   late final List<ProjectModel> projects;
   late final String createdAt;

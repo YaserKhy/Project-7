@@ -1,29 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_size.dart';
 
 class AccountCard extends StatelessWidget {
   final String title;
-  final Icon? icon;
+  final IconData? icon;
   final Function()? onPressed;
-  const AccountCard({super.key, required this.title, this.icon, this.onPressed});
+  const AccountCard(
+      {super.key, required this.title, this.icon, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 27),
       padding: const EdgeInsets.symmetric(vertical: 15),
-      width: context.getWidth(divideBy: 1.1),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: AppConstants.mainPurple, width: 2),
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: const [BoxShadow(color: AppConstants.mainPurple, offset: Offset(2, 4))],
+      width: context.getWidth(divideBy: 1.06),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: Color(0xffC2C2C2))),
       ),
       child: ListTile(
-        leading: icon,
-        title: Text(title,style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, fontFamily: "Lato")),
-        trailing: IconButton(onPressed: onPressed,icon: const Icon(Icons.arrow_outward_outlined)),
+        leading: Icon(icon, size: 40),
+        title: Text(
+          title,
+          style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w400,
+              fontFamily: "Lato",
+              color: Color(0xff6D6D6D)),
+        ),
+        trailing: IconButton(
+            onPressed: onPressed,
+            icon: const Icon(Icons.arrow_outward_outlined)),
       ),
     );
   }

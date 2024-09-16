@@ -2,16 +2,19 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
+import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/layers/auth_layer.dart';
 import 'package:project7/screens/login/login_screen.dart';
+
 import 'package:project7/screens/profile/cubit/profile_cubit.dart';
 import 'package:project7/screens/profile/edit_profile_screen.dart';
 import 'package:project7/widgets/buttons/profile_button.dart';
 import 'package:project7/widgets/cards/account_card.dart';
+
 import 'package:project7/widgets/cards/profile_card.dart';
 import 'package:project7/widgets/icons/custom_icons_icons.dart';
-import 'package:project7/widgets/texts/profile_title.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -19,10 +22,11 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<ProfileCubit>();
-    
+
     cubit.getProfile(token: GetIt.I.get<AuthLayer>().auth!.token);
 
     return Scaffold(
+      backgroundColor: const Color(0xffF6F4FB),
       body: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           if (state is LoadingState) {
@@ -32,56 +36,77 @@ class ProfileScreen extends StatelessWidget {
             return Center(child: Text(state.msg));
           }
           if (state is ShowProfileState) {
-            return SingleChildScrollView(
+            return SafeArea(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 16),
+                      width: 35,
+                      height: 35,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(3)),
+                      child: IconButton(
+                          onPressed: () {
+                            context.push(
+                                screen: EditProfileScreen(
+                                    profile: state.profile, cubit: cubit));
+                          },
+                          icon: const Icon(CustomIcons.edit,
+                              color: AppConstants.mainPurple)),
+                    ),
+                  ),
                   const SizedBox(height: 10),
                   ProfileCard(
                     cubit: cubit,
                     profile: state.profile,
                     onEdit: () => context.push(
-                      screen: EditProfileScreen(
+                        screen: EditProfileScreen(
                       profile: state.profile,
                       cubit: cubit,
-                      )
+                    )),
+                  ),
+                  const SizedBox(height: 60),
+                  Container(
+                    width: context.getWidth(divideBy: 1.1),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 20, horizontal: 9),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      children: [
+                        const AccountCard(
+                            icon: Icons.description_outlined, title: "Resume"),
+                        const AccountCard(
+                            icon: CustomIcons.linkedin_in, title: "LinkedIn"),
+                        const AccountCard(
+                            icon: CustomIcons.github, title: "Github"),
+                        const AccountCard(icon: Icons.link, title: "Bindlink"),
+                        ProfileButton(
+                          icon: Icons.power_settings_new,
+                          color: const Color(0xffFF4B4B),
+                          title: "Logout",
+                          onPressed: () async {
+                            log('user was ${GetIt.I.get<AuthLayer>().auth?.token.substring(1, 10)}');
+                            await cubit.logOut();
+                            log('user is ${GetIt.I.get<AuthLayer>().auth?.token}');
+                            context.pushRemove(screen: const LoginScreen());
+                          },
+                        ),
+                      ],
                     ),
                   ),
-                  const Padding(padding: EdgeInsets.all(20), child: Divider()),
-                  const ProfileTitle(title: "Links"),
-                  const SizedBox(height: 22),
-                  const AccountCard(
-                    icon: Icon(Icons.description_outlined, size: 40),title: "Resume"),
-                      const AccountCard(
-                        icon: Icon(CustomIcons.linkedin_in, size: 40),
-                        title: "LinkedIn"
-                      ),
-                      const AccountCard(
-                        icon: Icon(CustomIcons.github, size: 40),
-                        title: "Github"
-                      ),
-                      const AccountCard(title: "Bindlink"),
-                      const SizedBox(height: 10),
-                      ProfileButton(
-                        title: "Logout",
-                        color: Color(0xffD12D2D),
-                        onPressed: () async {
-                          log('user was ${GetIt.I.get<AuthLayer>().auth?.token.substring(1,10)}');
-                          await cubit.logOut();
-                          log('user is ${GetIt.I.get<AuthLayer>().auth?.token}');
-                          context.pushRemove(screen: const LoginScreen());
-                        }
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
-                );
-              }
-          return const SizedBox.shrink(); 
+                ],
+              ),
+            );
+          }
+          return const SizedBox.shrink();
         },
       ),
     );
   }
 }
-
-

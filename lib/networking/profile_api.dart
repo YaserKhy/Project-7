@@ -21,14 +21,16 @@ mixin ProfileApi on ConstantAPi {
     }
   }
 
-  Future<ProfileModel> editProfile({required ProfileModel profile}) async {
+  Future<ProfileModel> editProfile(
+      {required String token, required ProfileModel profile}) async {
     final response = await dio.put(
       baseURl + editProfileEndPoint,
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
       data: {
         "first_name": profile.firstName,
         "last_name": profile.lastName,
-        "image": profile.imageUrl,
-        "cv": profile.link?.resume,
+        "image": profile.imageUrl.codeUnits,
+        "cv": profile.resumeUrl?.codeUnits,
         "accounts": {
           "bindlink": profile.link?.bindlink,
           "linkedin": profile.link?.linkedin,
@@ -36,6 +38,7 @@ mixin ProfileApi on ConstantAPi {
         }
       },
     );
+    print(response.statusCode);
     return response.data;
   }
 }

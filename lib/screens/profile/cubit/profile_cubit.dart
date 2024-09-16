@@ -30,7 +30,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   handleProfilePage({required String logoUrl, required BuildContext context}) {
-    Widget placeholderAvatar = Image.asset('assets/images/profile_holder.png',
+    Widget placeholderAvatar = Image.asset('assets/images/tuwaiq_logo1.png',
         width: context.getWidth(),
         height: context.getHeight(divideBy: 10),
         fit: BoxFit.cover);
@@ -47,7 +47,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     GetIt.I.get<AuthLayer>().logOut();
   }
 
-  editProfile({required ProfileModel profileModel}) async {
-    api.editProfile(profile: profileModel);
+  editProfile({required String token, required ProfileModel profile}) async {
+    await api.editProfile(profile: profile, token: token);
   }
 }
