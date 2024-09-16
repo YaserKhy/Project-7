@@ -11,14 +11,25 @@ class ViewProjectTitle extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 12),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontFamily: 'Lato',
-            fontWeight: FontWeight.w400,
-            color: AppConstants.mainPurple
-          )
+        Row(
+          children: [
+            Text(title,
+                style: const TextStyle(
+                    fontSize: 18,
+                    fontFamily: 'Lato',
+                    fontWeight: FontWeight.w400,
+                    color: AppConstants.mainPurple)),
+            SizedBox(
+              width: 5,
+            ),
+            InkWell(
+                onTap: () {},
+                child: Icon(
+                  Icons.edit,
+                  size: 15,
+                  color: AppConstants.iconsGrayColor,
+                ))
+          ],
         ),
         const Divider(),
       ],
