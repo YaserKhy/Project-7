@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -66,8 +65,7 @@ class EditProfileScreen extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                     backgroundImage: cubit
                         .handleProfilePage(
-                            logoUrl: profile.imageUrl, context: context)
-                        .image),
+                            logoUrl: profile.imageUrl, context: context).image),
               ),
               TextButton(
                   onPressed: () async {
