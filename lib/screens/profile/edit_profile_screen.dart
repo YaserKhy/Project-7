@@ -1,5 +1,7 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
@@ -41,8 +43,9 @@ class EditProfileScreen extends StatelessWidget {
         TextEditingController(text: profile.link?.bindlink);
 
     File? image;
-    Future<Uint8List> imageBytes = File("assets/images/profile_holder.png").readAsBytes();
-    Future<Uint8List> cv = File("assets/images/profile_holder.png").readAsBytes();
+    File? cv;
+    String? imagePath = image?.path ?? profile.imageUrl;
+    String? cvPath = cv?.path ?? profile.resumeUrl;
 
     return Scaffold(
       backgroundColor: const Color(0xffF6F4FB),
@@ -63,14 +66,15 @@ class EditProfileScreen extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                     backgroundImage: cubit
                         .handleProfilePage(
-                            logoUrl: profile.imageUrl, context: context).image),
+                            logoUrl: profile.imageUrl, context: context)
+                        .image),
               ),
               TextButton(
                   onPressed: () async {
                     final selectedImage = await ImagePicker()
                         .pickImage(source: ImageSource.gallery);
                     image = File(selectedImage!.path);
-                    imageBytes = (await image!.readAsBytes()) as Future<Uint8List>;
+                    imagePath = image!.path;
                     profile.imageUrl = image?.path ?? profile.imageUrl;
                   },
                   child: const Text(
@@ -78,6 +82,12 @@ class EditProfileScreen extends StatelessWidget {
                     style: TextStyle(color: AppConstants.mainPurple),
                   )),
               const SizedBox(width: 12),
+              ElevatedButton(
+                  onPressed: () async {
+                    cv = await pickerFile();
+                    cvPath = cv!.path;
+                  },
+                  child: const Text('Upload cv')),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -117,15 +127,18 @@ class EditProfileScreen extends StatelessWidget {
                       title: "Save",
                       onPressed: () {
                         {
+                          log(imagePath ?? "no image");
+                          log(profile.imageUrl ?? "no image");
+                          log(profile.resumeUrl ?? "no image");
                           cubit.editProfile(
-                            token: GetIt.I.get<AuthLayer>().auth!.token,
-                            firstName: fNameController.text,bindLink: bindlinkController.text,
-                            cv: cv,
-                            github: gitHubController.text,
-                            image: imageBytes,
-                            lastName: lNameController.text,
-                            linkedIn: linkedinController.text
-                          );
+                              token: GetIt.I.get<AuthLayer>().auth!.token,
+                              firstName: fNameController.text,
+                              bindLink: bindlinkController.text,
+                              cvPath: cvPath ?? profile.resumeUrl,
+                              github: gitHubController.text,
+                              imagePath: imagePath ?? profile.imageUrl,
+                              lastName: lNameController.text,
+                              linkedIn: linkedinController.text);
 
                           context.pop();
                         }
@@ -140,4 +153,12 @@ class EditProfileScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<File> pickerFile() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+  File file = File(result!.files.single.path!);
+
+  return file;
 }

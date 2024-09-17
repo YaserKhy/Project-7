@@ -21,7 +21,7 @@ class ProfileModel {
   late final String lastName;
   late final String email;
   late final String role;
-  late final String imageUrl;
+  String? imageUrl;
   String? resumeUrl;
   late final Link? link;
   late final List<ProjectModel> projects;

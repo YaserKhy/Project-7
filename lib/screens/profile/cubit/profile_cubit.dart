@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -30,14 +31,14 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  handleProfilePage({required String logoUrl, required BuildContext context}) {
+  handleProfilePage({required String? logoUrl, required BuildContext context}) {
     Widget placeholderAvatar = Image.asset('assets/images/tuwaiq_logo1.png',
         width: context.getWidth(),
         height: context.getHeight(divideBy: 10),
         fit: BoxFit.cover);
-    return logoUrl.contains('assets')
+    return logoUrl!.contains('assets')
         ? placeholderAvatar
-        : Image.network(logoUrl,
+        : Image.network(logoUrl!,
             width: 89,
             height: 89,
             fit: BoxFit.cover,
@@ -52,19 +53,20 @@ class ProfileCubit extends Cubit<ProfileState> {
     required String token,
     required String firstName,
     required String lastName,
-    required Future<Uint8List> image,
-    required Future<Uint8List> cv,
+    required String ?imagePath,
+    required String? cvPath,
     required String bindLink,
     required String github,
     required String linkedIn,
   }) async {
+
     await api.editProfile(
         token: token,
         firstName: firstName,
         bindlink: bindLink,
-        cv: cv,
+        cvPath: cvPath,
         github: github,
-        image: image,
+        imagePath: imagePath,
         lastName: lastName,
         linkedin: linkedIn);
   }
