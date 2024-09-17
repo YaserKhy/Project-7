@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:project7/constants/app_constants.dart';
+import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/view_project/view_project_images.dart';
 import 'package:project7/screens/view_project/view_project_member.dart';
 import 'package:project7/screens/view_project/view_project_title.dart';
+import 'package:project7/screens/view_project/view_rating_project.dart';
 import 'package:project7/widgets/icons/custom_icons_icons.dart';
 import 'package:project7/widgets/icons/project_icon.dart';
 
@@ -142,7 +144,9 @@ class ProjectScreen extends StatelessWidget {
               ),
               const ViewProjectTitle(title: 'Rating'),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  context.push(screen: ViewRatingProject());
+                },
                 tileColor: Colors.white,
                 shape: OutlineInputBorder(
                     borderSide: BorderSide.none,

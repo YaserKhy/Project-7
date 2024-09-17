@@ -3,6 +3,7 @@ import 'package:project7/constants/app_constants.dart';
 
 class ViewProjectTitle extends StatelessWidget {
   final String title;
+
   const ViewProjectTitle({super.key, required this.title});
 
   @override
