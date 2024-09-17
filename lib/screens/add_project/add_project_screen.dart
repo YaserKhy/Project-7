@@ -5,6 +5,7 @@ import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/screens/add_project/bloc/add_project_bloc.dart';
+import 'package:project7/widgets/buttons/edit_button.dart';
 
 import 'package:project7/widgets/fields/auth_field.dart';
 
@@ -178,52 +179,19 @@ class AddProjectScreen extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(height: 30),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.white,
-                                              foregroundColor:
-                                                  const Color(0xff9B9B9B),
-                                              shape: RoundedRectangleBorder(
-                                                side: const BorderSide(
-                                                    color: Color(0xff9B9B9B)),
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              ),
-                                              fixedSize: const Size(130, 30)),
-                                          onPressed: () {
-                                            context.pop();
-                                          },
-                                          child: const Text("Cancel")),
-                                      ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.white,
-                                              foregroundColor:
-                                                  AppConstants.mainPurple,
-                                              shape: RoundedRectangleBorder(
-                                                side: const BorderSide(
-                                                    color: AppConstants
-                                                        .mainPurple),
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                              ),
-                                              fixedSize: const Size(130, 30)),
-                                          child: const Text("Add"),
-                                          onPressed: () {
-                                            if (formKey.currentState!
-                                                .validate()) {
-                                              bloc.add(ValidateFormEvent(
-                                                  userId: userId,
-                                                  deadLine: date,
-                                                  allowEditing:
-                                                      allowUserEditing));
-                                            }
-                                          }),
-                                    ],
-                                  )
+                                  EditButton(
+                                    onCancel: () {
+                                      context.pop();
+                                    },
+                                    onSave: () {
+                                      if (formKey.currentState!.validate()) {
+                                        bloc.add(ValidateFormEvent(
+                                            userId: userId,
+                                            deadLine: date,
+                                            allowEditing: allowUserEditing));
+                                      }
+                                    },
+                                  ),
                                 ]),
                           )),
                     ],

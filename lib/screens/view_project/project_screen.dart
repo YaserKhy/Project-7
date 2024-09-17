@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/models/project_model.dart';
+import 'package:project7/screens/edit_project/edit_base_info.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/view_project/view_project_images.dart';
 import 'package:project7/screens/view_project/view_project_member.dart';
@@ -60,7 +61,9 @@ class ProjectScreen extends StatelessWidget {
                                 fontWeight: FontWeight.w700)),
                         // const SizedBox(width: 10),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.push(screen: const EditBaseInfo());
+                            },
                             icon: const Icon(
                               Icons.edit,
                               size: 15,
@@ -134,21 +137,29 @@ class ProjectScreen extends StatelessWidget {
               const ViewProjectTitle(title: "Images"),
               ViewProjectImages(images: project.imagesProject, cubit: cubit),
               const ViewProjectTitle(title: 'Members'),
-              project.membersProject.isEmpty ? const Text('No Members Added')
-              : Column(
-                children: List.generate(project.membersProject.length, (index) {
-                  return ViewProjectMember(
-                      member: project.membersProject[index],
-                      teamLeadId: project.userId,
-                      cubit: cubit);
-                }),
-              ),
+              project.membersProject.isEmpty
+                  ? const Text('No Members Added')
+                  : Column(
+                      children:
+                          List.generate(project.membersProject.length, (index) {
+                        return ViewProjectMember(
+                            member: project.membersProject[index],
+                            teamLeadId: project.userId,
+                            cubit: cubit);
+                      }),
+                    ),
               const ViewProjectTitle(title: 'Rating'),
               ListTile(
-                onTap: () => context.push(screen: ViewRatingProject(project: project,)),
+                onTap: () => context.push(
+                    screen: ViewRatingProject(
+                  project: project,
+                )),
                 tileColor: Colors.white,
-                shape: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(5)),
-                leading: const Icon(Icons.stacked_bar_chart_outlined,color: Colors.green),
+                shape: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(5)),
+                leading: const Icon(Icons.stacked_bar_chart_outlined,
+                    color: Colors.green),
                 title: Text(
                   "Rate ${project.projectName}",
                   style: const TextStyle(color: AppConstants.textGrayColor),

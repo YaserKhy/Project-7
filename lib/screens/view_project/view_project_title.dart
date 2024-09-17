@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project7/constants/app_constants.dart';
+import 'package:project7/extensions/screen_navigation.dart';
+import 'package:project7/screens/add_project/user_project_screen.dart';
+import 'package:project7/screens/edit_project/edit_base_info.dart';
 
 class ViewProjectTitle extends StatelessWidget {
   final String title;
@@ -20,12 +23,12 @@ class ViewProjectTitle extends StatelessWidget {
                     fontFamily: 'Lato',
                     fontWeight: FontWeight.w400,
                     color: AppConstants.mainPurple)),
-            SizedBox(
+            const SizedBox(
               width: 5,
             ),
             InkWell(
                 onTap: () {},
-                child: Icon(
+                child: const Icon(
                   Icons.edit,
                   size: 15,
                   color: AppConstants.iconsGrayColor,

@@ -82,8 +82,14 @@ class EditProfileScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    EditField(lebal: "First Name", controller: fNameController),
-                    EditField(lebal: "Last Name", controller: lNameController),
+                    EditField(
+                        lebal: "First Name",
+                        controller: fNameController,
+                        width: context.getWidth(divideBy: 2.3)),
+                    EditField(
+                        lebal: "Last Name",
+                        controller: lNameController,
+                        width: context.getWidth(divideBy: 2.3)),
                   ],
                 ),
                 const SizedBox(height: 22),
