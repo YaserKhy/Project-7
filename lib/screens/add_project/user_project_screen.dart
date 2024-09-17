@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/screens/add_project/add_project_screen.dart';
+import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/widgets/cards/user_project_card.dart';
 
 class UserProjectScreen extends StatelessWidget {
@@ -18,6 +20,7 @@ class UserProjectScreen extends StatelessWidget {
     // String _rangeCount = '';
 
     return Scaffold(
+      backgroundColor: AppConstants.bgColor,
       body: SingleChildScrollView(
         child: Column(
           children: [

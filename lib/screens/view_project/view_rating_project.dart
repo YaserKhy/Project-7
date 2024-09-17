@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:project7/constants/app_constants.dart';
+import 'package:project7/extensions/screen_navigation.dart';
+import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/view_project/view_project_title.dart';
 import 'package:project7/widgets/cards/rating_project.dart';
+import 'package:project7/widgets/dialogs/save_dialog.dart';
+import 'package:project7/widgets/dialogs/warning_dialog.dart';
 import 'package:project7/widgets/icons/project_icon.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 
@@ -237,7 +241,7 @@ class ViewRatingProject extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Row(
@@ -246,8 +250,12 @@ class ViewRatingProject extends StatelessWidget {
                               SizedBox(
                                 width: 133,
                                 child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: Text("Save"),
+                                    onPressed: () {
+                                      context.pop();
+                                      saveDialog(
+                                          context: context,
+                                          msg: "Thank you for your rating");
+                                    },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white,
                                         shape: RoundedRectangleBorder(
@@ -256,13 +264,15 @@ class ViewRatingProject extends StatelessWidget {
                                           side: const BorderSide(
                                               color: Colors.green,
                                               width: 2), // Blue border
-                                        ))),
+                                        )),
+                                    child: const Text("Save")),
                               ),
                               SizedBox(
                                 width: 133,
                                 child: ElevatedButton(
-                                    onPressed: () {},
-                                    child: Text("Cansel"),
+                                    onPressed: () {
+                                      warningDialog(context: context);
+                                    },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white,
                                         shape: RoundedRectangleBorder(
@@ -272,7 +282,8 @@ class ViewRatingProject extends StatelessWidget {
                                               color:
                                                   AppConstants.iconsGrayColor,
                                               width: 2), // Blue border
-                                        ))),
+                                        )),
+                                    child: const Text("Cancel")),
                               ),
                             ],
                           )

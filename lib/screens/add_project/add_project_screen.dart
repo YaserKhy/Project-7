@@ -45,6 +45,7 @@ class AddProjectScreen extends StatelessWidget {
                 }
               },
               child: Scaffold(
+                backgroundColor: AppConstants.bgColor,
                 body: SingleChildScrollView(
                   child: Column(
                     children: [
