@@ -7,8 +7,8 @@ import 'package:project7/widgets/icons/project_icon.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 
 class ViewRatingProject extends StatelessWidget {
-  // late final ProjectModel project;
-  // ViewRatingProject({required this.project});
+  late final ProjectModel project;
+  ViewRatingProject({super.key, required this.project});
   final TextEditingController commentController = TextEditingController();
   @override
   Widget build(BuildContext context) {

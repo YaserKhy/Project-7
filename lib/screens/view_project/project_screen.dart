@@ -145,7 +145,7 @@ class ProjectScreen extends StatelessWidget {
               const ViewProjectTitle(title: 'Rating'),
               ListTile(
                 onTap: () {
-                  context.push(screen: ViewRatingProject());
+                  context.push(screen: ViewRatingProject(project: project,));
                 },
                 tileColor: Colors.white,
                 shape: OutlineInputBorder(
