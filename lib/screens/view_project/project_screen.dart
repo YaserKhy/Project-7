@@ -134,7 +134,8 @@ class ProjectScreen extends StatelessWidget {
               const ViewProjectTitle(title: "Images"),
               ViewProjectImages(images: project.imagesProject, cubit: cubit),
               const ViewProjectTitle(title: 'Members'),
-              Column(
+              project.membersProject.isEmpty ? const Text('No Members Added')
+              : Column(
                 children: List.generate(project.membersProject.length, (index) {
                   return ViewProjectMember(
                       member: project.membersProject[index],
@@ -144,20 +145,13 @@ class ProjectScreen extends StatelessWidget {
               ),
               const ViewProjectTitle(title: 'Rating'),
               ListTile(
-                onTap: () {
-                  context.push(screen: ViewRatingProject(project: project,));
-                },
+                onTap: () => context.push(screen: ViewRatingProject(project: project,)),
                 tileColor: Colors.white,
-                shape: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(5)),
-                leading: const Icon(
-                  Icons.stacked_bar_chart_outlined,
-                  color: Colors.green,
-                ),
+                shape: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(5)),
+                leading: const Icon(Icons.stacked_bar_chart_outlined,color: Colors.green),
                 title: Text(
                   "Rate ${project.projectName}",
-                  style: TextStyle(color: AppConstants.textGrayColor),
+                  style: const TextStyle(color: AppConstants.textGrayColor),
                 ),
                 trailing: const Icon(
                   Icons.arrow_forward_ios_outlined,
