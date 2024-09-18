@@ -20,6 +20,7 @@ dependencies:
   meta: ^1.15.0
   otp_timer_button: ^1.1.1
   intl: ^0.19.0
+  file_picker: ^8.1.2
 
 
 dev_dependencies:

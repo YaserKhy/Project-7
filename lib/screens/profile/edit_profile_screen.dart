@@ -1,4 +1,6 @@
+import 'dart:developer';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
@@ -41,7 +43,9 @@ class EditProfileScreen extends StatelessWidget {
         TextEditingController(text: profile.link?.bindlink);
 
     File? image;
-
+    File? cv;
+    String? imagePath = image?.path ?? profile.imageUrl;
+    String? cvPath = cv?.path ?? profile.resumeUrl;
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -65,76 +69,78 @@ class EditProfileScreen extends StatelessWidget {
                       backgroundImage: cubit
                           .handleProfilePage(
                               logoUrl: profile.imageUrl, context: context)
-                          .image),
-                ),
-                TextButton(
-                    onPressed: () async {
-                      final selectedImage = await ImagePicker()
-                          .pickImage(source: ImageSource.gallery);
-                      image = File(selectedImage!.path);
-                      profile.imageUrl = image?.path ?? profile.imageUrl;
-                    },
-                    child: const Text(
-                      "Change image",
-                      style: TextStyle(color: AppConstants.mainPurple),
-                    )),
+                          .image),),
+              TextButton(
+                  onPressed: () async {
+                    final selectedImage = await ImagePicker()
+                        .pickImage(source: ImageSource.gallery);
+                    image = File(selectedImage!.path);
+                    imagePath = image!.path;
+                    profile.imageUrl = image?.path ?? profile.imageUrl;
+                  },
+                  child: const Text(
+                    "Change image",
+                    style: TextStyle(color: AppConstants.mainPurple),
+                  )),
+              const SizedBox(width: 12),
+              ElevatedButton(
+                  onPressed: () async {
+                    cv = await pickerFile();
+                    cvPath = cv!.path;
+                  },
+                  child: const Text('Upload cv')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  EditField(lebal: "First Name", controller: fNameController, width: 100,),
+                  EditField(lebal: "Last Name", controller: lNameController, width: 100,),
+                ],
+              ),
+              const SizedBox(height: 22),
+            
                 const SizedBox(width: 12),
-                Row(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    EditField(
-                        lebal: "First Name",
-                        controller: fNameController,
-                        width: context.getWidth(divideBy: 2.3)),
-                    EditField(
-                        lebal: "Last Name",
-                        controller: lNameController,
-                        width: context.getWidth(divideBy: 2.3)),
+                    EditLinkField(
+                        icon: Icons.description_outlined,
+                        hint: "Enter your Resume link",
+                        controller: resumeController),
+                    EditLinkField(
+                        icon: CustomIcons.linkedin_in,
+                        hint: "Linked in",
+                        controller: linkedinController),
+                    EditLinkField(
+                        icon: CustomIcons.github,
+                        hint: "GitHub",
+                        controller: gitHubController),
+                    EditLinkField(
+                        icon: Icons.link,
+                        hint: "Bindlink",
+                        controller: bindlinkController),
+                    ProfileButton(
+                      color: AppConstants.mainPurple,
+                      title: "Save",
+                      onPressed: () {
+                        {
+                          log(imagePath ?? "no image");
+                          log(cvPath ?? "no cv");
+                          cubit.editProfile(
+                              token: GetIt.I.get<AuthLayer>().auth!.token,
+                              firstName: fNameController.text,
+                              bindLink: bindlinkController.text,
+                              cvPath: cvPath,
+                              github: gitHubController.text,
+                              imagePath: imagePath,
+                              lastName: lNameController.text,
+                              linkedIn: linkedinController.text);
+                          context.pop();
+                        }
+                      },
+                    ),
                   ],
                 ),
                 const SizedBox(height: 22),
-                Container(
-                  width: context.getWidth(divideBy: 1.1),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 20,
-                  ),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      EditLinkField(
-                          icon: Icons.description_outlined,
-                          hint: "Enter your Resume link",
-                          controller: resumeController),
-                      EditLinkField(
-                          icon: CustomIcons.linkedin_in,
-                          hint: "Linked in",
-                          controller: linkedinController),
-                      EditLinkField(
-                          icon: CustomIcons.github,
-                          hint: "GitHub",
-                          controller: gitHubController),
-                      EditLinkField(
-                          icon: Icons.link,
-                          hint: "Bindlink",
-                          controller: bindlinkController),
-                      ProfileButton(
-                        color: AppConstants.mainPurple,
-                        title: "Save",
-                        onPressed: () {
-                          {
-                            cubit.editProfile(
-                                profile: profile,
-                                token: GetIt.I.get<AuthLayer>().auth!.token);
-                            context.pop();
-                            saveDialog(context: context);
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
               ],
             ),
           ),
@@ -142,4 +148,12 @@ class EditProfileScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<File> pickerFile() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+  File file = File(result!.files.single.path!);
+
+  return file;
 }
