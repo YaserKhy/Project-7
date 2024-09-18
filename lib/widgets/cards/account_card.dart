@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:project7/extensions/screen_size.dart';
+import 'package:project7/helpers/url_launcher.dart';
 
 class AccountCard extends StatelessWidget {
   final String title;
   final IconData? icon;
   final Function()? onPressed;
+  final String? urlPath;
   const AccountCard(
-      {super.key, required this.title, this.icon, this.onPressed});
+      {super.key,
+      required this.title,
+      this.icon,
+      this.onPressed,
+      this.urlPath});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +33,11 @@ class AccountCard extends StatelessWidget {
               color: Color(0xff6D6D6D)),
         ),
         trailing: IconButton(
-            onPressed: onPressed,
+            onPressed: () {
+              if (urlPath != null) {
+                urlLuncher(urlPath);
+              }
+            },
             icon: const Icon(Icons.arrow_outward_outlined)),
       ),
     );

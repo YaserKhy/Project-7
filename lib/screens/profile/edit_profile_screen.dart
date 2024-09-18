@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
-import 'package:project7/extensions/screen_size.dart';
+import 'package:project7/helpers/file_picker.dart';
+
 import 'package:project7/layers/auth_layer.dart';
 import 'package:project7/models/profile_model.dart';
 import 'package:project7/screens/profile/cubit/profile_cubit.dart';
 import 'package:project7/widgets/buttons/profile_button.dart';
-import 'package:project7/widgets/dialogs/save_dialog.dart';
+
 import 'package:project7/widgets/fields/edit_field.dart';
 import 'package:project7/widgets/fields/edit_link_field.dart';
 
@@ -61,62 +62,75 @@ class EditProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 10),
-                SizedBox(
-                  height: 92,
-                  width: 92,
-                  child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: cubit
-                          .handleProfilePage(
-                              logoUrl: profile.imageUrl, context: context)
-                          .image),),
-              TextButton(
-                  onPressed: () async {
-                    final selectedImage = await ImagePicker()
-                        .pickImage(source: ImageSource.gallery);
-                    image = File(selectedImage!.path);
-                    imagePath = image!.path;
-                    profile.imageUrl = image?.path ?? profile.imageUrl;
-                  },
-                  child: const Text(
-                    "Change image",
-                    style: TextStyle(color: AppConstants.mainPurple),
-                  )),
-              const SizedBox(width: 12),
-              ElevatedButton(
-                  onPressed: () async {
-                    cv = await pickerFile();
-                    cvPath = cv!.path;
-                  },
-                  child: const Text('Upload cv')),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  EditField(lebal: "First Name", controller: fNameController, width: 100,),
-                  EditField(lebal: "Last Name", controller: lNameController, width: 100,),
-                ],
-              ),
-              const SizedBox(height: 22),
-            
+                CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: cubit
+                        .handleProfilePage(
+                            logoUrl: profile.imageUrl, context: context)
+                        .image),
+                TextButton(
+                    onPressed: () async {
+                      final selectedImage = await ImagePicker()
+                          .pickImage(source: ImageSource.gallery);
+                      image = File(selectedImage!.path);
+                      imagePath = image!.path;
+                      profile.imageUrl = image?.path ?? profile.imageUrl;
+                    },
+                    child: const Text(
+                      "Change image",
+                      style: TextStyle(color: AppConstants.mainPurple),
+                    )),
                 const SizedBox(width: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    EditField(
+                      lebal: "First Name",
+                      controller: fNameController,
+                      width: 150,
+                    ),
+                    EditField(
+                      lebal: "Last Name",
+                      controller: lNameController,
+                      width: 150,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 22),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    EditLinkField(
-                        icon: Icons.description_outlined,
-                        hint: "Enter your Resume link",
-                        controller: resumeController),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        EditLinkField(
+                            maxWidth: 180,
+                            icon: Icons.description_outlined,
+                            hint: "Upload your cv link",
+                            controller: resumeController),
+                        TextButton(
+                            onPressed: () async {
+                              cv = await pickerFile();
+                              cvPath = cv!.path;
+                            },
+                            child: const Text(
+                              "Upload cv",
+                              style: TextStyle(color: AppConstants.mainPurple),
+                            )),
+                      ],
+                    ),
                     EditLinkField(
                         icon: CustomIcons.linkedin_in,
-                        hint: "Linked in",
+                        hint: "Enter your Linked in link",
                         controller: linkedinController),
                     EditLinkField(
                         icon: CustomIcons.github,
-                        hint: "GitHub",
+                        hint: "Enter your GitHub username",
                         controller: gitHubController),
                     EditLinkField(
                         icon: Icons.link,
-                        hint: "Bindlink",
+                        hint: "Enter your Bindlink username",
                         controller: bindlinkController),
                     ProfileButton(
                       color: AppConstants.mainPurple,
@@ -125,6 +139,7 @@ class EditProfileScreen extends StatelessWidget {
                         {
                           log(imagePath ?? "no image");
                           log(cvPath ?? "no cv");
+                          log(linkedinController.text);
                           cubit.editProfile(
                               token: GetIt.I.get<AuthLayer>().auth!.token,
                               firstName: fNameController.text,
@@ -150,10 +165,4 @@ class EditProfileScreen extends StatelessWidget {
   }
 }
 
-Future<File> pickerFile() async {
-  FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-  File file = File(result!.files.single.path!);
-
-  return file;
-}

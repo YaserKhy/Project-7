@@ -79,13 +79,26 @@ class ProfileScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10)),
                     child: Column(
                       children: [
-                        const AccountCard(
-                            icon: Icons.description_outlined, title: "Resume"),
-                        const AccountCard(
-                            icon: CustomIcons.linkedin_in, title: "LinkedIn"),
-                        const AccountCard(
-                            icon: CustomIcons.github, title: "Github"),
-                        const AccountCard(icon: Icons.link, title: "Bindlink"),
+                        AccountCard(
+                          icon: Icons.description_outlined,
+                          title: "Resume",
+                          urlPath: state.profile.link?.resume,
+                        ),
+                        AccountCard(
+                            icon: CustomIcons.linkedin_in,
+                            title: "LinkedIn",
+                            urlPath:
+                                "https://www.linkedin.com/in/${state.profile.link?.linkedin}"),
+                        AccountCard(
+                            icon: CustomIcons.github,
+                            title: "Github",
+                            urlPath:
+                                "https://github.com/${state.profile.link?.github}"),
+                        AccountCard(
+                            icon: Icons.link,
+                            title: "Bindlink",
+                            urlPath:
+                                "https://bind.link/@${state.profile.link?.bindlink}"),
                         ProfileButton(
                           icon: Icons.power_settings_new,
                           color: const Color(0xffFF4B4B),

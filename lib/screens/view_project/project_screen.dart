@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
+import 'package:project7/helpers/url_launcher.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/view_project/view_project_images.dart';
@@ -112,14 +113,21 @@ class ProjectScreen extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       color: Color(0xff4e4e4e))),
               const ViewProjectTitle(title: "Presentation"),
-              const ProjectIcon(
-                  title: "Press to display presentation",
-                  icon: Icon(
-                    Icons.screenshot_monitor_outlined,
-                    color: Color(0xffff8c2c),
-                    size: 18,
-                  ),
-                  isVertical: false),
+              InkWell(
+                onTap: () {
+                  if (project.presentationUrl.isNotEmpty) {
+                    urlLuncher(project.presentationUrl);
+                  }
+                },
+                child: const ProjectIcon(
+                    title: "Press to display presentation",
+                    icon: Icon(
+                      Icons.screenshot_monitor_outlined,
+                      color: Color(0xffff8c2c),
+                      size: 18,
+                    ),
+                    isVertical: false),
+              ),
               const SizedBox(
                 height: 12,
               ),
@@ -134,21 +142,30 @@ class ProjectScreen extends StatelessWidget {
               const ViewProjectTitle(title: "Images"),
               ViewProjectImages(images: project.imagesProject, cubit: cubit),
               const ViewProjectTitle(title: 'Members'),
-              project.membersProject.isEmpty ? const Text('No Members Added')
-              : Column(
-                children: List.generate(project.membersProject.length, (index) {
-                  return ViewProjectMember(
-                      member: project.membersProject[index],
-                      teamLeadId: project.userId,
-                      cubit: cubit);
-                }),
-              ),
+              project.membersProject.isEmpty
+                  ? const Text('No Members Added')
+                  : Column(
+                      children:
+                          List.generate(project.membersProject.length, (index) {
+                        return ViewProjectMember(
+                            member: project.membersProject[index],
+                            teamLeadId: project.userId,
+                            cubit: cubit);
+                      }),
+                    ),
               const ViewProjectTitle(title: 'Rating'),
               ListTile(
-                onTap: () => context.push(screen: ViewRatingProject(project: project,cubit: cubit,)),
+                onTap: () => context.push(
+                    screen: ViewRatingProject(
+                  project: project,
+                  cubit: cubit,
+                )),
                 tileColor: Colors.white,
-                shape: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(5)),
-                leading: const Icon(Icons.stacked_bar_chart_outlined,color: Colors.green),
+                shape: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(5)),
+                leading: const Icon(Icons.stacked_bar_chart_outlined,
+                    color: Colors.green),
                 title: Text(
                   "Rate ${project.projectName}",
                   style: const TextStyle(color: AppConstants.textGrayColor),
@@ -159,14 +176,13 @@ class ProjectScreen extends StatelessWidget {
                 ),
               ),
               const ViewProjectTitle(title: 'Links'),
-              project.linksProject.isEmpty ? const Text("No Links Added") :
-              ViewProjectLinks(links: project.linksProject),
+              project.linksProject.isEmpty
+                  ? const Text("No Links Added")
+                  : ViewProjectLinks(links: project.linksProject),
               const ViewProjectTitle(title: 'Settings'),
               // settings here
             ],
           ),
-        )
-      )
-    ));
+        ))));
   }
 }

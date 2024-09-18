@@ -8,7 +8,8 @@ class ProfileCard extends StatelessWidget {
   final ProfileCubit cubit;
   final ProfileModel profile;
   final Function()? onEdit;
-  const ProfileCard({super.key, required this.cubit, required this.profile, this.onEdit});
+  const ProfileCard(
+      {super.key, required this.cubit, required this.profile, this.onEdit});
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -22,18 +23,16 @@ class ProfileCard extends StatelessWidget {
                   image: DecorationImage(
                       image:
                           AssetImage("assets/images/profile_decoration.png"))),
-              child: Container(
-                  height: 92,
-                  width: 92,
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: AppConstants.mainPurple),
-                      image: DecorationImage(
-                          image: cubit
-                              .handleProfilePage(
-                                  logoUrl: profile.imageUrl, context: context)
-                              .image)))),
-
+              child: CircleAvatar(
+                radius: 60,
+                backgroundColor: AppConstants.mainPurple,
+                child: CircleAvatar(
+                    radius: 48,
+                    backgroundImage: cubit
+                        .handleProfilePage(
+                            logoUrl: profile.imageUrl, context: context)
+                        .image),
+              )),
           const SizedBox(height: 8),
           Text('${profile.firstName} ${profile.lastName}',
               style: const TextStyle(
@@ -41,9 +40,9 @@ class ProfileCard extends StatelessWidget {
                   fontSize: 20,
                   fontFamily: "Lato",
                   fontWeight: FontWeight.bold)),
+          const SizedBox(height: 5),
+          Text(profile.email, style: const TextStyle(fontFamily: "Lato")),
           const SizedBox(height: 8),
-          // Text(profile.role, style: const TextStyle(fontFamily: "Lato")),
-          // Text(profile.email, style: const TextStyle(fontFamily: "Lato")),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
