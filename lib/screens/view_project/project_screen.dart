@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/models/project_model.dart';
+import 'package:project7/screens/edit_project/edit_base_info.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/view_project/view_project_images.dart';
 import 'package:project7/screens/view_project/view_project_links.dart';
@@ -21,7 +22,9 @@ class ProjectScreen extends StatelessWidget {
         backgroundColor: AppConstants.bgColor,
         appBar: AppBar(
           backgroundColor: AppConstants.bgColor,
-          actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.edit))],
+          actions: [IconButton(onPressed: () {
+            context.push(screen: EditBaseInfo(project: project,));
+          }, icon: const Icon(Icons.edit))],
         ),
         body: SafeArea(
             child: SingleChildScrollView(

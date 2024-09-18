@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project7/layers/auth_layer.dart';
 import 'package:project7/models/auth_model.dart';
-import 'package:project7/screens/login/login_screen.dart';
+import 'package:project7/screens/home/login/login_screen.dart';
 import 'package:project7/screens/navigation/navigation_screen.dart';
 import 'package:project7/services/setup.dart';
 
