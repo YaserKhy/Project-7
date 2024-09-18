@@ -9,6 +9,7 @@ import 'package:project7/screens/view_project/view_project_links.dart';
 import 'package:project7/screens/view_project/view_project_member.dart';
 import 'package:project7/screens/view_project/view_project_title.dart';
 import 'package:project7/screens/view_project/view_rating_project.dart';
+import 'package:project7/widgets/fields/drop_down_menu.dart';
 import 'package:project7/widgets/icons/project_icon.dart';
 
 class ProjectScreen extends StatelessWidget {
@@ -22,9 +23,16 @@ class ProjectScreen extends StatelessWidget {
         backgroundColor: AppConstants.bgColor,
         appBar: AppBar(
           backgroundColor: AppConstants.bgColor,
-          actions: [IconButton(onPressed: () {
-            context.push(screen: EditBaseInfo(project: project,));
-          }, icon: const Icon(Icons.edit))],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  context.push(
+                      screen: EditBaseInfo(
+                    project: project,
+                  ));
+                },
+                icon: const Icon(Icons.edit))
+          ],
         ),
         body: SafeArea(
             child: SingleChildScrollView(
@@ -137,21 +145,30 @@ class ProjectScreen extends StatelessWidget {
               const ViewProjectTitle(title: "Images"),
               ViewProjectImages(images: project.imagesProject, cubit: cubit),
               const ViewProjectTitle(title: 'Members'),
-              project.membersProject.isEmpty ? const Text('No Members Added')
-              : Column(
-                children: List.generate(project.membersProject.length, (index) {
-                  return ViewProjectMember(
-                      member: project.membersProject[index],
-                      teamLeadId: project.userId,
-                      cubit: cubit);
-                }),
-              ),
+              project.membersProject.isEmpty
+                  ? const Text('No Members Added')
+                  : Column(
+                      children:
+                          List.generate(project.membersProject.length, (index) {
+                        return ViewProjectMember(
+                            member: project.membersProject[index],
+                            teamLeadId: project.userId,
+                            cubit: cubit);
+                      }),
+                    ),
               const ViewProjectTitle(title: 'Rating'),
               ListTile(
-                onTap: () => context.push(screen: ViewRatingProject(project: project,cubit: cubit,)),
+                onTap: () => context.push(
+                    screen: ViewRatingProject(
+                  project: project,
+                  cubit: cubit,
+                )),
                 tileColor: Colors.white,
-                shape: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(5)),
-                leading: const Icon(Icons.stacked_bar_chart_outlined,color: Colors.green),
+                shape: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(5)),
+                leading: const Icon(Icons.stacked_bar_chart_outlined,
+                    color: Colors.green),
                 title: Text(
                   "Rate ${project.projectName}",
                   style: const TextStyle(color: AppConstants.textGrayColor),
@@ -162,14 +179,18 @@ class ProjectScreen extends StatelessWidget {
                 ),
               ),
               const ViewProjectTitle(title: 'Links'),
-              project.linksProject.isEmpty ? const Text("No Links Added") :
-              ViewProjectLinks(links: project.linksProject),
+              project.linksProject.isEmpty
+                  ? const Text("No Links Added")
+                  : ViewProjectLinks(links: project.linksProject),
               const ViewProjectTitle(title: 'Settings'),
+              // DropDowan()
               // settings here
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: DropDowan(), // Custom dropdown menu widget
+              ),
             ],
           ),
-        )
-      )
-    ));
+        ))));
   }
 }
