@@ -155,8 +155,14 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                     InkWell(
                                       onTap: () {
+                                        // Pass bootcampName, projects, and cubit
                                         context.push(
-                                            screen: ViewAllProjectsScreen());
+                                          screen: ViewAllProjectsScreen(
+                                            bootcampName: bootcamp,
+                                            projects: bootcampProjects,
+                                            cubit: cubit, // Pass cubit
+                                          ),
+                                        );
                                       },
                                       child: Row(
                                         children: [
