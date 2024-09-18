@@ -113,7 +113,7 @@ class UserProjectCard extends StatelessWidget {
                             color: Color(0xff93F596)),
                         child: Text(
                           state,
-                          style: TextStyle(fontSize: 10, fontFamily: "Lato"),
+                          style: const TextStyle(fontSize: 10, fontFamily: "Lato"),
                         ),
                       )
                     ],

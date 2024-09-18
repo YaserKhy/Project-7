@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/models/project_model.dart';
+import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/view_project/view_project_title.dart';
 import 'package:project7/widgets/cards/rating_project.dart';
 import 'package:project7/widgets/icons/project_icon.dart';
-import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 
 class ViewRatingProject extends StatelessWidget {
-  late final ProjectModel project;
-  ViewRatingProject({super.key, required this.project});
-  final TextEditingController commentController = TextEditingController();
+  final ProjectModel project;
+  final HomeCubit cubit;
+  const ViewRatingProject({super.key, required this.project, required this.cubit});
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,51 +44,45 @@ class ViewRatingProject extends StatelessWidget {
                                 const SizedBox(
                                   height: 9,
                                 ),
-                                const Row(
+                                Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    SizedBox(
-                                      width: 20,
-                                    ),
                                     //project.projectName,
-                                    Text("Test Project",
-                                        style: TextStyle(
+                                    Text(project.projectName,
+                                        style: const TextStyle(
                                             color: AppConstants.mainPurple,
                                             fontSize: 24,
                                             fontWeight: FontWeight.w700)),
                                   ],
                                 ),
                                 const SizedBox(height: 7),
-                                const Row(
+                                Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     ProjectIcon(
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.lightbulb,
                                           color: Color(0xffff8c2c),
                                           size: 18,
                                         ),
-                                        //project.projectName,
-                                        title: "Flutter",
+                                        title: project.bootcampName,
                                         isVertical: true),
                                     ProjectIcon(
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.code,
                                           color: Color(0xff01e6d5),
                                           size: 18,
                                         ),
-                                        //project.type
-                                        title: "App",
+                                        title: project.type,
                                         isVertical: true),
                                     ProjectIcon(
-                                        icon: Icon(
+                                        icon: const Icon(
                                           Icons.calendar_month_rounded,
                                           color: Color(0xff4f27b3),
                                           size: 18,
                                         ),
-                                        title: "17/09",
-                                        // "${project.endDate.substring(2, 4)}/${project.endDate.substring(5, 7)}",
+                                        title: "${project.endDate.substring(2, 4)}/${project.endDate.substring(5, 7)}",
                                         isVertical: true),
                                   ],
                                 ),
@@ -95,24 +90,7 @@ class ViewRatingProject extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 22),
-                          // const ViewProjectTitle(title: 'Rating'),
-                          const Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 12),
-                              Row(
-                                children: [
-                                  Text("Rating",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontFamily: 'Lato',
-                                          fontWeight: FontWeight.w400,
-                                          color: AppConstants.mainPurple)),
-                                ],
-                              ),
-                              Divider(),
-                            ],
-                          ),
+                          const ViewProjectTitle(title: 'Rating', editable:false),
                           const Text(
                             "Support this group and give them your feedback on scale 1 to 10 how do you rate ",
                             style: TextStyle(
@@ -122,43 +100,15 @@ class ViewRatingProject extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          const Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.lightbulb,
-                                color: AppConstants.orange,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    "Idea",
-                                    style: TextStyle(
-                                        color: AppConstants.mainPurple,
-                                        fontSize: 16),
-                                  ),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.star_border_outlined,
-                                        color: Colors.black,
-                                        size: 15,
-                                      )
-                                    ],
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
+                          RatingField(
+                            cubit: cubit, title: 'Idea', iconToAdd: const Icon(Icons.lightbulb, color: AppConstants.orange,)),
                           const SizedBox(
                             height: 20,
                           ),
-                          const RatingField(
+                          RatingField(
+                            cubit: cubit, 
                             title: "Design",
-                            iconToAdd: Icon(
+                            iconToAdd: const Icon(
                               Icons.color_lens_outlined,
                               color: Color(0xffF565BB),
                             ),
@@ -166,7 +116,8 @@ class ViewRatingProject extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          const RatingField(
+                          RatingField(
+                            cubit: cubit, 
                               title: "Tools",
                               iconToAdd: const Icon(
                                 Icons.keyboard_command_key_sharp,
@@ -175,7 +126,8 @@ class ViewRatingProject extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          const RatingField(
+                          RatingField(
+                            cubit: cubit, 
                               title: "Practices",
                               iconToAdd: const Icon(
                                 Icons.shape_line_outlined,
@@ -184,7 +136,8 @@ class ViewRatingProject extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          const RatingField(
+                          RatingField(
+                            cubit: cubit, 
                               title: "Presentation",
                               iconToAdd: const Icon(
                                 Icons.screenshot_monitor_outlined,
@@ -193,7 +146,9 @@ class ViewRatingProject extends StatelessWidget {
                           const SizedBox(
                             height: 20,
                           ),
-                          const RatingField(
+                          RatingField(
+                            cubit: cubit, 
+                            
                               title: "Investment",
                               iconToAdd: const Icon(
                                 Icons.attach_money_sharp,
@@ -214,10 +169,8 @@ class ViewRatingProject extends StatelessWidget {
                                   width: 353,
                                   height: 115,
                                   child: TextField(
-                                    controller: commentController,
-                                    maxLines:
-                                        null, // Expands vertically as needed
-
+                                    controller: cubit.commentController,
+                                    maxLines: null, // Expands vertically as needed
                                     decoration: InputDecoration(
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
@@ -237,7 +190,7 @@ class ViewRatingProject extends StatelessWidget {
                               ],
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
                           Row(
@@ -247,7 +200,6 @@ class ViewRatingProject extends StatelessWidget {
                                 width: 133,
                                 child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Text("Save"),
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white,
                                         shape: RoundedRectangleBorder(
@@ -256,13 +208,13 @@ class ViewRatingProject extends StatelessWidget {
                                           side: const BorderSide(
                                               color: Colors.green,
                                               width: 2), // Blue border
-                                        ))),
+                                        )),
+                                    child: const Text("Save")),
                               ),
                               SizedBox(
                                 width: 133,
                                 child: ElevatedButton(
                                     onPressed: () {},
-                                    child: Text("Cansel"),
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white,
                                         shape: RoundedRectangleBorder(
@@ -272,7 +224,8 @@ class ViewRatingProject extends StatelessWidget {
                                               color:
                                                   AppConstants.iconsGrayColor,
                                               width: 2), // Blue border
-                                        ))),
+                                        )),
+                                    child: const Text("Cancel")),
                               ),
                             ],
                           )

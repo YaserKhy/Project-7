@@ -19,6 +19,5 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthModel? auth = GetIt.I.get<AuthLayer>().auth;
     return MaterialApp(home: auth==null ? const LoginScreen() : const NavigationScreen());
-    // return const MaterialApp(home: MyProjectsScreen());
   }
 }

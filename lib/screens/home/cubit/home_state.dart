@@ -10,11 +10,6 @@ final class ShowProjectsState extends HomeState {
   ShowProjectsState({required this.projects});
 }
 
-final class ShowBottomSheetState extends HomeState {
-  final double newStars;
-  ShowBottomSheetState({required this.newStars});
-}
-
 final class LoadingState extends HomeState {}
 
 final class ErrorState extends HomeState {

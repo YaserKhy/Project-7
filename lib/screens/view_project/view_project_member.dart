@@ -39,7 +39,7 @@ class ViewProjectMember extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
+                    SizedBox(
                       width: context.getWidth(),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

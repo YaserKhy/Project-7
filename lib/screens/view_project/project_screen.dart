@@ -4,10 +4,10 @@ import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/view_project/view_project_images.dart';
+import 'package:project7/screens/view_project/view_project_links.dart';
 import 'package:project7/screens/view_project/view_project_member.dart';
 import 'package:project7/screens/view_project/view_project_title.dart';
 import 'package:project7/screens/view_project/view_rating_project.dart';
-import 'package:project7/widgets/icons/custom_icons_icons.dart';
 import 'package:project7/widgets/icons/project_icon.dart';
 
 class ProjectScreen extends StatelessWidget {
@@ -145,7 +145,7 @@ class ProjectScreen extends StatelessWidget {
               ),
               const ViewProjectTitle(title: 'Rating'),
               ListTile(
-                onTap: () => context.push(screen: ViewRatingProject(project: project,)),
+                onTap: () => context.push(screen: ViewRatingProject(project: project,cubit: cubit,)),
                 tileColor: Colors.white,
                 shape: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(5)),
                 leading: const Icon(Icons.stacked_bar_chart_outlined,color: Colors.green),
@@ -159,94 +159,8 @@ class ProjectScreen extends StatelessWidget {
                 ),
               ),
               const ViewProjectTitle(title: 'Links'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    height: 40,
-                    width: 113,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(width: 1.5, color: AppConstants.blue),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: const Row(
-                      children: [
-                        Icon(
-                          Icons.video_collection_rounded,
-                          color: AppConstants.iconsGrayColor,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "Video",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: AppConstants.textGrayColor,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 40,
-                    width: 113,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(width: 1.5, color: AppConstants.blue),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    // padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          "assets/images/figma.png",
-                          height: 25,
-                        ),
-                        const Text(
-                          "Figma",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: AppConstants.textGrayColor,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    height: 40,
-                    width: 113,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(width: 1.5, color: AppConstants.blue),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: const Row(
-                      children: [
-                        Icon(
-                          CustomIcons.github,
-                          color: AppConstants.iconsGrayColor,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "GitHup",
-                          style: TextStyle(
-                              fontSize: 16,
-                              color: AppConstants.textGrayColor,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              )
-              // links here
-              ,
+              project.linksProject.isEmpty ? const Text("No Links Added") :
+              ViewProjectLinks(links: project.linksProject),
               const ViewProjectTitle(title: 'Settings'),
               // settings here
             ],

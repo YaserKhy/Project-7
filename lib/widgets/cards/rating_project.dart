@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:project7/constants/app_constants.dart';
+import 'package:project7/screens/home/cubit/home_cubit.dart';
 
 class RatingField extends StatelessWidget {
   final String title;
   final Icon iconToAdd;
+  final HomeCubit cubit;
 
   const RatingField({
-    Key? key,
+    super.key,
     required this.title,
-    required this.iconToAdd,
-  }) : super(key: key);
+    required this.iconToAdd, required this.cubit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,87 +33,13 @@ class RatingField extends StatelessWidget {
                 fontSize: 16,
               ),
             ),
-            const Row(
-              children: [
-                Icon(
-                  Icons.star_border_outlined,
-                  color: Colors.black,
-                  size: 20,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Icon(
-                  Icons.star_border_outlined,
-                  color: Colors.black,
-                  size: 20,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Icon(
-                  Icons.star_border_outlined,
-                  color: Colors.black,
-                  size: 20,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Icon(
-                  Icons.star_border_outlined,
-                  color: Colors.black,
-                  size: 20,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Icon(
-                  Icons.star_border_outlined,
-                  color: Colors.black,
-                  size: 20,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Icon(
-                  Icons.star_border_outlined,
-                  color: Colors.black,
-                  size: 20,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Icon(
-                  Icons.star_border_outlined,
-                  color: Colors.black,
-                  size: 20,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Icon(
-                  Icons.star_border_outlined,
-                  color: Colors.black,
-                  size: 20,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Icon(
-                  Icons.star_border_outlined,
-                  color: Colors.black,
-                  size: 20,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Icon(
-                  Icons.star_border_outlined,
-                  color: Colors.black,
-                  size: 20,
-                )
-              ],
-            )
+            RatingStars(
+              valueLabelVisibility: false,
+              onValueChanged: (value) => cubit.changeStars(value),
+                                    starColor: Colors.yellow,
+                                    starCount: 10,
+                                    value: 2,
+                                  )
           ],
         ),
       ],

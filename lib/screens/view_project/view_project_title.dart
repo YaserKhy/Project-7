@@ -3,8 +3,8 @@ import 'package:project7/constants/app_constants.dart';
 
 class ViewProjectTitle extends StatelessWidget {
   final String title;
-
-  const ViewProjectTitle({super.key, required this.title});
+  final bool editable;
+  const ViewProjectTitle({super.key, required this.title, this.editable=false});
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +20,16 @@ class ViewProjectTitle extends StatelessWidget {
                     fontFamily: 'Lato',
                     fontWeight: FontWeight.w400,
                     color: AppConstants.mainPurple)),
-            SizedBox(
+            const SizedBox(
               width: 5,
             ),
-            InkWell(
+            editable ? InkWell(
                 onTap: () {},
-                child: Icon(
+                child: const Icon(
                   Icons.edit,
                   size: 15,
                   color: AppConstants.iconsGrayColor,
-                ))
+                )) : const SizedBox.shrink()
           ],
         ),
         const Divider(),

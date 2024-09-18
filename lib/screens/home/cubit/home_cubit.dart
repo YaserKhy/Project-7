@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:project7/extensions/screen_size.dart';
+import 'package:project7/layers/auth_layer.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/networking/networking_api.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ class HomeCubit extends Cubit<HomeState> {
   final api = NetworkingApi();
   List<ProjectModel> projects = [];
   TextEditingController searchController = TextEditingController();
+  TextEditingController commentController = TextEditingController();
   double currentStars = 0;
   HomeCubit() : super(HomeInitial());
 
@@ -71,7 +74,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       emit(LoadingState());
       currentStars = newStars;
-      emit(ShowBottomSheetState(newStars: currentStars));
+      // emit(ShowBottomSheetState(newStars: currentStars));
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));
     } catch (error) {

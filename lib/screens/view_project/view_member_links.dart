@@ -12,19 +12,19 @@ class ViewMemberLinks extends StatelessWidget {
     return Row(
       children: List.generate(linksAsMap.length, (index){
         if(linksAsMap.keys.toList()[index]=='github') {
-          return Icon(CustomIcons.github);
+          return const Icon(CustomIcons.github);
         }
         else if(linksAsMap.keys.toList()[index]=='resume') {
-          return Icon(CustomIcons.doc);
+          return const Icon(CustomIcons.doc);
         }
         else if(linksAsMap.keys.toList()[index]=='linkedin') {
-          return Icon(CustomIcons.linkedin_in);
+          return const Icon(CustomIcons.linkedin_in);
         }
         else if(linksAsMap.keys.toList()[index]=='bindlink') {
-          return Icon(Icons.abc);
+          return const Icon(Icons.abc);
         }
         else {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
       }),
     );
