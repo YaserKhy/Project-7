@@ -14,22 +14,24 @@ class ViewProjectTitle extends StatelessWidget {
         const SizedBox(height: 12),
         Row(
           children: [
-            Text(title,
-                style: const TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w400,
-                    color: AppConstants.mainPurple)),
-            const SizedBox(
-              width: 5,
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 18,
+                fontFamily: 'Lato',
+                fontWeight: FontWeight.w400,
+                color: AppConstants.mainPurple
+              )
             ),
+            const SizedBox(width: 5),
             editable ? InkWell(
-                onTap: () {},
-                child: const Icon(
-                  Icons.edit,
-                  size: 15,
-                  color: AppConstants.iconsGrayColor,
-                )) : const SizedBox.shrink()
+              onTap: () {},
+              child: const Icon(
+                Icons.edit,
+                size: 15,
+                color: AppConstants.iconsGrayColor,
+              )
+            ) : const SizedBox.shrink()
           ],
         ),
         const Divider(),

@@ -26,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
     cubit.getProfile(token: GetIt.I.get<AuthLayer>().auth!.token);
 
     return Scaffold(
-      backgroundColor: const Color(0xffF6F4FB),
+      backgroundColor: AppConstants.bgColor,
       body: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           if (state is LoadingState) {

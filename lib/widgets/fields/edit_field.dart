@@ -6,10 +6,18 @@ class EditField extends StatelessWidget {
     super.key,
     required this.controller,
     required this.lebal,
+    this.width,
+    this.maxHeight,
+    this.minHeight,
+    this.maxLines,
   });
 
   final TextEditingController controller;
   final String lebal;
+  final double? width;
+  final double? maxHeight;
+  final double? minHeight;
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +27,13 @@ class EditField extends StatelessWidget {
         Text(
           lebal,
           style: const TextStyle(
-              color: Color(0xff313131), fontSize: 14, fontFamily: "Lato"),
+              color: Color(0xff313131), fontSize: 16, fontFamily: "Lato"),
         ),
         ConstrainedBox(
           constraints: BoxConstraints(
-              maxWidth: context.getWidth(divideBy: 2.3),
-              minHeight: 45,
-              maxHeight: 45),
+              maxWidth: width ?? context.getWidth(),
+              minHeight: maxHeight ?? 45,
+              maxHeight: minHeight ?? 45),
           child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
@@ -39,6 +47,7 @@ class EditField extends StatelessWidget {
                 }
                 return null;
               },
+              maxLines: maxLines,
               decoration: const InputDecoration(
                   filled: true,
                   fillColor: Colors.white,
