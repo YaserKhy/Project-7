@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
+import 'package:project7/screens/home/view_all_projects_screen.dart';
 import 'package:project7/widgets/cards/project_card.dart';
 import 'package:project7/widgets/tuwaiq_app_bar.dart';
 
@@ -38,41 +40,51 @@ class HomeScreen extends StatelessWidget {
                             style: TextStyle(
                               fontFamily: 'Lato',
                               fontSize: 16,
-                              fontWeight: FontWeight.w700
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                  if(state.projects.isNotEmpty) {
-                    return Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: List.generate(
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                if (state.projects.isNotEmpty) {
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: List.generate(
                             cubit.getGroupedProjects(state.projects).length,
-                            (index){
-                              String bootcamp = cubit.getGroupedProjects(state.projects).keys.toList()[index];
-                              List<ProjectModel> bootcampProjects = cubit.getGroupedProjects(state.projects).values.toList()[index];
-                              return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 20),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        bootcamp,
-                                        style: const TextStyle(
-                                          fontFamily: 'Lato',
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700,
-                                        ),
+                            (index) {
+                          String bootcamp = cubit
+                              .getGroupedProjects(state.projects)
+                              .keys
+                              .toList()[index];
+                          List<ProjectModel> bootcampProjects = cubit
+                              .getGroupedProjects(state.projects)
+                              .values
+                              .toList()[index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      bootcamp,
+                                      style: const TextStyle(
+                                        fontFamily: 'Lato',
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
                                       ),
-                                      const Row(
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        context.push(
+                                            screen: const ViewAllProjectsScreen());
+                                      },
+                                      child: const Row(
                                         children: [
                                           Text("view all"),
                                           SizedBox(width: 10),
@@ -82,35 +94,41 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                  const Divider(),
-                                  SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: List.generate(bootcampProjects.length, (index){
-                                        return Row(
-                                          children: [
-                                            ProjectCard(project: bootcampProjects[index], cubit: cubit),
-                                            const SizedBox(width: 20,),
-                                          ],
-                                        );
-                                      }),
                                     ),
-                                  )
-                                ],
-                              ),
-                            );
-                          }),
-                        ),
+                                  ],
+                                ),
+                                const Divider(),
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: List.generate(
+                                        bootcampProjects.length, (index) {
+                                      return Row(
+                                        children: [
+                                          ProjectCard(
+                                              project: bootcampProjects[index],
+                                              cubit: cubit),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                        ],
+                                      );
+                                    }),
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        }),
                       ),
-                    );
-                  }
+                    ),
+                  );
                 }
-                return const Text("data");
-              },
-            ),
+              }
+              return const Text("data");
+            },
+          ),
           const SizedBox(height: 20),
         ],
       ),

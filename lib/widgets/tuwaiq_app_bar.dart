@@ -6,7 +6,6 @@ import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/layers/auth_layer.dart';
 import 'package:project7/models/profile_model.dart';
 import 'package:project7/screens/add_project/add_project_screen.dart';
-import 'package:project7/screens/home/cubit/home_cubit.dart';
 
 class TuwaiqAppBar extends StatelessWidget {
   final dynamic cubit;
