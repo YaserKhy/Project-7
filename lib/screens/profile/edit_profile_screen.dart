@@ -128,15 +128,14 @@ class EditProfileScreen extends StatelessWidget {
                       onPressed: () {
                         {
                           log(imagePath ?? "no image");
-                          log(profile.imageUrl ?? "no image");
-                          log(profile.resumeUrl ?? "no image");
+                          log(cvPath ?? "no image");
                           cubit.editProfile(
                               token: GetIt.I.get<AuthLayer>().auth!.token,
                               firstName: fNameController.text,
                               bindLink: bindlinkController.text,
-                              cvPath: cvPath ?? profile.resumeUrl,
+                              cvPath: cvPath,
                               github: gitHubController.text,
-                              imagePath: imagePath ?? profile.imageUrl,
+                              imagePath: imagePath,
                               lastName: lNameController.text,
                               linkedIn: linkedinController.text);
 

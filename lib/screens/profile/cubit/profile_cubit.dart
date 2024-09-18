@@ -53,13 +53,13 @@ class ProfileCubit extends Cubit<ProfileState> {
     required String token,
     required String firstName,
     required String lastName,
-    required String ?imagePath,
+    required String? imagePath,
     required String? cvPath,
     required String bindLink,
     required String github,
     required String linkedIn,
   }) async {
-
+    emit(LoadingState());
     await api.editProfile(
         token: token,
         firstName: firstName,
@@ -69,5 +69,6 @@ class ProfileCubit extends Cubit<ProfileState> {
         imagePath: imagePath,
         lastName: lastName,
         linkedin: linkedIn);
+    getProfile(token: token);
   }
 }

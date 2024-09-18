@@ -46,22 +46,37 @@ mixin ProfileApi on ConstantAPi {
       cv = await File(cvPath!).readAsBytes();
       validCv = true;
     } catch (_) {}
-    final response = await dio.put(
-      baseURl + editProfileEndPoint,
-      options: Options(headers: {'Authorization': 'Bearer $token'}),
-      data: jsonEncode({
+    try {
+      // log(image.toString());
+      // log(cv.toString());
+      // log(imagePath.toString());
+      // log(cvPath.toString());
+      final datax = {
         "first_name": firstName,
         "last_name": lastName,
-        "image": validImage ? image!.toList(growable: false): null,
-        "cv": validImage ?  cv!.toList(growable: false): null,
+        "image":image?.toList(growable: false),
+        "cv": cv?.toList(growable: false),
         "accounts": {
           "bindlink": bindlink,
           "linkedin": linkedin,
           "github": github
         }
-      }),
-    );
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.data}');
+      };
+      datax.removeWhere((k, v) => v == null);
+      print(datax);
+      final response = await dio.put(
+        baseURl + editProfileEndPoint,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+        data: datax,
+      );
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.data}');
+    } on DioException catch (e) {
+      print("-----");
+      print(e.response?.data.toString());
+      print("-----");
+    } catch (e) {
+      log(e.toString());
+    }
   }
 }
