@@ -2,18 +2,16 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
+import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/extensions/screen_navigation.dart';
-import 'package:project7/extensions/screen_size.dart';
-import 'package:project7/layers/auth_layer.dart';
+import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/models/profile_model.dart';
-import 'package:project7/screens/profile/cubit/profile_cubit.dart';
 import 'package:project7/widgets/buttons/profile_button.dart';
-import 'package:project7/widgets/dialogs/save_dialog.dart';
 import 'package:project7/widgets/fields/edit_field.dart';
 import 'package:project7/widgets/fields/edit_link_field.dart';
-
 import 'package:image_picker/image_picker.dart';
 import 'package:project7/widgets/icons/custom_icons_icons.dart';
 
@@ -21,14 +19,12 @@ class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({
     super.key,
     required this.profile,
-    required this.cubit,
   });
   final ProfileModel profile;
-  final ProfileCubit cubit;
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
-
+    final shared = context.read<SharedCubit>();
     TextEditingController fNameController =
         TextEditingController(text: profile.firstName);
     TextEditingController lNameController =
@@ -44,8 +40,8 @@ class EditProfileScreen extends StatelessWidget {
 
     File? image;
     File? cv;
-    String? imagePath = image?.path ?? profile.imageUrl;
-    String? cvPath = cv?.path ?? profile.resumeUrl;
+    String? imagePath = profile.imageUrl;
+    String? cvPath = profile.resumeUrl;
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -66,7 +62,7 @@ class EditProfileScreen extends StatelessWidget {
                   width: 92,
                   child: CircleAvatar(
                       backgroundColor: Colors.transparent,
-                      backgroundImage: cubit
+                      backgroundImage: shared
                           .handleProfilePage(
                               logoUrl: profile.imageUrl, context: context)
                           .image),),
@@ -123,9 +119,8 @@ class EditProfileScreen extends StatelessWidget {
                       title: "Save",
                       onPressed: () {
                         {
-                          log(imagePath ?? "no image");
-                          log(cvPath ?? "no cv");
-                          cubit.editProfile(
+                          log("im image");
+                          shared.editProfile(
                               token: GetIt.I.get<AuthLayer>().auth!.token,
                               firstName: fNameController.text,
                               bindLink: bindlinkController.text,
@@ -134,6 +129,7 @@ class EditProfileScreen extends StatelessWidget {
                               imagePath: imagePath,
                               lastName: lNameController.text,
                               linkedIn: linkedinController.text);
+                          // shared.updateAppBar(user: GetIt.I.get<AuthLayer>().currentUser!);
                           context.pop();
                         }
                       },

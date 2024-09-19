@@ -61,35 +61,16 @@ class ViewRatingProject extends StatelessWidget {
                       const SizedBox(height: 7),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          ProjectIcon(
-                            icon: const Icon(
-                              Icons.lightbulb,
-                              color: Color(0xffff8c2c),
-                              size: 18,
-                            ),
-                            title: project.bootcampName,
-                            isVertical: true
-                          ),
-                          ProjectIcon(
-                            icon: const Icon(
-                              Icons.code,
-                              color: Color(0xff01e6d5),
-                              size: 18,
-                            ),
-                            title: project.type,
-                            isVertical: true
-                          ),
-                          ProjectIcon(
-                            icon: const Icon(
-                              Icons.calendar_month_rounded,
-                              color: Color(0xff4f27b3),
-                              size: 18,
-                            ),
-                            title: "${project.endDate.substring(2, 4)}/${project.endDate.substring(5, 7)}",
-                            isVertical: true
-                          ),
-                        ],
+                        children: List.generate(3, (index){
+                          List titles = [project.bootcampName, project.type, "${project.endDate.substring(2, 4)}/${project.endDate.substring(5, 7)}"];
+                          List colors = [0xffff8c2c, 0xff01e6d5, 0xff4f27b3];
+                          List icons = [Icons.lightbulb, Icons.code, Icons.calendar_month_rounded];
+                          return ProjectIcon(
+                            title: titles[index],
+                            isVertical: true,
+                            icon: Icon(icons[index], color:Color(colors[index]),size: 18)
+                          );
+                        })
                       ),
                     ],
                   ),
@@ -104,10 +85,10 @@ class ViewRatingProject extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                RatingField(cubit: cubit, title: 'Idea', iconToAdd: const Icon(Icons.lightbulb, color: AppConstants.orange,)),
+                RatingField(title: 'Idea', iconToAdd: const Icon(Icons.lightbulb, color: AppConstants.orange,)),
                 const SizedBox(height: 20),
                 RatingField(
-                  cubit: cubit, 
+                  
                   title: "Design",
                   iconToAdd: const Icon(
                     Icons.color_lens_outlined,
@@ -116,7 +97,7 @@ class ViewRatingProject extends StatelessWidget {
                 ),
                 const SizedBox(height: 20,),
                 RatingField(
-                  cubit: cubit, 
+                  
                   title: "Tools",
                   iconToAdd: const Icon(
                       Icons.keyboard_command_key_sharp,
@@ -125,7 +106,7 @@ class ViewRatingProject extends StatelessWidget {
                 ),
                 const SizedBox(height: 20,),
                 RatingField(
-                  cubit: cubit, 
+                  
                   title: "Practices",
                   iconToAdd: const Icon(
                     Icons.shape_line_outlined,
@@ -134,7 +115,7 @@ class ViewRatingProject extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 RatingField(
-                  cubit: cubit, 
+                  
                   title: "Presentation",
                   iconToAdd: const Icon(
                     Icons.screenshot_monitor_outlined,
@@ -143,7 +124,7 @@ class ViewRatingProject extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 RatingField(
-                  cubit: cubit, 
+                  
                   title: "Investment",
                   iconToAdd: const Icon(
                     Icons.attach_money_sharp,

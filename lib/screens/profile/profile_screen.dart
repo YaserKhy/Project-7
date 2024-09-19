@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
+import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
-import 'package:project7/layers/auth_layer.dart';
+import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/screens/login/login_screen.dart';
-
-import 'package:project7/screens/profile/cubit/profile_cubit.dart';
 import 'package:project7/screens/profile/edit_profile_screen.dart';
 import 'package:project7/widgets/buttons/profile_button.dart';
 import 'package:project7/widgets/cards/account_card.dart';
@@ -21,13 +20,9 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<ProfileCubit>();
-
-    cubit.getProfile(token: GetIt.I.get<AuthLayer>().auth!.token);
-
     return Scaffold(
       backgroundColor: AppConstants.bgColor,
-      body: BlocBuilder<ProfileCubit, ProfileState>(
+      body: BlocBuilder<SharedCubit, SharedState>(
         builder: (context, state) {
           if (state is LoadingState) {
             return const Center(child: CircularProgressIndicator());
@@ -53,7 +48,7 @@ class ProfileScreen extends StatelessWidget {
                           onPressed: () {
                             context.push(
                                 screen: EditProfileScreen(
-                                    profile: state.profile, cubit: cubit));
+                                    profile: state.profile!));
                           },
                           icon: const Icon(CustomIcons.edit,
                               color: AppConstants.mainPurple)),
@@ -61,12 +56,10 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   ProfileCard(
-                    cubit: cubit,
-                    profile: state.profile,
+                    profile: state.profile!,
                     onEdit: () => context.push(
                         screen: EditProfileScreen(
-                      profile: state.profile,
-                      cubit: cubit,
+                      profile: state.profile!,
                     )),
                   ),
                   const SizedBox(height: 60),
@@ -92,7 +85,7 @@ class ProfileScreen extends StatelessWidget {
                           title: "Logout",
                           onPressed: () async {
                             log('user was ${GetIt.I.get<AuthLayer>().auth?.token.substring(1, 10)}');
-                            await cubit.logOut();
+                            await GetIt.I.get<AuthLayer>().logOut();
                             log('user is ${GetIt.I.get<AuthLayer>().auth?.token}');
                             context.pushRemove(screen: const LoginScreen());
                           },

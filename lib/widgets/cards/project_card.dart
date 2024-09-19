@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project7/constants/app_constants.dart';
+import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
@@ -14,6 +16,7 @@ class ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final shared = context.read<SharedCubit>();
     return InkWell(
       onTap: ()=> context.push(screen: ProjectScreen(project: project, cubit: cubit,)),
       child: Container(
@@ -31,7 +34,7 @@ class ProjectCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: cubit.handleLogo(logoUrl: project.logoUrl, context: context, height: 66.0)
+              child: shared.handleLogo(logoUrl: project.logoUrl, context: context, height: 66.0)
             ),
             const SizedBox(height: 5),
             Text(

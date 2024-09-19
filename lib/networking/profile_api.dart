@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:dio/dio.dart';
 import 'package:project7/models/profile_model.dart';
 import 'package:project7/networking/const_api.dart';
@@ -63,18 +61,18 @@ mixin ProfileApi on ConstantAPi {
         }
       };
       datax.removeWhere((k, v) => v == null);
-      print(datax);
+      log(datax.toString());
       final response = await dio.put(
         baseURl + editProfileEndPoint,
         options: Options(headers: {'Authorization': 'Bearer $token'}),
         data: datax,
       );
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.data}');
+      log('Response status: ${response.statusCode}');
+      log('Response body: ${response.data}');
     } on DioException catch (e) {
-      print("-----");
+      log("-----");
       print(e.response?.data.toString());
-      print("-----");
+      log("-----");
     } catch (e) {
       log(e.toString());
     }

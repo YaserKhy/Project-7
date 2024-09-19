@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
+import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
-import 'package:project7/layers/auth_layer.dart';
-import 'package:project7/models/profile_model.dart';
+import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/screens/add_project/add_project_screen.dart';
+import 'package:project7/widgets/cards/home_profile_card.dart';
 
 class TuwaiqAppBar extends StatelessWidget {
   final dynamic cubit;
@@ -14,11 +18,11 @@ class TuwaiqAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProfileModel user = GetIt.I.get<AuthLayer>().currentUser!;
+    final shared = context.read<SharedCubit>()..getProfile(GetIt.I.get<AuthLayer>().auth?.refreshToken);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       width: context.getWidth(),
-      height: page=='home' ? 190 : 160,
+      height: page == 'home' ? 190 : 160,
       decoration: const BoxDecoration(
         color: AppConstants.mainPurple,
         borderRadius: BorderRadius.only(
@@ -29,37 +33,16 @@ class TuwaiqAppBar extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 38),
-          page == 'home' ? ListTile(
-            leading: Container(
-              width: 50,
-              height: 50,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle
-              ),
-              child: ClipOval(
-                child: cubit.handleLogo(
-                  logoUrl: user.imageUrl,
-                  context: context
-                )
-              )
-            ),
-            title: const Text("Welcome"),
-            titleTextStyle: const TextStyle(
-              inherit: false,
-              fontFamily: "Lato",
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-              color: Color(0xffdadada)
-            ),
-            subtitle: Text('${user.firstName} ${user.lastName}  👋'),
-            subtitleTextStyle: const TextStyle(
-              inherit: false,
-              fontWeight: FontWeight.w700,
-              fontSize: 18,
-              fontFamily: "Lato",
-              color: Colors.white
-            ),
+          page == 'home' ? BlocBuilder<SharedCubit, SharedState>(
+            builder: (context, state) {
+              if(state is ShowProfileState) {
+                return HomeProfileCard(profile: state.profile);
+              }
+              if(state is LoadingState) {
+                return const HomeProfileCard();
+              }
+              return const SizedBox(height: 50,);
+            },
           )
           : Padding(
             padding: const EdgeInsets.only(left: 20, right: 15),
@@ -77,10 +60,18 @@ class TuwaiqAppBar extends StatelessWidget {
                         fontFamily: "Lato"
                       ),
                     ),
-                    Text(user.role, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w300, color: Colors.white54),)
+                    Text(
+                      GetIt.I.get<AuthLayer>().currentUser!.role,
+                      style: const TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.white
+                      ),
+                    )
                   ],
                 ),
-                user.role =='user' ? const SizedBox.shrink() : IconButton(
+                GetIt.I.get<AuthLayer>().currentUser!.role == 'user' ? const SizedBox.shrink()
+                : IconButton(
                   onPressed: () => context.push(screen: const AddProjectScreen()),
                   icon: const Icon(
                     Icons.add_box,
@@ -99,8 +90,8 @@ class TuwaiqAppBar extends StatelessWidget {
                 width: context.getWidth(divideBy: 1.2),
                 height: 30,
                 child: TextFormField(
-                  controller: page=='home' ? cubit.searchController : cubit.mySearchController,
-                  onChanged: (value) => cubit.handleMySearch(value),
+                  controller: page == 'home' ? cubit.searchController : cubit.mySearchController,
+                  onChanged: (value) => page == 'home' ? cubit.handleSearch(value) : cubit.handleMySearch(value),
                   cursorHeight: 17,
                   style: const TextStyle(fontSize: 13),
                   decoration: InputDecoration(
@@ -110,10 +101,7 @@ class TuwaiqAppBar extends StatelessWidget {
                     hintStyle: const TextStyle(color: Colors.black45, fontSize: 13),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                     border: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: AppConstants.mainPurple,
-                        width: 1.5
-                      ),
+                      borderSide: BorderSide(color: AppConstants.mainPurple, width: 1.5),
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                     ),
                   ),

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project7/constants/app_constants.dart';
-
+import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/models/profile_model.dart';
-import 'package:project7/screens/profile/cubit/profile_cubit.dart';
 
 class ProfileCard extends StatelessWidget {
-  final ProfileCubit cubit;
   final ProfileModel profile;
   final Function()? onEdit;
-  const ProfileCard({super.key, required this.cubit, required this.profile, this.onEdit});
+  const ProfileCard({super.key, required this.profile, this.onEdit});
   @override
   Widget build(BuildContext context) {
+    final shared = context.read<SharedCubit>();
     return Center(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,7 +29,7 @@ class ProfileCard extends StatelessWidget {
                       shape: BoxShape.circle,
                       border: Border.all(color: AppConstants.mainPurple),
                       image: DecorationImage(
-                          image: cubit
+                          image: shared
                               .handleProfilePage(
                                   logoUrl: profile.imageUrl, context: context)
                               .image)))),

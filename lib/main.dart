@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:project7/layers/auth_layer.dart';
+import 'package:project7/global_cubit/shared_cubit.dart';
+import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/models/auth_model.dart';
 import 'package:project7/screens/login/login_screen.dart';
 import 'package:project7/screens/navigation/navigation_screen.dart';
@@ -18,6 +20,9 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthModel? auth = GetIt.I.get<AuthLayer>().auth;
-    return MaterialApp(home: auth==null ? const LoginScreen() : const NavigationScreen());
+    return BlocProvider(
+      create: (context) => SharedCubit()..getProfile(auth?.token),
+      child: MaterialApp(home: auth == null ? const LoginScreen() : const NavigationScreen()),
+    );
   }
 }

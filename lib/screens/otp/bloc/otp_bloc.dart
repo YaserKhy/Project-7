@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
-import 'package:project7/layers/auth_layer.dart';
+import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/networking/networking_api.dart';
 
 part 'otp_event.dart';

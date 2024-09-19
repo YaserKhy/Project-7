@@ -1,5 +1,6 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/networking/networking_api.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,15 @@ class HomeCubit extends Cubit<HomeState> {
   List<ProjectModel> projects = [];
   TextEditingController searchController = TextEditingController();
   TextEditingController commentController = TextEditingController();
-  double currentStars = 0;
+  Map<String, dynamic> rating = {
+    "idea":0.0,
+    "design":0.0,
+    "tools":0.0,
+    "practices":0.0,
+    "presentation":0.0,
+    "investment":0.0,
+    "note": ""
+  };
   HomeCubit() : super(HomeInitial());
 
   getAllProjects() async {
@@ -38,25 +47,6 @@ class HomeCubit extends Cubit<HomeState> {
     return groupedProjects;
   }
 
-  Image handleLogo(
-      {required String logoUrl,
-      required BuildContext context,
-      double? heightDivide,
-      double? height,
-      double? widthDivide}) {
-    Image placeholderLogo = Image.asset('assets/images/tuwaiq_logo1.png',
-        width: height!=null ? null : context.getWidth(divideBy: widthDivide ?? 1),
-        height: height ?? context.getHeight(divideBy: heightDivide ?? 10),
-        fit: BoxFit.cover);
-    return logoUrl.contains('assets')
-        ? placeholderLogo
-        : Image.network(logoUrl,
-            width: context.getWidth(divideBy: widthDivide ?? 1),
-            height: context.getHeight(divideBy: heightDivide ?? 10),
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => placeholderLogo);
-  }
-
   handleSearch(String term) {
     emit(LoadingState());
     List<ProjectModel> result = [];
@@ -68,15 +58,21 @@ class HomeCubit extends Cubit<HomeState> {
     emit(ShowProjectsState(projects: result));
   }
 
-  changeStars(double newStars) {
-    try {
-      emit(LoadingState());
-      currentStars = newStars;
-    } on FormatException catch (error) {
-      emit(ErrorState(msg: error.message));
-    } catch (error) {
-      emit(ErrorState(msg: "Erorr with rating system"));
-    }
+  
+
+  showStars() {
+    emit(ShowStarsState());
+  }
+
+  changeStars(String field,double newStars) {
+    log('$field rating is $newStars');
+    rating[field] = newStars;
+    emit(StarChangedState(field: field, newStars:newStars));
+  }
+
+  submitRating() {
+    // rating['note'] = commentController.text;
+    // logic here to submit
   }
 
   Widget getLinkIcon(String type) {

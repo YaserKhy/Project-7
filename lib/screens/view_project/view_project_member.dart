@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
@@ -12,6 +14,7 @@ class ViewProjectMember extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final shared = context.read<SharedCubit>();
     Color borderColor = member.id == teamLeadId ? const Color(0xff57e3d8) : const Color(0xfff4a664);
     return Column(
       children: [
@@ -31,7 +34,7 @@ class ViewProjectMember extends StatelessWidget {
                 height: 50,
                 width: 50,
                 decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: Colors.black45, width: 1)),
-                child: ClipOval(child: cubit.handleLogo(context: context, logoUrl: member.imageUrl, widthDivide: 10))
+                child: ClipOval(child: shared.handleLogo(context: context, logoUrl: member.imageUrl, widthDivide: 10))
               ),
               const SizedBox(width: 10),
               Expanded(
