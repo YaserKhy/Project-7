@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/edit_project/edit_base_info.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
+import 'package:project7/screens/view_project/cubit/drop_down_cubit.dart';
 import 'package:project7/screens/view_project/view_project_images.dart';
 import 'package:project7/screens/view_project/view_project_links.dart';
 import 'package:project7/screens/view_project/view_project_member.dart';
@@ -185,10 +187,10 @@ class ProjectScreen extends StatelessWidget {
               const ViewProjectTitle(title: 'Settings'),
               // DropDowan()
               // settings here
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: DropDowan(), // Custom dropdown menu widget
-              ),
+              BlocProvider(
+                create: (context) => DropdownCubit(),
+                child: DropDowan(),
+              )
             ],
           ),
         ))));
