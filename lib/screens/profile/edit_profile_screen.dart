@@ -1,12 +1,13 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/extensions/screen_navigation.dart';
+import 'package:project7/helpers/file_picker.dart';
+
 import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/models/profile_model.dart';
 import 'package:project7/widgets/buttons/profile_button.dart';
@@ -57,15 +58,13 @@ class EditProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 10),
-                SizedBox(
-                  height: 92,
-                  width: 92,
-                  child: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      backgroundImage: shared
-                          .handleProfilePage(
-                              logoUrl: profile.imageUrl, context: context)
-                          .image),),
+                CircleAvatar(
+                  radius: 50,
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: shared
+                        .handleProfilePage(
+                            logoUrl: profile.imageUrl, context: context)
+                        .image),
               TextButton(
                   onPressed: () async {
                     final selectedImage = await ImagePicker()
@@ -95,31 +94,64 @@ class EditProfileScreen extends StatelessWidget {
               const SizedBox(height: 22),
             
                 const SizedBox(width: 12),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    EditField(
+                      lebal: "First Name",
+                      controller: fNameController,
+                      width: 150,
+                    ),
+                    EditField(
+                      lebal: "Last Name",
+                      controller: lNameController,
+                      width: 150,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 22),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    EditLinkField(
-                        icon: Icons.description_outlined,
-                        hint: "Enter your Resume link",
-                        controller: resumeController),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        EditLinkField(
+                            maxWidth: 180,
+                            icon: Icons.description_outlined,
+                            hint: "Upload your cv link",
+                            controller: resumeController),
+                        TextButton(
+                            onPressed: () async {
+                              cv = await pickerFile();
+                              cvPath = cv!.path;
+                            },
+                            child: const Text(
+                              "Upload cv",
+                              style: TextStyle(color: AppConstants.mainPurple),
+                            )),
+                      ],
+                    ),
                     EditLinkField(
                         icon: CustomIcons.linkedin_in,
-                        hint: "Linked in",
+                        hint: "Enter your Linked in link",
                         controller: linkedinController),
                     EditLinkField(
                         icon: CustomIcons.github,
-                        hint: "GitHub",
+                        hint: "Enter your GitHub username",
                         controller: gitHubController),
                     EditLinkField(
                         icon: Icons.link,
-                        hint: "Bindlink",
+                        hint: "Enter your Bindlink username",
                         controller: bindlinkController),
                     ProfileButton(
                       color: AppConstants.mainPurple,
                       title: "Save",
                       onPressed: () {
                         {
-                          log("im image");
+                          log(imagePath ?? "no image");
+                          log(cvPath ?? "no cv");
+                          log(linkedinController.text);
                           shared.editProfile(
                               token: GetIt.I.get<AuthLayer>().auth!.token,
                               firstName: fNameController.text,
@@ -129,7 +161,6 @@ class EditProfileScreen extends StatelessWidget {
                               imagePath: imagePath,
                               lastName: lNameController.text,
                               linkedIn: linkedinController.text);
-                          // shared.updateAppBar(user: GetIt.I.get<AuthLayer>().currentUser!);
                           context.pop();
                         }
                       },
@@ -146,10 +177,4 @@ class EditProfileScreen extends StatelessWidget {
   }
 }
 
-Future<File> pickerFile() async {
-  FilePickerResult? result = await FilePicker.platform.pickFiles();
 
-  File file = File(result!.files.single.path!);
-
-  return file;
-}

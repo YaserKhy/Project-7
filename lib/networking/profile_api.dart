@@ -49,14 +49,15 @@ mixin ProfileApi on ConstantAPi {
       // log(cv.toString());
       // log(imagePath.toString());
       // log(cvPath.toString());
+      String linkedinUsername = linkedin.split("/").last;
       final datax = {
         "first_name": firstName,
         "last_name": lastName,
-        "image":image?.toList(growable: false),
+        "image": image?.toList(growable: false),
         "cv": cv?.toList(growable: false),
         "accounts": {
           "bindlink": bindlink,
-          "linkedin": linkedin,
+          "linkedin": linkedinUsername,
           "github": github
         }
       };
