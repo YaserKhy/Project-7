@@ -85,48 +85,43 @@ class ViewRatingProject extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                RatingField(title: 'Idea', iconToAdd: const Icon(Icons.lightbulb, color: AppConstants.orange,)),
+                const RatingField(title: 'Idea', iconToAdd: Icon(Icons.lightbulb, color: AppConstants.orange,)),
                 const SizedBox(height: 20),
-                RatingField(
-                  
+                const RatingField(
                   title: "Design",
-                  iconToAdd: const Icon(
+                  iconToAdd: Icon(
                     Icons.color_lens_outlined,
                     color: Color(0xffF565BB),
                   ),
                 ),
                 const SizedBox(height: 20,),
-                RatingField(
-                  
+                const RatingField(
                   title: "Tools",
-                  iconToAdd: const Icon(
+                  iconToAdd: Icon(
                       Icons.keyboard_command_key_sharp,
                       color: AppConstants.brownIcon,
                   )
                 ),
                 const SizedBox(height: 20,),
-                RatingField(
-                  
+                const RatingField(
                   title: "Practices",
-                  iconToAdd: const Icon(
+                  iconToAdd: Icon(
                     Icons.shape_line_outlined,
                     color: AppConstants.blue,
                   )
                 ),
                 const SizedBox(height: 20),
-                RatingField(
-                  
+                const RatingField(                  
                   title: "Presentation",
-                  iconToAdd: const Icon(
+                  iconToAdd: Icon(
                     Icons.screenshot_monitor_outlined,
                     color: Color(0xffff8c2c),
                   )
                 ),
                 const SizedBox(height: 20),
-                RatingField(
-                  
+                const RatingField(
                   title: "Investment",
-                  iconToAdd: const Icon(
+                  iconToAdd: Icon(
                     Icons.attach_money_sharp,
                     color: Colors.green,
                     )

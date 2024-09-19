@@ -10,6 +10,7 @@ class AuthLayer {
   final box = GetStorage();
 
   AuthLayer() {
+    // box.erase();
     loadDataAuth();
   }
 

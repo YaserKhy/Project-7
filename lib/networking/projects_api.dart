@@ -72,12 +72,12 @@ mixin ProjectsApi on ConstantAPi {
         }),
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.data}');
+      log('Response status: ${response.statusCode}');
+      log('Response body: ${response.data}');
     } on DioException catch (e) {
-      print("-----");
+      log("-----");
       print(e.response?.data.toString());
-      print("-----");
+      log("-----");
     } catch (e) {
       log(e.toString());
     }

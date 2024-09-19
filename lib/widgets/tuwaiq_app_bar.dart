@@ -16,7 +16,6 @@ class TuwaiqAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final shared = context.read<SharedCubit>()..getProfile(GetIt.I.get<AuthLayer>().auth?.refreshToken);
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       width: context.getWidth(),
