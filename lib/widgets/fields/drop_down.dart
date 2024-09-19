@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project7/extensions/screen_size.dart';
 
 class DropDown extends StatelessWidget {
-  const DropDown({super.key});
+  TextEditingController controller = TextEditingController();
+  DropDown({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +16,7 @@ class DropDown extends StatelessWidget {
               color: Color(0xff313131), fontSize: 16, fontFamily: "Lato"),
         ),
         DropdownMenu(
+          controller: controller,
             inputDecorationTheme: const InputDecorationTheme(
                 enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Color(0xffD9D9D9))),

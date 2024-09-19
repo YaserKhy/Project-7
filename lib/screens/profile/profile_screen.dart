@@ -7,11 +7,10 @@ import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/data_layers/auth_layer.dart';
-import 'package:project7/screens/login/login_screen.dart';
+import 'package:project7/screens/home/login/login_screen.dart';
 import 'package:project7/screens/profile/edit_profile_screen.dart';
 import 'package:project7/widgets/buttons/profile_button.dart';
 import 'package:project7/widgets/cards/account_card.dart';
-
 import 'package:project7/widgets/cards/profile_card.dart';
 import 'package:project7/widgets/icons/custom_icons_icons.dart';
 

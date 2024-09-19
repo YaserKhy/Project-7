@@ -4,6 +4,7 @@ import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/models/project_model.dart';
+import 'package:project7/screens/edit_project/edit_base_info.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/view_project/view_project_images.dart';
 import 'package:project7/screens/view_project/view_project_links.dart';
@@ -18,9 +19,15 @@ class ProjectScreen extends StatelessWidget {
   const ProjectScreen({super.key, required this.project, required this.cubit});
   @override
   Widget build(BuildContext context) {
+    final shared = context.read<SharedCubit>();
     return Scaffold(
       backgroundColor: AppConstants.bgColor,
-      appBar: AppBar(backgroundColor: AppConstants.bgColor),
+      appBar: AppBar(
+        backgroundColor: AppConstants.bgColor,
+        actions: shared.canEdit(project: project) ? [IconButton(onPressed: () {
+            context.push(screen: EditBaseInfo(project: project,));
+          }, icon: const Icon(Icons.edit))] : null
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
