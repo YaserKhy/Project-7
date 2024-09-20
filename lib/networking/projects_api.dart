@@ -74,6 +74,7 @@ mixin ProjectsApi on ConstantAPi {
       );
       log('Response status: ${response.statusCode}');
       log('Response body: ${response.data}');
+      
     } on DioException catch (e) {
       log("-----");
       print(e.response?.data.toString());

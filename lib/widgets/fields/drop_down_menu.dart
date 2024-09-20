@@ -9,10 +9,7 @@ class DropDowan extends StatelessWidget {
   // Method to get different icons based on the selected value
   Icon _getIconForValue(String value) {
     switch (value) {
-      case 'State':
-        return const Icon(Icons.error_outline,
-            color: AppConstants.iconsGrayColor); // Custom icon
-      case 'Privata':
+      case 'Private':
         return const Icon(Icons.lock_outline_rounded,
             color: AppConstants.red); // Custom icon
       case 'Public':
@@ -66,8 +63,7 @@ class DropDowan extends StatelessWidget {
                 ),
               ),
               items: [
-                'State',
-                'Privata',
+                'Private',
                 'Public',
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(

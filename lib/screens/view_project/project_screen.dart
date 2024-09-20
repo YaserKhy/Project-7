@@ -7,19 +7,19 @@ import 'package:project7/helpers/url_launcher.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/edit_project/edit_base_info.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
-import 'package:project7/screens/my_projects/cubit/my_projects_cubit.dart';
+import 'package:project7/screens/view_project/cubit/drop_down_cubit.dart';
 import 'package:project7/screens/view_project/view_project_images.dart';
 import 'package:project7/screens/view_project/view_project_links.dart';
 import 'package:project7/screens/view_project/view_project_member.dart';
 import 'package:project7/screens/view_project/view_project_title.dart';
 import 'package:project7/screens/view_project/view_rating_project.dart';
+import 'package:project7/widgets/fields/drop_down_menu.dart';
 import 'package:project7/widgets/icons/project_icon.dart';
 
 class ProjectScreen extends StatelessWidget {
   final HomeCubit cubit;
-  final MyProjectsCubit? my;
   final ProjectModel project;
-  const ProjectScreen({super.key, required this.project, required this.cubit, this.my});
+  const ProjectScreen({super.key, required this.project, required this.cubit});
   @override
   Widget build(BuildContext context) {
     final shared = context.read<SharedCubit>();
@@ -141,11 +141,16 @@ class ProjectScreen extends StatelessWidget {
                   title: Text("Rate ${project.projectName}",style: const TextStyle(color: AppConstants.textGrayColor),),
                   trailing: const Icon(Icons.arrow_forward_ios_outlined,color: AppConstants.iconsGrayColor),
                 ),
-                ViewProjectTitle(project: project,title: 'Links', editable: shared.canEdit(project: project)),
-                project.linksProject.isEmpty ? const Text("No Links Added") :
-                ViewProjectLinks(links: project.linksProject),
-                ViewProjectTitle(project: project,title: 'Settings'),
-                // settings here
+                ViewProjectTitle(title: 'Links', project: project),
+                project.linksProject.isEmpty ? const Text("No Links Added")
+                : ViewProjectLinks(links: project.linksProject),
+                shared.isUser() ? const SizedBox.shrink()
+                : ViewProjectTitle(title: 'State', project: project,),
+                shared.isUser() ? const SizedBox.shrink()
+                : BlocProvider(
+                  create: (context) => DropdownCubit(),
+                  child: const DropDowan(),
+                )
               ],
             ),
           )

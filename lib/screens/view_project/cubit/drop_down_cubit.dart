@@ -5,7 +5,7 @@ part 'drop_down_state.dart';
 
 
 class DropdownCubit extends Cubit<String> {
-  DropdownCubit() : super("State"); // Initial state is "State"
+  DropdownCubit() : super("Private"); // Initial state is "Private"
 
   void selectItem(String item) {
     emit(item);

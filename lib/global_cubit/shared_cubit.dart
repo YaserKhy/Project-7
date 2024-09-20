@@ -19,6 +19,10 @@ class SharedCubit extends Cubit<SharedState> {
   //   // getAllProjects
   // }
 
+  updateProfile() {
+    emit(ShowProfileState(profile: GetIt.I.get<AuthLayer>().currentUser));
+  }
+
   bool isUser () {
     return GetIt.I.get<AuthLayer>().currentUser!.role == 'user';
   }
@@ -63,7 +67,7 @@ class SharedCubit extends Cubit<SharedState> {
         imagePath: imagePath,
         lastName: lastName,
         linkedin: linkedIn);
-    getProfile(token);
+    await getProfile(token);
   }
 
   handleProfilePage({required String? logoUrl, required BuildContext context}) {
@@ -87,7 +91,7 @@ class SharedCubit extends Cubit<SharedState> {
       double? height,
       double? widthDivide}) {
     Image placeholderLogo = Image.asset('assets/images/tuwaiq_logo1.png',
-        width: height!=null ? null : context.getWidth(divideBy: widthDivide ?? 1),
+        width: height!=null ? null : context.getWidth(divideBy: widthDivide ?? 2),
         height: height ?? context.getHeight(divideBy: heightDivide ?? 10),
         fit: BoxFit.cover);
     return logoUrl.contains('assets')

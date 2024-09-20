@@ -5,7 +5,7 @@ class EditField extends StatelessWidget {
   const EditField({
     super.key,
     required this.controller,
-    required this.lebal,
+    required this.label,
     this.width,
     this.maxHeight,
     this.minHeight,
@@ -13,7 +13,7 @@ class EditField extends StatelessWidget {
   });
 
   final TextEditingController controller;
-  final String lebal;
+  final String label;
   final double? width;
   final double? maxHeight;
   final double? minHeight;
@@ -25,7 +25,7 @@ class EditField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          lebal,
+          label,
           style: const TextStyle(
               color: Color(0xff313131), fontSize: 16, fontFamily: "Lato"),
         ),

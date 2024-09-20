@@ -19,6 +19,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final shared = context.read<SharedCubit>();
     return Scaffold(
       backgroundColor: AppConstants.bgColor,
       body: BlocBuilder<SharedCubit, SharedState>(
@@ -46,8 +47,13 @@ class ProfileScreen extends StatelessWidget {
                       child: IconButton(
                           onPressed: () {
                             context.push(
-                                screen: EditProfileScreen(
-                                    profile: state.profile!));
+                              screen: EditProfileScreen(profile: state.profile!),
+                              updateInfo: (p0) {
+                                if(p0==true) {
+                                  shared.updateProfile();
+                                }
+                              }
+                            );
                           },
                           icon: const Icon(CustomIcons.edit,
                               color: AppConstants.mainPurple)),

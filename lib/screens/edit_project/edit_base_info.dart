@@ -6,9 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/data_layers/auth_layer.dart';
-import 'package:project7/models/profile_model.dart';
 import 'package:project7/models/project_model.dart';
-import 'package:project7/networking/networking_api.dart';
 import 'package:project7/screens/edit_project/bloc/edit_project_bloc.dart';
 import 'package:project7/widgets/buttons/edit_button.dart';
 import 'package:project7/widgets/dialogs/warning_dialog.dart';
@@ -23,20 +21,13 @@ class EditBaseInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController();
-    TextEditingController bootcampController = TextEditingController();
-    TextEditingController typeController = TextEditingController();
-    TextEditingController descriptionController = TextEditingController();
-    TextEditingController startDateController = TextEditingController();
-    TextEditingController endDateController = TextEditingController();
-    TextEditingController presentationDateController = TextEditingController();
-    nameController.text = project.projectName;
-    bootcampController.text = project.bootcampName;
-    typeController.text = project.type;
-    descriptionController.text = project.projectDescription;
-    startDateController.text = project.startDate ?? "15/12/2024";
-    endDateController.text = project.endDate;
-    presentationDateController.text = project.presentationDate ?? "15/12/2024";
+    TextEditingController nameController = TextEditingController(text: project.projectName);
+    TextEditingController bootcampController = TextEditingController(text: project.bootcampName);
+    TextEditingController typeController = TextEditingController(text: project.type);
+    TextEditingController descriptionController = TextEditingController(text: project.projectDescription);
+    TextEditingController startDateController = TextEditingController(text: project.startDate ?? "15/12/2024");
+    TextEditingController endDateController = TextEditingController(text: project.endDate);
+    TextEditingController presentationDateController = TextEditingController(text: project.presentationDate ?? "15/12/2024");
     return BlocProvider(
       create: (context) => EditProjectBloc(),
       child: Builder(builder: (context) {
@@ -84,13 +75,13 @@ class EditBaseInfo extends StatelessWidget {
                     children: [
                       const Divider(),
                       const SizedBox(height: 10),
-                      EditField(lebal: "Project name",controller: nameController,),
-                      EditField(lebal: "Bootcamp",controller: bootcampController,),
+                      EditField(label: "Project name",controller: nameController),
+                      EditField(label: "Bootcamp",controller: bootcampController),
                       DropDown(controller: typeController),
                       const SizedBox(height: 10),
                       EditField(
                         controller: descriptionController,
-                        lebal: "project Description",
+                        label: "project Description",
                         minHeight: 300,
                         maxLines: 4,
                       ),
@@ -153,7 +144,6 @@ class EditBaseInfo extends StatelessWidget {
                         },
                         onSave: () async {
                           log(nameController.text);
-                          log('before ADD : ${GetIt.I.get<AuthLayer>().currentUser!.projects.map((p)=>p.projectName).toList().toString()}');
                           bloc.add(ModifyProjectEvent(
                             token: GetIt.I.get<AuthLayer>().auth!.token,
                             id: project.projectId,
@@ -165,10 +155,6 @@ class EditBaseInfo extends StatelessWidget {
                             endDate: endDateController.text,
                             presentationDate: presentationDateController.text
                           ));
-                          log('AFTER ADD : ${GetIt.I.get<AuthLayer>().currentUser!.projects.map((p)=>p.projectName).toList().toString()}');
-                          final api = NetworkingApi();
-                          ProfileModel temp = await api.getProfile(token: GetIt.I.get<AuthLayer>().auth!.token);
-                          log('AFTER ADD 2 : ${temp.projects.map((p)=>p.projectName).toList().toString()}');
                         },
                       )
                     ],

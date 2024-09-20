@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 extension ScreenNavigation on BuildContext {
-  push({required Widget screen}) {
-    Navigator.push(this, MaterialPageRoute(builder: (context) => screen));
+  push({required Widget screen, Function(bool)? updateInfo}) {
+    Navigator.push(this, MaterialPageRoute(builder: (context) => screen)).then((test){
+      if(updateInfo!=null) {
+        updateInfo(test);
+      }
+    });
   }
 
   pushReplacement({required Widget screen}) {
@@ -17,5 +21,9 @@ extension ScreenNavigation on BuildContext {
 
   pop() {
     Navigator.pop(this);
+  }
+
+  popAndSave() {
+    Navigator.pop(this,true);
   }
 }

@@ -6,15 +6,13 @@ import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
-import 'package:project7/screens/my_projects/cubit/my_projects_cubit.dart';
 import 'package:project7/screens/view_project/project_screen.dart';
 
 class ProjectCard extends StatelessWidget {
   final HomeCubit cubit;
-  final MyProjectsCubit? my;
   final ProjectModel project;
   final bool isHome;
-  const ProjectCard({super.key, required this.project, required this.cubit, this.isHome=true, this.my});
+  const ProjectCard({super.key, required this.project, required this.cubit, this.isHome=true});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +34,7 @@ class ProjectCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: shared.handleLogo(logoUrl: project.logoUrl, context: context, height: 66.0)
+              child: shared.handleLogo(logoUrl: project.logoUrl, context: context)
             ),
             const SizedBox(height: 5),
             Text(

@@ -70,23 +70,13 @@ class MyProjectsScreen extends StatelessWidget {
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                    const Row(
-                                      children: [
-                                        Text("view all"),
-                                        SizedBox(width: 10),
-                                        Icon(
-                                          Icons.arrow_forward_ios_outlined,
-                                          size: 16,
-                                        ),
-                                      ],
-                                    ),
                                   ],
                                 ),
                                 const Divider(),
                                 SingleChildScrollView(
                                   child: Column(
                                     children: List.generate(bootcampProjects.length, (index){
-                                      return ProjectCard(project: bootcampProjects[index], cubit: homeCubit, my: cubit, isHome:false);
+                                      return ProjectCard(project: bootcampProjects[index], cubit: homeCubit, isHome:false);
                                     }),
                                   ),
                                 )
