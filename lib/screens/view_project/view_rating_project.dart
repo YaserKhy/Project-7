@@ -76,7 +76,7 @@ class ViewRatingProject extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 22),
-                const ViewProjectTitle(title: 'Rating', editable:false),
+                ViewProjectTitle(project: project,title: 'Rating', editable:false),
                 const Text(
                   "Support this group and give them your feedback on scale 1 to 10 how do you rate ",
                   style: TextStyle(

@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/models/project_model.dart';
-
 part 'my_projects_state.dart';
 
 class MyProjectsCubit extends Cubit<MyProjectsState> {
@@ -16,6 +15,7 @@ class MyProjectsCubit extends Cubit<MyProjectsState> {
   getMyProjects() {
     myProjects = GetIt.I.get<AuthLayer>().currentUser!.projects;
     log('My Projects : ${myProjects.length}');
+    log('My Projects : ${myProjects.map((p)=>p.projectName).toList().toString()}');
     emit(ShowMyProjectsState(myProjects: myProjects));
   }
 

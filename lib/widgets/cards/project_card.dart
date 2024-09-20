@@ -6,13 +6,15 @@ import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
+import 'package:project7/screens/my_projects/cubit/my_projects_cubit.dart';
 import 'package:project7/screens/view_project/project_screen.dart';
 
 class ProjectCard extends StatelessWidget {
   final HomeCubit cubit;
+  final MyProjectsCubit? my;
   final ProjectModel project;
   final bool isHome;
-  const ProjectCard({super.key, required this.project, required this.cubit, this.isHome=true});
+  const ProjectCard({super.key, required this.project, required this.cubit, this.isHome=true, this.my});
 
   @override
   Widget build(BuildContext context) {

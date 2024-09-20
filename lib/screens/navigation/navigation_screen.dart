@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
+import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
@@ -20,7 +22,7 @@ class NavigationScreen extends StatelessWidget {
         BlocProvider(create: (context) => PageCubit()),
         BlocProvider(create: (context) => HomeCubit()..getAllProjects()), // Initialize HomeCubit
         BlocProvider(create: (context) => MyProjectsCubit()..getMyProjects()),
-        BlocProvider(create: (context) => SharedCubit()), // Initialize ProfileCubit
+        BlocProvider(create: (context) => SharedCubit()..getProfile(GetIt.I.get<AuthLayer>().auth?.token)), // Initialize ProfileCubit
       ],
       child: Builder(builder: (context) {
         final cubit = context.read<PageCubit>();

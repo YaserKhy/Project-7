@@ -86,7 +86,7 @@ class MyProjectsScreen extends StatelessWidget {
                                 SingleChildScrollView(
                                   child: Column(
                                     children: List.generate(bootcampProjects.length, (index){
-                                      return ProjectCard(project: bootcampProjects[index], cubit: homeCubit, isHome:false);
+                                      return ProjectCard(project: bootcampProjects[index], cubit: homeCubit, my: cubit, isHome:false);
                                     }),
                                   ),
                                 )

@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
+import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/networking/networking_api.dart';
 
 part 'edit_project_event.dart';
@@ -27,6 +29,7 @@ class EditProjectBloc extends Bloc<EditProjectEvent, EditProjectState> {
           presentationDate: event.presentationDate,
           startDate: event.startDate,
           type: event.type);
+      GetIt.I.get<AuthLayer>().currentUser = await api.getProfile(token: event.token);
       emit(SuccessState());
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));

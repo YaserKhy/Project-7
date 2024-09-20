@@ -4,7 +4,7 @@ import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/screens/create_account/create_account_screen.dart';
-import 'package:project7/screens/home/login/bloc/login_bloc.dart';
+import 'package:project7/screens/login/bloc/login_bloc.dart';
 import 'package:project7/screens/otp/otp_verification_screen.dart';
 import 'package:project7/widgets/buttons/auth_button.dart';
 import 'package:project7/widgets/buttons/auth_text_button.dart';

@@ -7,7 +7,6 @@ import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/models/profile_model.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/networking/networking_api.dart';
-
 part 'shared_state.dart';
 
 class SharedCubit extends Cubit<SharedState> {
@@ -20,7 +19,12 @@ class SharedCubit extends Cubit<SharedState> {
   //   // getAllProjects
   // }
 
+  bool isUser () {
+    return GetIt.I.get<AuthLayer>().currentUser!.role == 'user';
+  }
+
   bool canEdit({required ProjectModel project}) {
+    // either admin, supervisor, or team lead
     return GetIt.I.get<AuthLayer>().currentUser!.id == project.adminId || GetIt.I.get<AuthLayer>().currentUser!.id == project.userId;
   }
 
@@ -30,7 +34,6 @@ class SharedCubit extends Cubit<SharedState> {
       emit(LoadingState());
       log("pro1");
       GetIt.I.get<AuthLayer>().currentUser = await api.getProfile(token:token);
-      log("pro2jhgf");
       GetIt.I.get<AuthLayer>().box.write('currentUser', GetIt.I.get<AuthLayer>().currentUser);
       emit(ShowProfileState(profile: GetIt.I.get<AuthLayer>().currentUser));
     } on FormatException catch (error) {
