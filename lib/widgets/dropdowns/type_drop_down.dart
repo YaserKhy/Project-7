@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:project7/extensions/screen_size.dart';
 
-class DropDown extends StatelessWidget {
-  TextEditingController controller = TextEditingController();
-  DropDown({super.key, required this.controller});
+class TypeDropDown extends StatelessWidget {
+  final TextEditingController controller;
+  const TypeDropDown({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,6 @@ class DropDown extends StatelessWidget {
                     borderSide: BorderSide(color: Color(0xffD9D9D9))),
                 filled: true,
                 fillColor: Colors.white),
-            enableSearch: true,
             width: context.getWidth() / 1.1,
             menuHeight: 200,
             menuStyle: MenuStyle(

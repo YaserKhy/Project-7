@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -9,9 +8,8 @@ import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/edit_project/bloc/edit_project_bloc.dart';
 import 'package:project7/widgets/buttons/edit_button.dart';
-import 'package:project7/widgets/dialogs/warning_dialog.dart';
 import 'package:project7/widgets/fields/date_field.dart';
-import 'package:project7/widgets/fields/drop_down.dart';
+import 'package:project7/widgets/dropdowns/type_drop_down.dart';
 import 'package:project7/widgets/fields/edit_field.dart';
 import 'package:project7/widgets/texts/profile_title.dart';
 
@@ -77,7 +75,7 @@ class EditBaseInfo extends StatelessWidget {
                       const SizedBox(height: 10),
                       EditField(label: "Project name",controller: nameController),
                       EditField(label: "Bootcamp",controller: bootcampController),
-                      DropDown(controller: typeController),
+                      TypeDropDown(controller: typeController),
                       const SizedBox(height: 10),
                       EditField(
                         controller: descriptionController,
@@ -138,13 +136,9 @@ class EditBaseInfo extends StatelessWidget {
                         },
                       ),
                       EditButton(
-                        onCancel: () {
-                          warningDialog(context: context);
-                          context.pop();
-                        },
+                        onCancel: () => context.pop(),
                         onSave: () async {
-                          log(nameController.text);
-                          bloc.add(ModifyProjectEvent(
+                          bloc.add(EditBaseInfoEvent(
                             token: GetIt.I.get<AuthLayer>().auth!.token,
                             id: project.projectId,
                             name: nameController.text,
@@ -169,7 +163,6 @@ class EditBaseInfo extends StatelessWidget {
   }
 }
 
-//app, website, vr, ar, ai, ml, ui/ux, gaming, unity, cyber, software, automation, robotic, api, analytics, iot, cloud
 Future<void> selectDate(BuildContext context) async {
   final DateTime? picked = await showDatePicker(
     context: context,

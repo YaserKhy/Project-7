@@ -10,10 +10,10 @@ part 'edit_project_state.dart';
 class EditProjectBloc extends Bloc<EditProjectEvent, EditProjectState> {
   final api = NetworkingApi();
   EditProjectBloc() : super(EditProjectInitial()) {
-    on<ModifyProjectEvent>(modifyProject);
+    on<EditBaseInfoEvent>(editBaseInfo);
   }
 
-  Future<void> modifyProject(ModifyProjectEvent event, Emitter<EditProjectState> emit) async {
+  Future<void> editBaseInfo(EditBaseInfoEvent event, Emitter<EditProjectState> emit) async {
     try {
       emit(LoadingState());
       await api.editProjectBaseInfo(

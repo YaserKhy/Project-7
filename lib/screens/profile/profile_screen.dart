@@ -49,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
                             context.push(
                               screen: EditProfileScreen(profile: state.profile!),
                               updateInfo: (p0) {
-                                if(p0==true) {
+                                if(p0!=null) {
                                   shared.updateProfile();
                                 }
                               }

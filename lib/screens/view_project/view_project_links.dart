@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/models/project_model.dart';
-import 'package:project7/screens/view_project/poject_link.dart';
+import 'package:project7/screens/view_project/project_link.dart';
 import 'package:project7/widgets/icons/custom_icons_icons.dart';
 
 class ViewProjectLinks extends StatelessWidget {

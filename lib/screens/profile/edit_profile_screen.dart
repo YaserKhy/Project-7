@@ -47,28 +47,34 @@ class EditProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 10),
-                CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.transparent,
-                  backgroundImage: shared.handleProfilePage(logoUrl: profile.imageUrl, context: context).image
-                ),
-                TextButton(
-                  onPressed: () async {
+                InkWell(
+                  splashColor: Colors.transparent,
+                  onTap: () async {
                     final selectedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-                    image = File(selectedImage!.path);
-                    imagePath = image!.path;
-                    profile.imageUrl = image?.path ?? profile.imageUrl;
+                    if(selectedImage!=null) {
+                      image = File(selectedImage.path);
+                      imagePath = image!.path;
+                      profile.imageUrl = image?.path ?? profile.imageUrl;
+                    }
                   },
-                  child: const Text(
-                    "Change image",
-                    style: TextStyle(color: AppConstants.mainPurple),
-                  )
+                  child: Badge(
+                    label: const Icon(Icons.edit, size: 12, color: Colors.white,),
+                    backgroundColor: AppConstants.mainPurple,
+                    alignment: const Alignment(.8, .65),
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: shared.handleProfilePage(logoUrl: profile.imageUrl, context: context).image
+                    ),
+                  ),
                 ),
                 const SizedBox(width: 12),
                 ElevatedButton(
                   onPressed: () async {
                     cv = await pickerFile();
-                    cvPath = cv!.path;
+                    if(cv != null) {
+                      cvPath = cv!.path;
+                    }
                   },
                   child: const Text('Upload cv')
                 ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 extension ScreenNavigation on BuildContext {
-  push({required Widget screen, Function(bool)? updateInfo}) {
+  push({required Widget screen, Function(dynamic)? updateInfo}) {
     Navigator.push(this, MaterialPageRoute(builder: (context) => screen)).then((test){
       if(updateInfo!=null) {
         updateInfo(test);

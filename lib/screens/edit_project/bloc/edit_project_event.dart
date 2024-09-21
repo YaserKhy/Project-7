@@ -3,7 +3,7 @@ part of 'edit_project_bloc.dart';
 @immutable
 sealed class EditProjectEvent {}
 
-final class ModifyProjectEvent extends EditProjectEvent {
+final class EditBaseInfoEvent extends EditProjectEvent {
   final String token;
   final String id;
   final String name;
@@ -13,7 +13,7 @@ final class ModifyProjectEvent extends EditProjectEvent {
   final String startDate;
   final String endDate;
   final String presentationDate;
-  ModifyProjectEvent({
+  EditBaseInfoEvent({
     required this.id,
     required this.name,
     required this.bootcamp,

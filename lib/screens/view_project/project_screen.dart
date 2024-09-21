@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
+import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/helpers/url_launcher.dart';
 import 'package:project7/models/project_model.dart';
+import 'package:project7/networking/networking_api.dart';
 import 'package:project7/screens/edit_project/edit_base_info.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/view_project/cubit/drop_down_cubit.dart';
@@ -13,7 +16,7 @@ import 'package:project7/screens/view_project/view_project_links.dart';
 import 'package:project7/screens/view_project/view_project_member.dart';
 import 'package:project7/screens/view_project/view_project_title.dart';
 import 'package:project7/screens/view_project/view_rating_project.dart';
-import 'package:project7/widgets/fields/drop_down_menu.dart';
+import 'package:project7/widgets/dropdowns/status_drop_down.dart';
 import 'package:project7/widgets/icons/project_icon.dart';
 
 class ProjectScreen extends StatelessWidget {
@@ -23,6 +26,7 @@ class ProjectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final shared = context.read<SharedCubit>();
+    TextEditingController statusController = TextEditingController(text: "Private");
     return Scaffold(
       backgroundColor: AppConstants.bgColor,
       appBar: AppBar(backgroundColor: AppConstants.bgColor),
@@ -53,7 +57,7 @@ class ProjectScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const SizedBox(width: 20),
+                          shared.canEdit(project:project) ? const SizedBox(width: 20) : const SizedBox.shrink(),
                           Text(
                             project.projectName,
                             style: const TextStyle(
@@ -62,7 +66,8 @@ class ProjectScreen extends StatelessWidget {
                               fontWeight: FontWeight.w700
                             )
                           ),
-                          IconButton(
+                          shared.canEdit(project:project) == false ? const SizedBox.shrink()
+                          : IconButton(
                             onPressed: () => context.push(screen: EditBaseInfo(project: project)),
                             icon: const Icon(
                               Icons.edit,
@@ -132,8 +137,8 @@ class ProjectScreen extends StatelessWidget {
                     );
                   }),
                 ),
-                ViewProjectTitle(project: project,title: 'Rating'),
-                ListTile(
+                project.allowRating ? ViewProjectTitle(project: project,title: 'Rating') : const SizedBox.shrink(),
+                project.allowRating == false ? const SizedBox.shrink() : ListTile(
                   onTap: () => context.push(screen: ViewRatingProject(project: project,cubit: cubit,)),
                   tileColor: Colors.white,
                   shape: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(5)),
@@ -142,14 +147,26 @@ class ProjectScreen extends StatelessWidget {
                   trailing: const Icon(Icons.arrow_forward_ios_outlined,color: AppConstants.iconsGrayColor),
                 ),
                 ViewProjectTitle(title: 'Links', project: project),
-                project.linksProject.isEmpty ? const Text("No Links Added")
-                : ViewProjectLinks(links: project.linksProject),
-                shared.isUser() ? const SizedBox.shrink()
-                : ViewProjectTitle(title: 'State', project: project,),
+                project.linksProject.isEmpty ? const Text("No Links Added") : ViewProjectLinks(links: project.linksProject),
+                shared.isUser() ? const SizedBox.shrink() : ViewProjectTitle(title: 'Settings', project: project,),
                 shared.isUser() ? const SizedBox.shrink()
                 : BlocProvider(
                   create: (context) => DropdownCubit(),
-                  child: const DropDowan(),
+                  child: StatusDropDown(controller: statusController),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final api = NetworkingApi();
+                    await api.editProjectStatus(
+                      token: GetIt.I.get<AuthLayer>().auth!.token,
+                      projectId: project.projectId,
+                      endDate: project.endDate,
+                      isEditable: project.allowEdit,
+                      isRatable: project.allowRating,
+                      isPublic: statusController.text == 'Public' ? true : false
+                    );
+                  },
+                  child: const Text("data")
                 )
               ],
             ),

@@ -10,7 +10,7 @@ part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final api = NetworkingApi();
-  List<ProjectModel> projects = [];
+  static List<ProjectModel> projects = [];
   TextEditingController searchController = TextEditingController();
   TextEditingController commentController = TextEditingController();
   Map<String, dynamic> rating = {
@@ -36,6 +36,10 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  refreshHome() {
+    emit(ShowProjectsState(projects: projects));
+  }
+
   Map<String,List<ProjectModel>> getGroupedProjects(List<ProjectModel> allProjects) {
     Map<String,List<ProjectModel>> groupedProjects = {};
       for (var project in allProjects) {
@@ -57,8 +61,6 @@ class HomeCubit extends Cubit<HomeState> {
     }
     emit(ShowProjectsState(projects: result));
   }
-
-  
 
   showStars() {
     emit(ShowStarsState());
