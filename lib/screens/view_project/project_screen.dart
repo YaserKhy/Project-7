@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +13,8 @@ import 'package:project7/models/project_model.dart';
 import 'package:project7/networking/networking_api.dart';
 import 'package:project7/screens/edit_project/edit_base_info.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
-import 'package:project7/screens/view_project/cubit/view_project_cubit.dart' as v_cubit;
+import 'package:project7/screens/view_project/cubit/view_project_cubit.dart'
+    as v_cubit;
 import 'package:project7/screens/view_project/view_project_images.dart';
 import 'package:project7/screens/view_project/view_project_links.dart';
 import 'package:project7/screens/view_project/view_project_member.dart';
@@ -116,14 +118,13 @@ class ProjectScreen extends StatelessWidget {
                                   ? const SizedBox.shrink()
                                   : IconButton(
                                       onPressed: () => context.push(
-                                            screen:
-                                                EditBaseInfo(project: project),
-                                            updateInfo: (p0) {
+                                          screen:
+                                              EditBaseInfo(project: project),
+                                              updateInfo: (p0) {
                                               if (p0 != null) {
                                                 homeCubit.refreshHome();
                                               }
-                                            },
-                                          ),
+                                            },),
                                       icon: const Icon(
                                         Icons.edit,
                                         size: 15,
@@ -205,7 +206,8 @@ class ProjectScreen extends StatelessWidget {
                         project: project,
                         title: "Images",
                         editable: shared.canEdit(project: project)),
-                    ViewProjectImages(images: project.imagesProject),
+                    ViewProjectImages(
+                        images: project.imagesProject),
                     ViewProjectTitle(
                         project: project,
                         title: 'Members',
@@ -216,9 +218,9 @@ class ProjectScreen extends StatelessWidget {
                             children: List.generate(
                                 project.membersProject.length, (index) {
                               return ViewProjectMember(
-                                member: project.membersProject[index],
-                                teamLeadId: project.userId,
-                              );
+                                  member: project.membersProject[index],
+                                  teamLeadId: project.userId,
+                                );
                             }),
                           ),
                     project.allowRating
@@ -229,7 +231,9 @@ class ProjectScreen extends StatelessWidget {
                         : ListTile(
                             onTap: () => context.push(
                                 screen: ViewRatingProject(
-                                    project: project, cubit: homeCubit)),
+                              project: project,
+                              cubit: homeCubit,
+                            )),
                             tileColor: Colors.white,
                             shape: OutlineInputBorder(
                                 borderSide: BorderSide.none,
@@ -259,20 +263,35 @@ class ProjectScreen extends StatelessWidget {
                     shared.isUser()
                         ? const SizedBox.shrink()
                         : StatusDropDown(controller: statusController),
-                    ElevatedButton(
-                        onPressed: () async {
-                          final api = NetworkingApi();
-                          await api.editProjectStatus(
-                              token: GetIt.I.get<AuthLayer>().auth!.token,
-                              projectId: project.projectId,
-                              endDate: project.endDate,
-                              isEditable: project.allowEdit,
-                              isRatable: project.allowRating,
-                              isPublic: statusController.text == 'Public'
-                                  ? true
-                                  : false);
-                        },
-                        child: const Text("data"))
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        ElevatedButton(
+                            onPressed: () async {
+                              final api = NetworkingApi();
+                              await api.editProjectStatus(
+                                  token: GetIt.I.get<AuthLayer>().auth!.token,
+                                  projectId: project.projectId,
+                                  endDate: project.endDate,
+                                  isEditable: project.allowEdit,
+                                  isRatable: project.allowRating,
+                                  isPublic: statusController.text == 'Public'
+                                      ? true
+                                      : false);
+                            },
+                            child: const Text("data")),
+                        ElevatedButton(
+                            onPressed: () async {
+                              final api = NetworkingApi();
+                              log(project.projectId);
+                              log(GetIt.I.get<AuthLayer>().auth!.token);
+                              await api.deleteProject(
+                                  projectId: project.projectId,
+                                  token: GetIt.I.get<AuthLayer>().auth!.token);
+                            },
+                            child: const Text("delete")),
+                      ],
+                    ),
                   ],
                 ),
               )))),
