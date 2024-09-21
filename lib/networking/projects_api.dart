@@ -37,8 +37,7 @@ mixin ProjectsApi on ConstantAPi {
             "edit": allowEditing
           },
           options: Options(headers: {
-            'Authorization':
-                'Bearer ${GetIt.I.get<AuthLayer>().auth!.token}'
+            'Authorization': 'Bearer ${GetIt.I.get<AuthLayer>().auth!.token}'
           }));
       return response.data["data"];
     } on DioException catch (error) {
@@ -76,7 +75,6 @@ mixin ProjectsApi on ConstantAPi {
       );
       log('Response status: ${response.statusCode}');
       log('Response body: ${response.data}');
-      
     } on DioException catch (e) {
       log("-----");
       print(e.response?.data.toString());
@@ -95,7 +93,7 @@ mixin ProjectsApi on ConstantAPi {
     required bool isPublic,
   }) async {
     try {
-    final response = await dio.put(
+      final response = await dio.put(
         "$baseURl$changeProjectStatusEndPoint/$projectId",
         data: jsonEncode({
           "time_end_edit": '11/12/2024',
@@ -105,8 +103,25 @@ mixin ProjectsApi on ConstantAPi {
         }),
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
-    log('Response status: ${response.statusCode}');
-    log('Response body: ${response.data}');
+      log('Response status: ${response.statusCode}');
+      log('Response body: ${response.data}');
+    } on DioException catch (e) {
+      log("-----");
+      print(e.response?.data.toString());
+      log("-----");
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  deleteProject({required String token, required String projectId}) async {
+    try {
+      log("$baseURl$deleteProjectEndPoint/$projectId");
+      final response = await dio.delete(
+          "$baseURl$deleteProjectEndPoint/$projectId",
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+      log('Response status: ${response.statusCode}');
+      log('Response body: ${response.data}');
     } on DioException catch (e) {
       log("-----");
       print(e.response?.data.toString());
