@@ -28,8 +28,18 @@ class SharedCubit extends Cubit<SharedState> {
   }
 
   bool canEdit({required ProjectModel project}) {
-    // either admin, supervisor, or team lead
-    return GetIt.I.get<AuthLayer>().currentUser!.id == project.adminId || GetIt.I.get<AuthLayer>().currentUser!.id == project.userId;
+    // either admin/supervisor or authorized team lead
+
+    // if admin or supervisor
+    if(GetIt.I.get<AuthLayer>().currentUser!.id == project.adminId) {
+      return true;
+    }
+
+    // if authorized team lead 
+    if(GetIt.I.get<AuthLayer>().currentUser!.id == project.userId && project.allowEdit==true) {
+      return true;
+    }
+    return false;
   }
 
   getProfile(String? token) async {

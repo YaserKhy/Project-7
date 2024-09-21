@@ -31,7 +31,7 @@ class ProjectModel {
   late final String endDate;
   late final String? presentationDate;
   late final String projectDescription;
-  late final String logoUrl;
+  late String logoUrl;
   late final String presentationUrl;
   late final String userId;
   late final String adminId;

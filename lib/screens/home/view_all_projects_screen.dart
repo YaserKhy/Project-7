@@ -75,7 +75,7 @@ class ViewAllProjectsScreen extends StatelessWidget {
                     project: projects[index],
                     cubit: cubit,
                     onTap: () => context.push(
-                      screen: ProjectScreen(project: projects[index], cubit: cubit),
+                      screen: ProjectScreen(project: projects[index], homeCubit: cubit),
                       updateInfo: (p0) {
                         if(p0!=null) {
                           cubit.refreshHome();

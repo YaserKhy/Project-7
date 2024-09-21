@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -106,6 +108,34 @@ mixin ProjectsApi on ConstantAPi {
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
     log('Response status: ${response.statusCode}');
+    log('Response body: ${response.data}');
+    } on DioException catch (e) {
+      log("-----");
+      print(e.response?.data.toString());
+      log("-----");
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  editProjectLogo({required String token, required String projectId, required String imgPath}) async {
+    Uint8List? image;
+    bool isValid = false;
+    try {
+      image = await File(imgPath).readAsBytes();
+      isValid = true;
+    } catch (_) {}
+    try {
+      final response = await dio.put(
+        '$baseURl$editProjectLogoEndPoint/$projectId',
+        data: jsonEncode({
+          "logo": image?.toList(growable: false)
+        }),
+        options: Options(
+          headers: {'Authorization': 'Bearer $token'}
+        )
+      );
+      log('Response status: ${response.statusCode}');
     log('Response body: ${response.data}');
     } on DioException catch (e) {
       log("-----");

@@ -116,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                                           ProjectCard(
                                               onTap: ()=>context.push(
                                                 screen: ProjectScreen(
-                                                  cubit: cubit,
+                                                  homeCubit: cubit,
                                                   project: bootcampProjects[index],
                                                 ),
                                                 updateInfo: (p0) {
