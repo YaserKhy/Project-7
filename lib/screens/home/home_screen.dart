@@ -5,6 +5,7 @@ import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/home/view_all_projects_screen.dart';
+import 'package:project7/screens/view_project/project_screen.dart';
 import 'package:project7/widgets/cards/project_card.dart';
 import 'package:project7/widgets/tuwaiq_app_bar.dart';
 
@@ -113,8 +114,20 @@ class HomeScreen extends StatelessWidget {
                                       return Row(
                                         children: [
                                           ProjectCard(
+                                              onTap: ()=>context.push(
+                                                screen: ProjectScreen(
+                                                  cubit: cubit,
+                                                  project: bootcampProjects[index],
+                                                ),
+                                                updateInfo: (p0) {
+                                                  if(p0!=null) {
+                                                    cubit.refreshHome();
+                                                  }
+                                                },
+                                              ),
                                               project: bootcampProjects[index],
-                                              cubit: cubit),
+                                              cubit: cubit
+                                            ),
                                           const SizedBox(
                                             width: 20,
                                           ),

@@ -36,7 +36,9 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  refreshHome() {
+  refreshHome() async {
+    projects = await api.getAllProjects();
+    log(projects.map((p)=>p.projectName).toList().toString());
     emit(ShowProjectsState(projects: projects));
   }
 

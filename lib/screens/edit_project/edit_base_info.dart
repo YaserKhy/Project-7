@@ -40,8 +40,9 @@ class EditBaseInfo extends StatelessWidget {
               );
             }
             if (state is SuccessState) {
-              Navigator.pop(context);
-              Navigator.pop(context);
+              context.popAndSave();
+              context.popAndSave();
+              context.popAndSave();
             }
             if (state is ErrorState) {
               Navigator.pop(context);

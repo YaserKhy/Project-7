@@ -4,32 +4,23 @@ import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/global_cubit/shared_cubit.dart';
-import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
-import 'package:project7/screens/view_project/project_screen.dart';
 
 class ProjectCard extends StatelessWidget {
   final HomeCubit cubit;
   final ProjectModel project;
   final bool isHome;
-  const ProjectCard({super.key, required this.project, required this.cubit, this.isHome=true});
+  final Function()? onTap;
+  const ProjectCard({super.key, required this.project, required this.cubit, this.isHome=true, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final shared = context.read<SharedCubit>();
-    
+
     return InkWell(
-      onTap: ()=> context.push(
-        screen: ProjectScreen(project: project, cubit: cubit,),
-        updateInfo: (p0) {
-          if(p0!=null) {
-            cubit.refreshHome();
-            
-          }
-        },
-      ),
+      onTap: onTap,
       child: Badge(
         isLabelVisible:
           isHome==false

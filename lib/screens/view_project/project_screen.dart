@@ -10,7 +10,6 @@ import 'package:project7/models/project_model.dart';
 import 'package:project7/networking/networking_api.dart';
 import 'package:project7/screens/edit_project/edit_base_info.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
-import 'package:project7/screens/view_project/cubit/drop_down_cubit.dart';
 import 'package:project7/screens/view_project/view_project_images.dart';
 import 'package:project7/screens/view_project/view_project_links.dart';
 import 'package:project7/screens/view_project/view_project_member.dart';
@@ -26,7 +25,7 @@ class ProjectScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final shared = context.read<SharedCubit>();
-    TextEditingController statusController = TextEditingController(text: "Private");
+    TextEditingController statusController = TextEditingController(text: project.isPublic ? "Public" : "Private");
     return Scaffold(
       backgroundColor: AppConstants.bgColor,
       appBar: AppBar(backgroundColor: AppConstants.bgColor),
@@ -68,7 +67,14 @@ class ProjectScreen extends StatelessWidget {
                           ),
                           shared.canEdit(project:project) == false ? const SizedBox.shrink()
                           : IconButton(
-                            onPressed: () => context.push(screen: EditBaseInfo(project: project)),
+                            onPressed: () => context.push(
+                              screen: EditBaseInfo(project: project),
+                              updateInfo: (p0) {
+                                if(p0!=null) {
+                                  cubit.refreshHome();
+                                }
+                              },
+                            ),
                             icon: const Icon(
                               Icons.edit,
                               size: 15,
@@ -125,7 +131,7 @@ class ProjectScreen extends StatelessWidget {
                   icon: const Icon(Icons.calendar_month_rounded,color: Color(0xff4f27b3),size: 18,),
                 ),
                 ViewProjectTitle(project: project,title: "Images", editable: shared.canEdit(project: project)),
-                ViewProjectImages(images: project.imagesProject, cubit: cubit),
+                ViewProjectImages(images: project.imagesProject),
                 ViewProjectTitle(project: project,title: 'Members', editable: shared.canEdit(project: project)),
                 project.membersProject.isEmpty ? const Text('No Members Added')
                 : Column(
@@ -133,13 +139,12 @@ class ProjectScreen extends StatelessWidget {
                     return ViewProjectMember(
                       member: project.membersProject[index],
                       teamLeadId: project.userId,
-                      cubit: cubit
                     );
                   }),
                 ),
                 project.allowRating ? ViewProjectTitle(project: project,title: 'Rating') : const SizedBox.shrink(),
                 project.allowRating == false ? const SizedBox.shrink() : ListTile(
-                  onTap: () => context.push(screen: ViewRatingProject(project: project,cubit: cubit,)),
+                  onTap: () => context.push(screen: ViewRatingProject(project: project, cubit: cubit,)),
                   tileColor: Colors.white,
                   shape: OutlineInputBorder(borderSide: BorderSide.none,borderRadius: BorderRadius.circular(5)),
                   leading: const Icon(Icons.stacked_bar_chart_outlined,color: Colors.green),
@@ -149,11 +154,7 @@ class ProjectScreen extends StatelessWidget {
                 ViewProjectTitle(title: 'Links', project: project),
                 project.linksProject.isEmpty ? const Text("No Links Added") : ViewProjectLinks(links: project.linksProject),
                 shared.isUser() ? const SizedBox.shrink() : ViewProjectTitle(title: 'Settings', project: project,),
-                shared.isUser() ? const SizedBox.shrink()
-                : BlocProvider(
-                  create: (context) => DropdownCubit(),
-                  child: StatusDropDown(controller: statusController),
-                ),
+                shared.isUser() ? const SizedBox.shrink() : StatusDropDown(controller: statusController),
                 ElevatedButton(
                   onPressed: () async {
                     final api = NetworkingApi();

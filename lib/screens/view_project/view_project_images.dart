@@ -3,12 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
-import 'package:project7/screens/home/cubit/home_cubit.dart';
 
 class ViewProjectImages extends StatelessWidget {
-  final HomeCubit cubit;
   final List<ImagesProject> images;
-  const ViewProjectImages({super.key, required this.images, required this.cubit});
+  const ViewProjectImages({super.key, required this.images});
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart' as home_cubit;
 import 'package:project7/screens/my_projects/cubit/my_projects_cubit.dart';
+import 'package:project7/screens/view_project/project_screen.dart';
 import 'package:project7/widgets/cards/project_card.dart';
 import 'package:project7/widgets/tuwaiq_app_bar.dart';
 
@@ -76,7 +78,17 @@ class MyProjectsScreen extends StatelessWidget {
                                 SingleChildScrollView(
                                   child: Column(
                                     children: List.generate(bootcampProjects.length, (index){
-                                      return ProjectCard(project: bootcampProjects[index], cubit: homeCubit, isHome:false);
+                                      return ProjectCard(
+                                        onTap: ()=> context.push(
+                                          screen: ProjectScreen(
+                                            project: bootcampProjects[index],
+                                            cubit: homeCubit
+                                          )
+                                        ),
+                                        project: bootcampProjects[index],
+                                        cubit: homeCubit,
+                                        isHome:false
+                                      );
                                     }),
                                   ),
                                 )

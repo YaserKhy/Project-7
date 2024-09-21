@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:project7/constants/app_constants.dart';
+import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
+import 'package:project7/screens/view_project/project_screen.dart';
 import 'package:project7/widgets/cards/project_card.dart';
 
 class ViewAllProjectsScreen extends StatelessWidget {
@@ -72,6 +74,14 @@ class ViewAllProjectsScreen extends StatelessWidget {
                   return ProjectCard(
                     project: projects[index],
                     cubit: cubit,
+                    onTap: () => context.push(
+                      screen: ProjectScreen(project: projects[index], cubit: cubit),
+                      updateInfo: (p0) {
+                        if(p0!=null) {
+                          cubit.refreshHome();
+                        }
+                      },
+                    ),
                   );
                 },
               ),

@@ -3,14 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
-import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/view_project/view_member_links.dart';
 
 class ViewProjectMember extends StatelessWidget {
   final MembersProject member;
   final String teamLeadId;
-  final HomeCubit cubit;
-  const ViewProjectMember({super.key, required this.member, required this.teamLeadId, required this.cubit});
+  const ViewProjectMember({super.key, required this.member, required this.teamLeadId});
 
   @override
   Widget build(BuildContext context) {
