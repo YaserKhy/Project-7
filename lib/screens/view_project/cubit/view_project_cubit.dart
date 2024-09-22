@@ -9,7 +9,6 @@ import 'package:project7/networking/networking_api.dart';
 
 part 'view_project_state.dart';
 
-
 class ViewProjectCubit extends Cubit<ViewProjectState> {
   ViewProjectCubit() : super(ViewProjectInitial());
   final api = NetworkingApi();
@@ -50,17 +49,17 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
     emit(ShowStarsState());
   }
 
-  editProjectSettings({required String projectId, required String endDate}) async {
+  editProjectSettings(
+      {required String projectId, required String endDate}) async {
     try {
       emit(LoadingState());
       await api.editProjectStatus(
-        token: GetIt.I.get<AuthLayer>().auth!.token,
-        projectId: projectId,
-        endDate: endDate,
-        isEditable: canEdit == "Allow Team Lead to Edit" ? true : false,
-        isRatable: canRate == "Allow Rating" ? true : false,
-        isPublic: stateNow == "Public" ? true : false
-      );
+          token: GetIt.I.get<AuthLayer>().auth!.token,
+          projectId: projectId,
+          endDate: endDate,
+          isEditable: canEdit == "Allow Team Lead to Edit" ? true : false,
+          isRatable: canRate == "Allow Rating" ? true : false,
+          isPublic: stateNow == "Public" ? true : false);
       canEdit = "";
       canRate = "";
       stateNow = "";
@@ -95,7 +94,9 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
   }
 
   String currentEditingState({required ProjectModel project}) {
-    canEdit = project.allowEdit ? "Allow Team Lead to Edit" : "Do Not Allow Team Lead to Edit";
+    canEdit = project.allowEdit
+        ? "Allow Team Lead to Edit"
+        : "Do Not Allow Team Lead to Edit";
     return canEdit;
   }
 
@@ -109,9 +110,7 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
     try {
       emit(LoadingState());
       await api.deleteProject(
-        projectId: projectId,
-        token: GetIt.I.get<AuthLayer>().auth!.token
-      );
+          projectId: projectId, token: GetIt.I.get<AuthLayer>().auth!.token);
       emit(SuccessState());
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));
@@ -124,10 +123,9 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
     try {
       emit(LoadingState());
       await api.editProjectLogo(
-        token: GetIt.I.get<AuthLayer>().auth!.token,
-        projectId: projectId,
-        imgPath: logoUrl
-      );
+          token: GetIt.I.get<AuthLayer>().auth!.token,
+          projectId: projectId,
+          imgPath: logoUrl);
       emit(SuccessState());
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));
@@ -136,15 +134,35 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
     }
   }
 
-  updateImages({required List<String> imgs, required String projectId, required List<ImagesProject> projectImages}) async {
+  updateImages(
+      {required List<String> imgs,
+      required String projectId,
+      required List<ImagesProject> projectImages}) async {
     // should append projectImages, currently : it overrides
     try {
       emit(LoadingState());
       await api.editProjectImages(
-        token: GetIt.I.get<AuthLayer>().auth!.token,
-        projectId: projectId,
-        imgsPaths: imgs
-      );
+          token: GetIt.I.get<AuthLayer>().auth!.token,
+          projectId: projectId,
+          imgsPaths: imgs);
+      emit(SuccessState());
+    } on FormatException catch (error) {
+      emit(ErrorState(msg: error.message));
+    } catch (error) {
+      emit(ErrorState(msg: "There is unknown error"));
+    }
+  }
+
+  updatePresentation({
+    required String projectId,
+    required String presentationPath,
+  }) async {
+    try {
+      emit(LoadingState());
+      await api.editProjectPresentation(
+          token: GetIt.I.get<AuthLayer>().auth!.token,
+          projectId: projectId,
+          presentationPath: presentationPath);
       emit(SuccessState());
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));

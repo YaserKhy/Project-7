@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
+import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/view_project/cubit/view_project_cubit.dart';
 import 'package:project7/screens/view_project/view_project_title.dart';
@@ -16,6 +17,7 @@ class ViewRatingProject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final shared = context.read<SharedCubit>();
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: BlocProvider(
@@ -33,15 +35,10 @@ class ViewRatingProject extends StatelessWidget {
                     Center(
                       child: Column(
                         children: [
-                          Container(
-                            width: 111.82,
-                            height: 111.82,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              border: Border.all(width: .5,color: const Color(0xff4f27b3))
-                            ),
-                            child: ClipOval(child: Image.asset('assets/images/tuwaiq_logo1.png')),
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: shared.handleProfilePage(logoUrl: project.logoUrl,context: context).image
                           ),
                           const SizedBox(height: 9),
                           Row(
