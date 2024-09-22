@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
+import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart' as home_cubit;
 import 'package:project7/screens/home/view_all_projects_screen.dart';
@@ -15,6 +18,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final shared = context.read<SharedCubit>();
     final cubit = context.read<home_cubit.HomeCubit>();
     final myProjectsCubit = context.read<MyProjectsCubit>();
     return GestureDetector(
@@ -83,12 +87,12 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        // Pass bootcampName, projects, and cubit
                                         context.push(
                                           screen: ViewAllProjectsScreen(
                                             bootcampName: bootcamp,
                                             projects: bootcampProjects,
-                                            cubit: cubit, // Pass cubit
+                                            cubit: cubit,
+                                            myProjectsCubit: myProjectsCubit,
                                           ),
                                         );
                                       },
@@ -122,6 +126,7 @@ class HomeScreen extends StatelessWidget {
                                                 ),
                                                 updateInfo: (p0) {
                                                   if(p0!=null) {
+                                                    shared.getProfile(GetIt.I.get<AuthLayer>().auth!.token);
                                                     cubit.refreshHome();
                                                     myProjectsCubit.getMyProjects();
                                                   }

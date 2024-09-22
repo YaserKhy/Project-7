@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -11,13 +13,64 @@ part 'view_project_state.dart';
 class ViewProjectCubit extends Cubit<ViewProjectState> {
   ViewProjectCubit() : super(ViewProjectInitial());
   final api = NetworkingApi();
-  // TextEditingController commentController = TextEditingController();
+  String stateNow = "";
+  String canRate = "";
+  String canEdit = "";
 
-  // ViewProjectCubit() : super("Private"); // Initial state is "Private"
+  editProjectSettings({required String projectId, required String endDate}) async {
+    try {
+      emit(LoadingState());
+      await api.editProjectStatus(
+        token: GetIt.I.get<AuthLayer>().auth!.token,
+        projectId: projectId,
+        endDate: endDate,
+        isEditable: canEdit == "Allow Team Lead to Edit" ? true : false,
+        isRatable: canRate == "Allow Rating" ? true : false,
+        isPublic: stateNow == "Public" ? true : false
+      );
+      canEdit = "";
+      canRate = "";
+      stateNow = "";
+      emit(SuccessState());
+    } on FormatException catch (error) {
+      emit(ErrorState(msg: error.message));
+    } catch (error) {
+      emit(ErrorState(msg: "There is unknown Error"));
+    }
+  }
 
-  // void selectItem(String item) {
-  //   emit(item);
-  // }
+  String currentState({required ProjectModel project}) {
+    stateNow = project.isPublic ? "Public" : "Private";
+    return stateNow;
+  }
+
+  setCurrentState({required String value}) {
+    stateNow = value;
+    log(stateNow);
+    emit(UpdateRadioButtonState(status: stateNow));
+  }
+
+  String currentRatingState({required ProjectModel project}) {
+    canRate = project.allowRating ? "Allow Rating" : "Do Not Allow Rating";
+    return canRate;
+  }
+
+  setCurrentRatingState({required String value}) {
+    canRate = value;
+    log(canRate);
+    emit(UpdateRadioButtonRating(rating: canRate));
+  }
+
+  String currentEditingState({required ProjectModel project}) {
+    canEdit = project.allowEdit ? "Allow Team Lead to Edit" : "Do Not Allow Team Lead to Edit";
+    return canEdit;
+  }
+
+  setCurrentEditingState({required String value}) {
+    canEdit = value;
+    log(canEdit);
+    emit(UpdateRadioButtonEditing(editing: canEdit));
+  }
 
   deleteProject({required String projectId}) async {
     try {

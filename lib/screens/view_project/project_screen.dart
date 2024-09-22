@@ -19,7 +19,6 @@ import 'package:project7/screens/view_project/view_project_links.dart';
 import 'package:project7/screens/view_project/view_project_member.dart';
 import 'package:project7/screens/view_project/view_project_title.dart';
 import 'package:project7/screens/view_project/view_rating_project.dart';
-import 'package:project7/widgets/dropdowns/status_drop_down.dart';
 import 'package:project7/widgets/icons/project_icon.dart';
 
 class ProjectScreen extends StatelessWidget {
@@ -31,11 +30,13 @@ class ProjectScreen extends StatelessWidget {
     File? image;
     String? imgPath = project.logoUrl;
     final shared = context.read<SharedCubit>();
-    TextEditingController statusController = TextEditingController(text: project.isPublic ? "Public" : "Private");
     return BlocProvider(
       create: (context) => v_cubit.ViewProjectCubit(),
       child: Builder(builder: (context) {
         final cubit = context.read<v_cubit.ViewProjectCubit>();
+        String currentState = cubit.currentState(project: project);
+        String currentRating = cubit.currentRatingState(project: project);
+        String currentEditing = cubit.currentEditingState(project: project);
         return BlocListener<v_cubit.ViewProjectCubit, v_cubit.ViewProjectState>(
           listener: (context, state) {
             if (state is v_cubit.LoadingState) {
@@ -46,12 +47,12 @@ class ProjectScreen extends StatelessWidget {
               );
             }
             if (state is v_cubit.ErrorState) {
-              Navigator.pop(context);
+              context.pop();
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.msg)));
             }
             if (state is v_cubit.SuccessState) {
-              context.popAndSave();
-              context.popAndSave();
+              context.popAndSave(); // exit loading
+              context.popAndSave(); // back home
             }
           },
           child: Scaffold(
@@ -207,8 +208,82 @@ class ProjectScreen extends StatelessWidget {
                       project.linksProject.isEmpty ? const Text("No Links Added") : ViewProjectLinks(links: project.linksProject),
                       // Section 8 : Settings
                       GetIt.I.get<AuthLayer>().currentUser!.id != project.adminId ? const SizedBox.shrink() : ViewProjectTitle(title: 'Settings',project: project),
-                      GetIt.I.get<AuthLayer>().currentUser!.id != project.adminId ? const SizedBox.shrink() : StatusDropDown(controller: statusController),
-                      
+                      GetIt.I.get<AuthLayer>().currentUser!.id != project.adminId ? const SizedBox.shrink()
+                      : BlocBuilder<v_cubit.ViewProjectCubit, v_cubit.ViewProjectState>(
+                          builder: (context, state) {
+                            if (state is v_cubit.UpdateRadioButtonState) {
+                              if(state.status!=null) {
+                                currentState = state.status!;
+                              }
+                            }
+                            if (state is v_cubit.UpdateRadioButtonRating) {
+                              if(state.rating!=null) {
+                                currentRating = state.rating!;
+                              }
+                            }
+                            if (state is v_cubit.UpdateRadioButtonEditing) {
+                              if(state.editing!=null) {
+                                currentEditing = state.editing!;
+                              }
+                            }
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text("Status"),
+                                RadioListTile(
+                                  value: "Public",
+                                  title: const Text("Public"),
+                                  groupValue: currentState,
+                                  onChanged: (v) {
+                                    cubit.setCurrentState(value: v.toString());
+                                  },
+                                ),
+                                RadioListTile(
+                                  value: "Private",
+                                  title: const Text("Private"),
+                                  groupValue: currentState,
+                                  onChanged: (v) {
+                                    cubit.setCurrentState(value: v.toString());
+                                  },
+                                ),
+                                const Text("Rating"),
+                                RadioListTile(
+                                  value: "Allow Rating",
+                                  title: const Text("Allow Rating"),
+                                  groupValue: currentRating,
+                                  onChanged: (v) {
+                                    cubit.setCurrentRatingState(value: v.toString());
+                                  },
+                                ),
+                                RadioListTile(
+                                  value: "Do Not Allow Rating",
+                                  title: const Text("Do Not Allow Rating"),
+                                  groupValue: currentRating,
+                                  onChanged: (v) {
+                                    cubit.setCurrentRatingState(value: v.toString());
+                                  },
+                                ),
+                                const Text("Editing"),
+                                RadioListTile(
+                                  value: "Allow Team Lead to Edit",
+                                  title: const Text("Allow Team Lead to Edit"),
+                                  groupValue: currentEditing,
+                                  onChanged: (v) {
+                                    cubit.setCurrentEditingState(value: v.toString());
+                                  },
+                                ),
+                                RadioListTile(
+                                  value: "Do Not Allow Team Lead to Edit",
+                                  title: const Text("Do Not Allow Team Lead to Edit"),
+                                  groupValue: currentEditing,
+                                  onChanged: (v) {
+                                    cubit.setCurrentEditingState(value: v.toString());
+                                  },
+                                )
+                              ],
+                            );
+                          }
+                        ),
                       // <<<<<<<< to be changed later (NOTICE THIS) >>>>>>>>>>>>
                       GetIt.I.get<AuthLayer>().currentUser!.id != project.adminId ? const SizedBox.shrink()
                       : Row(
@@ -216,17 +291,12 @@ class ProjectScreen extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             onPressed: () async {
-                              final api = NetworkingApi();
-                              await api.editProjectStatus(
-                                token: GetIt.I.get<AuthLayer>().auth!.token,
+                              cubit.editProjectSettings(
                                 projectId: project.projectId,
-                                endDate: project.endDate,
-                                isEditable: project.allowEdit,
-                                isRatable: project.allowRating,
-                                isPublic: statusController.text == 'Public' ? true : false
+                                endDate: project.endDate // should change later
                               );
                             },
-                            child: const Text("data")
+                            child: const Text("save settings")
                           ),
                           ElevatedButton(
                             onPressed: () async {

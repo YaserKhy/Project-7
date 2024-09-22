@@ -13,3 +13,16 @@ final class ErrorState extends ViewProjectState {
 }
 
 final class SuccessState extends ViewProjectState {}
+
+final class UpdateRadioButtonState extends ViewProjectState {
+  final String? status;
+  UpdateRadioButtonState({required this.status});
+}
+final class UpdateRadioButtonRating extends ViewProjectState {
+  final String? rating;
+  UpdateRadioButtonRating({required this.rating});
+}
+final class UpdateRadioButtonEditing extends ViewProjectState {
+  final String? editing;
+  UpdateRadioButtonEditing({required this.editing});
+}

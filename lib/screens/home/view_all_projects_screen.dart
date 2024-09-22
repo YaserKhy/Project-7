@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
+import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/extensions/screen_navigation.dart';
+import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
+import 'package:project7/screens/my_projects/cubit/my_projects_cubit.dart';
 import 'package:project7/screens/view_project/project_screen.dart';
 import 'package:project7/widgets/cards/project_card.dart';
 
@@ -10,11 +15,12 @@ class ViewAllProjectsScreen extends StatelessWidget {
   final String bootcampName;
   final List<ProjectModel> projects;
   final HomeCubit cubit;
-
-  const ViewAllProjectsScreen({super.key,required this.bootcampName,required this.projects,required this.cubit,});
+  final MyProjectsCubit myProjectsCubit;
+  const ViewAllProjectsScreen({super.key,required this.bootcampName,required this.projects,required this.cubit, required this.myProjectsCubit,});
 
   @override
   Widget build(BuildContext context) {
+    final shared = context.read<SharedCubit>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -42,7 +48,14 @@ class ViewAllProjectsScreen extends StatelessWidget {
                   screen: ProjectScreen(
                     project: projects[index],
                     homeCubit: cubit
-                  )
+                  ),
+                  updateInfo: (p0) {
+                    if(p0!=null) {
+                      shared.getProfile(GetIt.I.get<AuthLayer>().auth!.token);
+                      cubit.refreshHome();
+                      myProjectsCubit.getMyProjects();
+                    }
+                  },
                 )
               );
             })

@@ -107,7 +107,14 @@ class MyProjectsScreen extends StatelessWidget {
                                           screen: ProjectScreen(
                                             project: bootcampProjects[index],
                                             homeCubit: homeCubit
-                                          )
+                                          ),
+                                          updateInfo: (p0) {
+                                            if(p0!=null) {
+                                              shared.getProfile(GetIt.I.get<AuthLayer>().auth!.token);
+                                              homeCubit.refreshHome();
+                                              cubit.getMyProjects();
+                                            }
+                                          },
                                         ),
                                       );
                                     }),

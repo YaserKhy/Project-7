@@ -23,6 +23,7 @@ dependencies:
   file_picker: ^8.1.2
   url_launcher: ^6.3.0
   shimmer_animation: ^2.2.1
+  animated_item_picker: ^2.0.0
 
 
 dev_dependencies:
