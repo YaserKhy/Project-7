@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 
-warningDialog({required BuildContext context}) {
+warningDialog({required BuildContext context, Function()? onPressed}) {
   return showDialog(
       context: context,
       builder: (context) {
@@ -30,7 +31,7 @@ warningDialog({required BuildContext context}) {
                               side: const BorderSide(color: Color(0xffFF5858)),
                               borderRadius: BorderRadius.circular(5)),
                           fixedSize: const Size(110, 30)),
-                      onPressed: () {},
+                      onPressed: onPressed,
                       child: const Text("Yse"),
                     ),
                     ElevatedButton(
@@ -41,7 +42,7 @@ warningDialog({required BuildContext context}) {
                               side: const BorderSide(color: Color(0xff6D6D6D)),
                               borderRadius: BorderRadius.circular(5)),
                           fixedSize: const Size(110, 30)),
-                      onPressed: () {},
+                      onPressed: () => context.pop(),
                       child: const Text("No"),
                     ),
                   ],

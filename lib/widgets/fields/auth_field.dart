@@ -39,6 +39,8 @@ class AuthField extends StatelessWidget {
               autovalidateMode: AutovalidateMode.onUnfocus,
               validator: validator,
               decoration: const InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
                 contentPadding: EdgeInsets.symmetric(horizontal: 16),
                 border: OutlineInputBorder(
                     borderSide:
