@@ -28,6 +28,8 @@ class MyProjectsScreen extends StatelessWidget {
         children: [
           TuwaiqAppBar(
             page:'My Projects',
+            homeCubit: homeCubit,
+            myProjectsCubit: cubit,
             onAdd: ()=> context.push(
               screen: const AddProjectScreen(),
               updateInfo: (p0) async {
@@ -38,7 +40,7 @@ class MyProjectsScreen extends StatelessWidget {
                 }
               },
             ),
-            homeCubit: homeCubit, myProjectsCubit: cubit),
+          ),
           BlocBuilder<my_cubit.MyProjectsCubit, my_cubit.MyProjectsState>(
             builder: (context, state) {
               if (state is my_cubit.LoadingState) {
@@ -96,18 +98,17 @@ class MyProjectsScreen extends StatelessWidget {
                                 SingleChildScrollView(
                                   child: Column(
                                     children: List.generate(bootcampProjects.length, (index){
-                                      ProjectModel p = bootcampProjects[index];
-                                      log("${p.projectName} ${p.logoUrl}");
+                                      ProjectModel project = bootcampProjects[index];
+                                      log("${project.projectName} ${project.logoUrl}");
                                       return ProjectCard(
+                                        project: bootcampProjects[index],
+                                        isHome:false,
                                         onTap: ()=> context.push(
                                           screen: ProjectScreen(
                                             project: bootcampProjects[index],
                                             homeCubit: homeCubit
                                           )
                                         ),
-                                        project: bootcampProjects[index],
-                                        cubit: homeCubit,
-                                        isHome:false
                                       );
                                     }),
                                   ),

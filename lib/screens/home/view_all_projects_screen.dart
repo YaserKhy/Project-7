@@ -36,7 +36,6 @@ class ViewAllProjectsScreen extends StatelessWidget {
           child: Column(
             children: List.generate(projects.length, (index) {
               return ProjectCard(
-                cubit: cubit,
                 project: projects[index],
                 isHome: false,
                 onTap: () => context.push(

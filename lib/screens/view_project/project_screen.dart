@@ -206,11 +206,12 @@ class ProjectScreen extends StatelessWidget {
                       ViewProjectTitle(title: 'Links', project: project, editable: shared.canEdit(project: project),),
                       project.linksProject.isEmpty ? const Text("No Links Added") : ViewProjectLinks(links: project.linksProject),
                       // Section 8 : Settings
-                      shared.isUser() ? const SizedBox.shrink() : ViewProjectTitle(title: 'Settings',project: project),
-                      shared.isUser() ? const SizedBox.shrink() : StatusDropDown(controller: statusController),
+                      GetIt.I.get<AuthLayer>().currentUser!.id != project.adminId ? const SizedBox.shrink() : ViewProjectTitle(title: 'Settings',project: project),
+                      GetIt.I.get<AuthLayer>().currentUser!.id != project.adminId ? const SizedBox.shrink() : StatusDropDown(controller: statusController),
                       
                       // <<<<<<<< to be changed later (NOTICE THIS) >>>>>>>>>>>>
-                      Row(
+                      GetIt.I.get<AuthLayer>().currentUser!.id != project.adminId ? const SizedBox.shrink()
+                      : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ElevatedButton(
@@ -229,13 +230,9 @@ class ProjectScreen extends StatelessWidget {
                           ),
                           ElevatedButton(
                             onPressed: () async {
-                              final api = NetworkingApi();
                               log(project.projectId);
                               log(GetIt.I.get<AuthLayer>().auth!.token);
-                              await api.deleteProject(
-                                projectId: project.projectId,
-                                token: GetIt.I.get<AuthLayer>().auth!.token
-                              );
+                              cubit.deleteProject(projectId: project.projectId);
                             },
                             child: const Text("delete")
                           ),

@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/networking/networking_api.dart';
@@ -19,6 +18,21 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
   // void selectItem(String item) {
   //   emit(item);
   // }
+
+  deleteProject({required String projectId}) async {
+    try {
+      emit(LoadingState());
+      await api.deleteProject(
+        projectId: projectId,
+        token: GetIt.I.get<AuthLayer>().auth!.token
+      );
+      emit(SuccessState());
+    } on FormatException catch (error) {
+      emit(ErrorState(msg: error.message));
+    } catch (error) {
+      emit(ErrorState(msg: "There is unknown Error"));
+    }
+  }
 
   updateLogo({required String projectId, required String logoUrl}) async {
     try {

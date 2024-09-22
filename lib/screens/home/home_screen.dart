@@ -128,7 +128,6 @@ class HomeScreen extends StatelessWidget {
                                                 },
                                               ),
                                               project: bootcampProjects[index],
-                                              cubit: cubit
                                             ),
                                           const SizedBox(
                                             width: 20,
