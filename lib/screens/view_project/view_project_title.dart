@@ -41,8 +41,10 @@ class ViewProjectTitle extends StatelessWidget {
                 }
                 else if(title == 'Images') {
                   final selectedImages = await ImagePicker().pickMultiImage(limit: 4);
-                  List<String> imgsPaths = selectedImages.map((img)=>File(img.path).path).toList();
-                  cubit.updateImages(imgs: imgsPaths, projectId: project.projectId, projectImages: project.imagesProject);
+                  if(selectedImages.isNotEmpty) {
+                    List<String> imgsPaths = selectedImages.map((img)=>File(img.path).path).toList();
+                    cubit.updateImages(imgs: imgsPaths, projectId: project.projectId, projectImages: project.imagesProject);
+                  }
                 }
                 else if(title == 'Members') {
                   log('Edit Members');
