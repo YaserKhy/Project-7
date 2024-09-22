@@ -165,6 +165,7 @@ class AddProjectScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 30),
                               EditButton(
+                                buttonText: "Add New Project",
                                 onCancel: ()=> context.pop(),
                                 onSave: () {
                                   if (formKey.currentState!.validate()) {

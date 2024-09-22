@@ -16,6 +16,39 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
   String stateNow = "";
   String canRate = "";
   String canEdit = "";
+  TextEditingController commentController = TextEditingController();
+  Map<String, dynamic> rating = {
+    "idea":0.0,
+    "design":0.0,
+    "tools":0.0,
+    "practices":0.0,
+    "presentation":0.0,
+    "investment":0.0,
+    "note": ""
+  };
+
+  showStars() {
+    emit(ShowStarsState());
+  }
+
+  changeStars(String field,double newStars) {
+    log('$field rating is ${(newStars*2).toInt()}');
+    rating[field] = newStars;
+    emit(StarChangedState(field: field, newStars:newStars));
+  }
+
+  submitRating({required String projectId}) async {
+    rating['idea'] = (rating['idea']*2).toInt();
+    rating['design'] = (rating['design']*2).toInt();
+    rating['tools'] = (rating['tools']*2).toInt();
+    rating['practices'] = (rating['practices']*2).toInt();
+    rating['presentation'] = (rating['presentation']*2).toInt();
+    rating['investment'] = (rating['investment']*2).toInt();
+    rating['note'] = commentController.text;
+    emit(LoadingState());
+    await api.submitRating(ratingData: rating, projectId: projectId, token: GetIt.I.get<AuthLayer>().auth!.token);
+    emit(ShowStarsState());
+  }
 
   editProjectSettings({required String projectId, required String endDate}) async {
     try {

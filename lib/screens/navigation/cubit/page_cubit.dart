@@ -9,7 +9,7 @@ import 'package:project7/screens/profile/profile_screen.dart';
 part 'page_state.dart';
 
 class PageCubit extends Cubit<PageState> {
-  int currentScreen = 0;
+  static int currentScreen = 0;
   List<Widget> screens = [
     BlocProvider(create: (_) => HomeCubit(), child: const HomeScreen()),
     BlocProvider(create: (_) => HomeCubit(), child: const MyProjectsScreen()),

@@ -182,4 +182,22 @@ mixin ProjectsApi on ConstantAPi {
       log(e.toString());
     }
   }
+
+  submitRating({required String token,required String projectId,required Map<String,dynamic> ratingData}) async {
+    try {
+      final response = await dio.post(
+        "$baseURl$rateProjectEndPoint/$projectId",
+        data: ratingData,
+        options: Options(headers: {'Authorization': 'Bearer $token'})
+      );
+      log('Response status: ${response.statusCode}');
+      log('Response body: ${response.data}');
+    } on DioException catch (e) {
+      log("-----");
+      log(e.response?.data.toString() ?? "Error raised in rating project");
+      log("-----");
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }

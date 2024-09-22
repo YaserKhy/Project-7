@@ -31,7 +31,7 @@ class NavigationScreen extends StatelessWidget {
             return Scaffold(
               backgroundColor: AppConstants.bgColor,
               body: IndexedStack(
-                index: cubit.currentScreen,
+                index: PageCubit.currentScreen,
                 children: [
                   BlocBuilder<HomeCubit, HomeState>(
                     builder: (context, homeState) {
@@ -54,7 +54,7 @@ class NavigationScreen extends StatelessWidget {
                 color: Colors.black,
                 padding: const EdgeInsets.only(top: .3),
                 child: NavigationBar(
-                  selectedIndex: cubit.currentScreen,
+                  selectedIndex: PageCubit.currentScreen,
                   onDestinationSelected: (value) => cubit.switchTo(value),
                   height: context.getHeight(divideBy: 15),
                   indicatorColor: Colors.transparent,
@@ -67,7 +67,7 @@ class NavigationScreen extends StatelessWidget {
                       icon: Icon(
                         Icons.home_outlined,
                         size: 30,
-                        color: cubit.currentScreen == 0
+                        color: PageCubit.currentScreen == 0
                           ? AppConstants.mainPurple
                           : Colors.black,
                       )
@@ -77,7 +77,7 @@ class NavigationScreen extends StatelessWidget {
                       icon: Icon(
                         Icons.library_books_outlined,
                         size: 30,
-                        color: cubit.currentScreen == 1
+                        color: PageCubit.currentScreen == 1
                           ? AppConstants.mainPurple
                           : Colors.black,
                       ),
@@ -87,7 +87,7 @@ class NavigationScreen extends StatelessWidget {
                       icon: Icon(
                         Icons.person_2_outlined,
                         size: 30,
-                        color: cubit.currentScreen == 2
+                        color: PageCubit.currentScreen == 2
                           ? AppConstants.mainPurple
                           : Colors.black,
                       )

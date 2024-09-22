@@ -136,6 +136,7 @@ class EditBaseInfo extends StatelessWidget {
                         },
                       ),
                       EditButton(
+                        buttonText: "Save Changes",
                         onCancel: () => context.pop(),
                         onSave: () async {
                           bloc.add(EditBaseInfoEvent(

@@ -26,3 +26,12 @@ final class UpdateRadioButtonEditing extends ViewProjectState {
   final String? editing;
   UpdateRadioButtonEditing({required this.editing});
 }
+
+final class ShowStarsState extends ViewProjectState {}
+
+final class StarChangedState extends ViewProjectState {
+  final String field;
+  final double newStars;
+
+  StarChangedState({required this.field, required this.newStars});
+}

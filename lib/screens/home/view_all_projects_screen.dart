@@ -7,6 +7,7 @@ import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
+import 'package:project7/screens/home/home_screen.dart';
 import 'package:project7/screens/my_projects/cubit/my_projects_cubit.dart';
 import 'package:project7/screens/view_project/project_screen.dart';
 import 'package:project7/widgets/cards/project_card.dart';
@@ -55,6 +56,7 @@ class ViewAllProjectsScreen extends StatelessWidget {
                       cubit.refreshHome();
                       myProjectsCubit.getMyProjects();
                     }
+                    context.pushRemove(screen: const HomeScreen());
                   },
                 )
               );

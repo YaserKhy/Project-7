@@ -11,16 +11,6 @@ class HomeCubit extends Cubit<HomeState> {
   final api = NetworkingApi();
   static List<ProjectModel> projects = [];
   TextEditingController searchController = TextEditingController();
-  TextEditingController commentController = TextEditingController();
-  Map<String, dynamic> rating = {
-    "idea":0.0,
-    "design":0.0,
-    "tools":0.0,
-    "practices":0.0,
-    "presentation":0.0,
-    "investment":0.0,
-    "note": ""
-  };
   HomeCubit() : super(HomeInitial());
 
   getAllProjects() async {
@@ -61,21 +51,6 @@ class HomeCubit extends Cubit<HomeState> {
       }
     }
     emit(ShowProjectsState(projects: result));
-  }
-
-  showStars() {
-    emit(ShowStarsState());
-  }
-
-  changeStars(String field,double newStars) {
-    log('$field rating is $newStars');
-    rating[field] = newStars;
-    emit(StarChangedState(field: field, newStars:newStars));
-  }
-
-  submitRating() {
-    // rating['note'] = commentController.text;
-    // logic here to submit
   }
 
   Widget getLinkIcon(String type) {

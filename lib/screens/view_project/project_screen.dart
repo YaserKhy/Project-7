@@ -10,7 +10,6 @@ import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/helpers/url_launcher.dart';
 import 'package:project7/models/project_model.dart';
-import 'package:project7/networking/networking_api.dart';
 import 'package:project7/screens/edit_project/edit_base_info.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/view_project/cubit/view_project_cubit.dart' as v_cubit;
@@ -19,6 +18,7 @@ import 'package:project7/screens/view_project/view_project_links.dart';
 import 'package:project7/screens/view_project/view_project_member.dart';
 import 'package:project7/screens/view_project/view_project_title.dart';
 import 'package:project7/screens/view_project/view_rating_project.dart';
+import 'package:project7/widgets/dialogs/save_dialog.dart';
 import 'package:project7/widgets/icons/project_icon.dart';
 
 class ProjectScreen extends StatelessWidget {
@@ -190,7 +190,18 @@ class ProjectScreen extends StatelessWidget {
                       project.allowRating ? ViewProjectTitle(project: project, title: 'Rating') : const SizedBox.shrink(),
                       project.allowRating == false ? const SizedBox.shrink()
                       : ListTile(
-                        onTap: () => context.push(screen: ViewRatingProject(project: project,cubit: homeCubit)),
+                        onTap: () => context.push(
+                          screen: ViewRatingProject(
+                            project: project,
+                            cubit: cubit,
+                            onSave: () async {
+                              await cubit.submitRating(projectId: project.projectId);
+                              context.popAndSave();
+                              context.popAndSave();
+                              saveDialog(context: context,msg: "Thank you for your rating");
+                            },
+                          ),
+                        ),
                         tileColor: Colors.white,
                         shape: OutlineInputBorder(
                           borderSide: BorderSide.none,
