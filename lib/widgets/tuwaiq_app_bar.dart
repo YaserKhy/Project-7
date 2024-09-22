@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
-import 'package:project7/global_cubit/shared_cubit.dart';
-import 'package:project7/extensions/screen_navigation.dart';
+import 'package:project7/global_cubit/shared_cubit.dart' as shared;
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/data_layers/auth_layer.dart';
-import 'package:project7/screens/add_project/add_project_screen.dart';
+import 'package:project7/screens/home/cubit/home_cubit.dart';
+import 'package:project7/screens/my_projects/cubit/my_projects_cubit.dart';
 import 'package:project7/widgets/cards/home_profile_card.dart';
 
 class TuwaiqAppBar extends StatelessWidget {
-  final dynamic cubit;
+  final HomeCubit homeCubit;
+  final MyProjectsCubit myProjectsCubit;
   final String page;
-  const TuwaiqAppBar({super.key, required this.page, required this.cubit});
+  final Function()? onAdd;
+  const TuwaiqAppBar({super.key, required this.page, required this.homeCubit, required this.myProjectsCubit, this.onAdd});
 
   @override
   Widget build(BuildContext context) {
+    // main style of the appbar
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       width: context.getWidth(),
@@ -27,22 +30,23 @@ class TuwaiqAppBar extends StatelessWidget {
           bottomRight: Radius.circular(20)
         )
       ),
+      // content of app bar depending on current page
       child: Column(
         children: [
           const SizedBox(height: 38),
-          page == 'home' ? BlocBuilder<SharedCubit, SharedState>(
+          page == 'home' ? BlocBuilder<shared.SharedCubit, shared.SharedState>(
             builder: (context, state) {
-              if(state is ShowProfileState) {
+              if(state is shared.ShowProfileState) {
                 return HomeProfileCard(profile: state.profile);
               }
-              if(state is LoadingState) {
+              if(state is shared.LoadingState) {
                 return const HomeProfileCard();
               }
               return const SizedBox(height: 50,);
             },
           )
           : Padding(
-            padding: const EdgeInsets.only(left: 20, right: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -51,12 +55,9 @@ class TuwaiqAppBar extends StatelessWidget {
                   children: [
                     const Text(
                       "My Projects",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontFamily: "Lato"
-                      ),
+                      style: TextStyle(color: Colors.white,fontSize: 24,fontFamily: "Lato"),
                     ),
+                    // <<<<<<<<<<<<<< TO BE DISCUSSED NOTICE >>>>>>>>>>>>>>>>>
                     Text(
                       GetIt.I.get<AuthLayer>().currentUser!.role,
                       style: const TextStyle(
@@ -69,12 +70,8 @@ class TuwaiqAppBar extends StatelessWidget {
                 ),
                 GetIt.I.get<AuthLayer>().currentUser!.role == 'user' ? const SizedBox.shrink()
                 : IconButton(
-                  onPressed: () => context.push(screen: const AddProjectScreen()),
-                  icon: const Icon(
-                    Icons.add_box,
-                    size: 35,
-                    color: Colors.white,
-                  ),
+                  onPressed: onAdd,
+                  icon: const Icon(Icons.add_box,size: 35,color: Colors.white,),
                 ),
               ],
             ),
@@ -87,8 +84,8 @@ class TuwaiqAppBar extends StatelessWidget {
                 width: context.getWidth(divideBy: 1.2),
                 height: 30,
                 child: TextFormField(
-                  controller: page == 'home' ? cubit.searchController : cubit.mySearchController,
-                  onChanged: (value) => page == 'home' ? cubit.handleSearch(value) : cubit.handleMySearch(value),
+                  controller: page == 'home' ? homeCubit.searchController : myProjectsCubit.mySearchController,
+                  onChanged: (value) => page == 'home' ? homeCubit.handleSearch(value) : myProjectsCubit.handleMySearch(value),
                   cursorHeight: 17,
                   style: const TextStyle(fontSize: 13),
                   decoration: InputDecoration(

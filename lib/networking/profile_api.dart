@@ -72,7 +72,7 @@ mixin ProfileApi on ConstantAPi {
       log('Response body: ${response.data}');
     } on DioException catch (e) {
       log("-----");
-      print(e.response?.data.toString());
+      log(e.response?.data.toString() ?? "Error raised in edit profile");
       log("-----");
     } catch (e) {
       log(e.toString());

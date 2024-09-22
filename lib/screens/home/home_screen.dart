@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Column(
           children: [
-            TuwaiqAppBar(page: 'home',cubit: cubit),
+            TuwaiqAppBar(page: 'home',homeCubit: cubit, myProjectsCubit: myProjectsCubit),
             BlocBuilder<home_cubit.HomeCubit, home_cubit.HomeState>(
               builder: (context, state) {
                 if (state is home_cubit.LoadingState) {

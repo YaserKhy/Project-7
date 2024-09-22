@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class ProjectModel {
   ProjectModel({
     required this.projectId,
@@ -47,7 +49,7 @@ class ProjectModel {
   late final List<MembersProject> membersProject;
 
   ProjectModel.fromJson(Map<String, dynamic> json) {
-    print("ProjectModel.fromJson");
+    log("ProjectModel.fromJson");
     projectId = json['project_id'];
     type = json['type'];
     projectName = json['project_name'] ?? 'Untitled';
@@ -79,7 +81,7 @@ class ProjectModel {
     membersProject = List.from(json['members_project'])
         .map((e) => MembersProject.fromJson(e))
         .toList();
-    print("ProjectModel.fromJson3");
+    log("ProjectModel.fromJson3");
   }
 
   Map<String, dynamic> toJson() {

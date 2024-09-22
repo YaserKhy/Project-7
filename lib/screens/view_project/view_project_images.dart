@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project7/constants/app_constants.dart';
 import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';

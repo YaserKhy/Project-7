@@ -30,26 +30,24 @@ class ViewAllProjectsScreen extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.white),
         leading: IconButton(icon: const Icon(Icons.arrow_back_ios),onPressed: ()=> context.pop()),
       ),
-      body: Expanded(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: List.generate(projects.length, (index) {
-                return ProjectCard(
-                  cubit: cubit,
-                  project: projects[index],
-                  isHome: false,
-                  onTap: () => context.push(
-                    screen: ProjectScreen(
-                      project: projects[index],
-                      homeCubit: cubit
-                    )
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: List.generate(projects.length, (index) {
+              return ProjectCard(
+                cubit: cubit,
+                project: projects[index],
+                isHome: false,
+                onTap: () => context.push(
+                  screen: ProjectScreen(
+                    project: projects[index],
+                    homeCubit: cubit
                   )
-                );
-              })
-            ),
-          )
+                )
+              );
+            })
+          ),
         )
       )
     );

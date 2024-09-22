@@ -2,10 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/networking/const_api.dart';
@@ -80,7 +78,7 @@ mixin ProjectsApi on ConstantAPi {
       log('Response body: ${response.data}');
     } on DioException catch (e) {
       log("-----");
-      print(e.response?.data.toString());
+      log(e.response?.data.toString() ?? "Error raised in edit project base info");
       log("-----");
     } catch (e) {
       log(e.toString());
@@ -110,7 +108,7 @@ mixin ProjectsApi on ConstantAPi {
       log('Response body: ${response.data}');
     } on DioException catch (e) {
       log("-----");
-      print(e.response?.data.toString());
+      log(e.response?.data.toString() ?? "Error raised in edit project status");
       log("-----");
     } catch (e) {
       log(e.toString());
@@ -127,7 +125,7 @@ mixin ProjectsApi on ConstantAPi {
       log('Response body: ${response.data}');
     } on DioException catch (e) {
       log("-----");
-      print(e.response?.data.toString());
+      log(e.response?.data.toString() ?? "Error raised in delete project");
       log("-----");
     } catch (e) {
       log(e.toString());
@@ -155,7 +153,7 @@ mixin ProjectsApi on ConstantAPi {
       log('Response body: ${response.data}');
     } on DioException catch (e) {
       log("-----");
-      print(e.response?.data.toString());
+      log(e.response?.data.toString() ?? "Error raised in edit project logo");
       log("-----");
     } catch (e) {
       log(e.toString());
@@ -178,7 +176,7 @@ mixin ProjectsApi on ConstantAPi {
       log('Response body: ${response.data}');
     } on DioException catch (e) {
       log("-----");
-      print(e.response?.data.toString());
+      log(e.response?.data.toString() ?? "Error raised in edit project images");
       log("-----");
     } catch (e) {
       log(e.toString());
