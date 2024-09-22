@@ -50,7 +50,7 @@ class CreateAccountScreen extends StatelessWidget {
                     children: [
                       Positioned(
                         bottom: 0,
-                        child: Image.asset("assets/images/tuwaiq.png",width: context.getWidth(), fit: BoxFit.cover)
+                        child: Image.asset("assets/images/tuwaiq_main_Screens.png",width: context.getWidth(), fit: BoxFit.cover)
                       ),
                       SizedBox(
                         height: context.getHeight(),
