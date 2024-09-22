@@ -114,6 +114,31 @@ mixin ProjectsApi on ConstantAPi {
       log(e.toString());
     }
   }
+  editProjectPresentation({
+    required String token,
+    required String projectId,
+    required String presentationPath,
+  }) async {
+    try {
+      final presentation = await File(presentationPath!).readAsBytes();
+      final response = await dio.put(
+        "$baseURl$editProjectPresentationEndPoint/$projectId",
+        data: jsonEncode({
+          "presentation_file": presentation.toList(growable: false)
+        }),
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+      log('Response status: ${response.statusCode}');
+      log('Response body: ${response.data}');
+    } on DioException catch (e) {
+      log("-----");
+      print(e.response?.data.toString());
+      log("-----");
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
 
   deleteProject({required String token, required String projectId}) async {
     try {
