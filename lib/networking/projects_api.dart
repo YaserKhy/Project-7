@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/networking/const_api.dart';
@@ -151,7 +152,30 @@ mixin ProjectsApi on ConstantAPi {
         )
       );
       log('Response status: ${response.statusCode}');
-    log('Response body: ${response.data}');
+      log('Response body: ${response.data}');
+    } on DioException catch (e) {
+      log("-----");
+      print(e.response?.data.toString());
+      log("-----");
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  editProjectImages({required String token, required String projectId, required List<String> imgsPaths}) async {
+    List<List<int>> result = [];
+    for (var path in imgsPaths) {
+      Uint8List temp = File(path).readAsBytesSync();
+      result.add(temp.toList(growable: false));
+    }
+    try {
+      final response = await dio.put(
+        "$baseURl$editProjectImagesEndPoint/$projectId",
+        data: jsonEncode({"images": result}),
+        options: Options(headers: {'Authorization': 'Bearer $token'})
+      );
+      log('Response status: ${response.statusCode}');
+      log('Response body: ${response.data}');
     } on DioException catch (e) {
       log("-----");
       print(e.response?.data.toString());

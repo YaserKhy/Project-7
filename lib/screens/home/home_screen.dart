@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
-import 'package:project7/screens/home/cubit/home_cubit.dart';
+import 'package:project7/screens/home/cubit/home_cubit.dart' as home_cubit;
 import 'package:project7/screens/home/view_all_projects_screen.dart';
+import 'package:project7/screens/my_projects/cubit/my_projects_cubit.dart';
 import 'package:project7/screens/view_project/project_screen.dart';
 import 'package:project7/widgets/cards/project_card.dart';
 import 'package:project7/widgets/tuwaiq_app_bar.dart';
@@ -14,22 +15,22 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = context.read<HomeCubit>();
-
+    final cubit = context.read<home_cubit.HomeCubit>();
+    final myProjectsCubit = context.read<MyProjectsCubit>();
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Column(
           children: [
             TuwaiqAppBar(page: 'home',cubit: cubit),
-            BlocBuilder<HomeCubit, HomeState>(
+            BlocBuilder<home_cubit.HomeCubit, home_cubit.HomeState>(
               builder: (context, state) {
-                if (state is LoadingState) {
+                if (state is home_cubit.LoadingState) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                if (state is ErrorState) {
+                if (state is home_cubit.ErrorState) {
                   return Center(child: Text(state.msg));
                 }
-                if (state is ShowProjectsState) {
+                if (state is home_cubit.ShowProjectsState) {
                   if (state.projects.isEmpty) {
                     return Center(
                       child: Column(
@@ -122,6 +123,7 @@ class HomeScreen extends StatelessWidget {
                                                 updateInfo: (p0) {
                                                   if(p0!=null) {
                                                     cubit.refreshHome();
+                                                    myProjectsCubit.getMyProjects();
                                                   }
                                                 },
                                               ),

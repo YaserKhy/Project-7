@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/models/profile_model.dart';
@@ -94,9 +95,10 @@ class SharedCubit extends Cubit<SharedState> {
             errorBuilder: (context, error, stackTrace) => placeholderAvatar);
   }
 
-  Image handleLogo(
+  Widget handleLogo(
       {required String logoUrl,
       required BuildContext context,
+      bool? isRounded,
       double? heightDivide,
       double? height,
       double? widthDivide}) {
@@ -106,10 +108,13 @@ class SharedCubit extends Cubit<SharedState> {
         fit: BoxFit.cover);
     return logoUrl.contains('assets')
         ? placeholderLogo
-        : Image.network(logoUrl,
-            width: context.getWidth(divideBy: widthDivide ?? 1),
-            height: context.getHeight(divideBy: heightDivide ?? 10),
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => placeholderLogo);
+        : Container(
+          decoration: BoxDecoration(color: AppConstants.mainPurple, borderRadius: BorderRadius.circular(20)),
+          child: Image.network(logoUrl,
+              width: context.getWidth(divideBy: widthDivide ?? 1),
+              height: context.getHeight(divideBy: heightDivide ?? 10),
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => placeholderLogo),
+        );
   }
 }

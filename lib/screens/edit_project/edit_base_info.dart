@@ -72,7 +72,6 @@ class EditBaseInfo extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const Divider(),
                       const SizedBox(height: 10),
                       EditField(label: "Project name",controller: nameController),
                       EditField(label: "Bootcamp",controller: bootcampController),

@@ -250,7 +250,7 @@ class ProjectScreen extends StatelessWidget {
                                 Icons.arrow_forward_ios_outlined,
                                 color: AppConstants.iconsGrayColor),
                           ),
-                    ViewProjectTitle(title: 'Links', project: project),
+                    ViewProjectTitle(title: 'Links', project: project, editable: shared.canEdit(project: project),),
                     project.linksProject.isEmpty
                         ? const Text("No Links Added")
                         : ViewProjectLinks(links: project.linksProject),

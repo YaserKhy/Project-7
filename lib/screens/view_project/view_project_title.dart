@@ -1,9 +1,13 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/edit_project/edit_base_info.dart';
+import 'package:project7/screens/view_project/cubit/view_project_cubit.dart';
 
 class ViewProjectTitle extends StatelessWidget {
   final String title;
@@ -13,6 +17,7 @@ class ViewProjectTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ViewProjectCubit>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -30,13 +35,14 @@ class ViewProjectTitle extends StatelessWidget {
             ),
             const SizedBox(width: 5),
             editable ? InkWell(
-              onTap: () {
+              onTap: () async {
                 if(title == 'Presentation') {
                   log('Edit Presentation');
                 }
                 else if(title == 'Images') {
-                  // context.push(screen: Images)
-                  log('Edit Images');
+                  final selectedImages = await ImagePicker().pickMultiImage(limit: 4);
+                  List<String> imgsPaths = selectedImages.map((img)=>File(img.path).path).toList();
+                  cubit.updateImages(imgs: imgsPaths, projectId: project.projectId, projectImages: project.imagesProject);
                 }
                 else if(title == 'Members') {
                   log('Edit Members');

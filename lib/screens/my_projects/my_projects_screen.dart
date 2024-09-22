@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project7/extensions/screen_navigation.dart';
@@ -78,6 +80,8 @@ class MyProjectsScreen extends StatelessWidget {
                                 SingleChildScrollView(
                                   child: Column(
                                     children: List.generate(bootcampProjects.length, (index){
+                                      ProjectModel p = bootcampProjects[index];
+                                      log("${p.projectName} ${p.logoUrl}");
                                       return ProjectCard(
                                         onTap: ()=> context.push(
                                           screen: ProjectScreen(

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/networking/networking_api.dart';
