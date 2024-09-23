@@ -413,32 +413,40 @@ class ProjectScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppConstants.mainPurple,
+                              textStyle: const TextStyle(color: Colors.white)
+                            ),
                             onPressed: () async {
                               cubit.editProjectSettings(
                                 projectId: project.projectId,
                                 endDate: project.endDate // should change later
                               );
                             },
-                            child: const Text("save settings")
+                            child: const Text("save settings", style: TextStyle(color: Colors.white),)
                           ),
                           ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppConstants.red,
+                              textStyle: const TextStyle(color: Colors.white)
+                            ),
                             onPressed: () async {
                               log(project.projectId);
                               log(GetIt.I.get<AuthLayer>().auth!.token);
                               cubit.deleteProject(projectId: project.projectId);
                             },
-                            child: const Text("delete")
+                            child: const Text("delete", style: TextStyle(color: Colors.white),)
                           ),
                         ],
                       ),
                     ]),
+                  ),
                 ),
               ),
-            ),
-          )
-        );
-      }
-    )
+            )
+          );
+        }
+      )
     );
   }
 }

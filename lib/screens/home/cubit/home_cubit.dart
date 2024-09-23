@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/networking/networking_api.dart';
 import 'package:flutter/material.dart';
-import 'package:project7/widgets/icons/custom_icons_icons.dart';
 
 part 'home_state.dart';
 
