@@ -1,3 +1,4 @@
+// imports
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
@@ -48,10 +49,10 @@ class ProjectScreen extends StatelessWidget {
           listener: (context, state) {
             if (state is v_cubit.LoadingState) {
               showDialog(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (context) =>
-                      const Center(child: CircularProgressIndicator()));
+                barrierDismissible: false,
+                context: context,
+                builder: (context) => const Center(child: CircularProgressIndicator())
+              );
             }
             if (state is v_cubit.ErrorState) {
               context.pop();
@@ -99,22 +100,17 @@ class ProjectScreen extends StatelessWidget {
                                 child: CircleAvatar(
                                   radius: 50,
                                   backgroundColor: Colors.transparent,
-                                  backgroundImage: shared
-                                      .handleProfilePage(
-                                          logoUrl: project.logoUrl,
-                                          context: context)
-                                      .image),
+                                  backgroundImage: shared.handleProfilePage(logoUrl: project.logoUrl,context: context).image
+                                ),
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 9),
-                          // project name
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              shared.canEdit(project: project)
-                                  ? const SizedBox(width: 20)
-                                  : const SizedBox.shrink(),
-                              Text(project.projectName,
+                            const SizedBox(height: 9),
+                            // project name
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                shared.canEdit(project: project) ? const SizedBox(width: 20) : const SizedBox.shrink(),
+                                Text(project.projectName,
                                   style: const TextStyle(
                                     color: AppConstants.mainPurple,
                                     fontSize: 24,
@@ -202,9 +198,7 @@ class ProjectScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
                                     ClipRRect(borderRadius: BorderRadius.circular(10),child: Image.network(imgToDelete.url, width: context.getWidth(divideBy: 2), height: context.getHeight(divideBy: 3),)),
-                                    AuthButton(
-                                      title: "Delete",
-                                      onPressed: () {
+                                    AuthButton(title: "Delete",onPressed: () {
                                       cubit.deleteImage(
                                         projectId: project.projectId,
                                         projectImages: project.imagesProject,
@@ -233,7 +227,13 @@ class ProjectScreen extends StatelessWidget {
                               child: Container(
                                 width: context.getWidth(),
                                 height: context.getHeight(divideBy: 2.8),
-                                decoration: const BoxDecoration(color: AppConstants.mainWhite, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                                decoration: const BoxDecoration(
+                                  color: AppConstants.mainWhite,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20)
+                                  )
+                                ),
                                 child: Form(
                                   key: formKey,
                                   child: Padding(
@@ -242,15 +242,9 @@ class ProjectScreen extends StatelessWidget {
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                                         children: [
-                                          EditField(
-                                            controller: cubit.userIdController,
-                                            label: "Enter user id"
-                                          ),
-                                          EditField(
-                                            controller: cubit.positionController,
-                                            label: "Enter Position"
-                                          ),
-                                          SizedBox(height: 20),
+                                          EditField(controller: cubit.userIdController,label: "Enter user id"),
+                                          EditField(controller: cubit.positionController,label: "Enter Position"),
+                                          const SizedBox(height: 20),
                                           AuthButton(
                                             title: "Add Member",
                                             onPressed: () {
