@@ -12,6 +12,7 @@ import 'package:project7/screens/profile/edit_profile_screen.dart';
 import 'package:project7/widgets/buttons/profile_button.dart';
 import 'package:project7/widgets/cards/account_card.dart';
 import 'package:project7/widgets/cards/profile_card.dart';
+import 'package:project7/widgets/dialogs/warning_dialog.dart';
 import 'package:project7/widgets/icons/custom_icons_icons.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -31,6 +32,7 @@ class ProfileScreen extends StatelessWidget {
             return Center(child: Text(state.msg));
           }
           if (state is ShowProfileState) {
+            print(state.profile?.id);
             return SafeArea(
               child: SingleChildScrollView(
                 child: Column(
@@ -48,13 +50,13 @@ class ProfileScreen extends StatelessWidget {
                         child: IconButton(
                             onPressed: () {
                               context.push(
-                                screen: EditProfileScreen(profile: state.profile!),
-                                updateInfo: (p0) {
-                                  if(p0!=null) {
-                                    shared.updateProfile();
-                                  }
-                                }
-                              );
+                                  screen: EditProfileScreen(
+                                      profile: state.profile!),
+                                  updateInfo: (p0) {
+                                    if (p0 != null) {
+                                      shared.updateProfile();
+                                    }
+                                  });
                             },
                             icon: const Icon(CustomIcons.edit,
                                 color: AppConstants.mainPurple)),
@@ -71,8 +73,8 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 60),
                     Container(
                       width: context.getWidth(divideBy: 1.1),
-                      padding:
-                          const EdgeInsets.symmetric(vertical: 20, horizontal: 9),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 9),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10)),
@@ -99,16 +101,21 @@ class ProfileScreen extends StatelessWidget {
                               urlPath:
                                   "https://bind.link/@${state.profile!.link?.bindlink}"),
                           ProfileButton(
-                            icon: Icons.power_settings_new,
-                            color: const Color(0xffFF4B4B),
-                            title: "Logout",
-                            onPressed: () async {
-                              log('user was ${GetIt.I.get<AuthLayer>().auth?.token.substring(1, 10)}');
-                              await GetIt.I.get<AuthLayer>().logOut();
-                              log('user is ${GetIt.I.get<AuthLayer>().auth?.token}');
-                              context.pushRemove(screen: const LoginScreen());
-                            },
-                          ),
+                              icon: Icons.power_settings_new,
+                              color: const Color(0xffFF4B4B),
+                              title: "Logout",
+                              onPressed: () {
+                                warningDialog(
+                                  context: context,
+                                  onPressed: () async {
+                                    log('user was ${GetIt.I.get<AuthLayer>().auth?.token.substring(1, 10)}');
+                                    await GetIt.I.get<AuthLayer>().logOut();
+                                    log('user is ${GetIt.I.get<AuthLayer>().auth?.token}');
+                                    context.pushRemove(
+                                        screen: const LoginScreen());
+                                  },
+                                );
+                              }),
                         ],
                       ),
                     ),
@@ -123,3 +130,8 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
+
+
+// async {
+
+//                             },

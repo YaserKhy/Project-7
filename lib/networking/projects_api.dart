@@ -40,6 +40,7 @@ mixin ProjectsApi on ConstantAPi {
           options: Options(headers: {
             'Authorization': 'Bearer ${GetIt.I.get<AuthLayer>().auth!.token}'
           }));
+
       return response.data["data"];
     } on DioException catch (error) {
       throw FormatException(error.response?.data["data"]);
@@ -78,7 +79,8 @@ mixin ProjectsApi on ConstantAPi {
       log('Response body: ${response.data}');
     } on DioException catch (e) {
       log("-----");
-      log(e.response?.data.toString() ?? "Error raised in edit project base info");
+      log(e.response?.data.toString() ??
+          "Error raised in edit project base info");
       log("-----");
     } catch (e) {
       log(e.toString());
@@ -157,7 +159,10 @@ mixin ProjectsApi on ConstantAPi {
     }
   }
 
-  editProjectLogo({required String token, required String projectId, required String imgPath}) async {
+  editProjectLogo(
+      {required String token,
+      required String projectId,
+      required String imgPath}) async {
     Uint8List? image;
     bool isValid = false;
     try {
@@ -166,14 +171,9 @@ mixin ProjectsApi on ConstantAPi {
     } catch (_) {}
     try {
       final response = await dio.put(
-        '$baseURl$editProjectLogoEndPoint/$projectId',
-        data: jsonEncode({
-          "logo": image?.toList(growable: false)
-        }),
-        options: Options(
-          headers: {'Authorization': 'Bearer $token'}
-        )
-      );
+          '$baseURl$editProjectLogoEndPoint/$projectId',
+          data: jsonEncode({"logo": image?.toList(growable: false)}),
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
       log('Response status: ${response.statusCode}');
       log('Response body: ${response.data}');
     } on DioException catch (e) {
@@ -201,10 +201,9 @@ mixin ProjectsApi on ConstantAPi {
       log("after filter 'result'"); 
       log(result.length.toString());
       final response = await dio.put(
-        "$baseURl$editProjectImagesEndPoint/$projectId",
-        data: jsonEncode({"images": result}),
-        options: Options(headers: {'Authorization': 'Bearer $token'})
-      );
+          "$baseURl$editProjectImagesEndPoint/$projectId",
+          data: jsonEncode({"images": result}),
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
       log('Response status: ${response.statusCode}');
       log('Response body: ${response.data}');
     } on DioException catch (e) {

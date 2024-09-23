@@ -24,26 +24,27 @@ class HomeScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Column(
-          children: [
-            TuwaiqAppBar(page: 'home',homeCubit: cubit, myProjectsCubit: myProjectsCubit),
-            BlocBuilder<home_cubit.HomeCubit, home_cubit.HomeState>(
-              builder: (context, state) {
-                if (state is home_cubit.LoadingState) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (state is home_cubit.ErrorState) {
-                  return Center(child: Text(state.msg));
-                }
-                if (state is home_cubit.ShowProjectsState) {
-                  if (state.projects.isEmpty) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(height: context.getHeight(divideBy: 7)),
-                          const Text(
-                            "No Projects Found.",
-                            style: TextStyle(
+        children: [
+          TuwaiqAppBar(
+              page: 'home', homeCubit: cubit, myProjectsCubit: myProjectsCubit),
+          BlocBuilder<home_cubit.HomeCubit, home_cubit.HomeState>(
+            builder: (context, state) {
+              if (state is home_cubit.LoadingState) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state is home_cubit.ErrorState) {
+                return Center(child: Text(state.msg));
+              }
+              if (state is home_cubit.ShowProjectsState) {
+                if (state.projects.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: context.getHeight(divideBy: 7)),
+                        const Text(
+                          "No Projects Found.",
+                          style: TextStyle(
                               fontFamily: 'Lato',
                               fontSize: 16,
                               fontWeight: FontWeight.w700),
@@ -119,7 +120,8 @@ class HomeScreen extends StatelessWidget {
                                       return Row(
                                         children: [
                                           ProjectCard(
-                                              onTap: ()=>context.push(
+                                            project: bootcampProjects[index],
+                                            onTap: ()=>context.push(
                                                 screen: ProjectScreen(
                                                   homeCubit: cubit,
                                                   myProjectsCubit: myProjectsCubit,
@@ -132,9 +134,8 @@ class HomeScreen extends StatelessWidget {
                                                     await cubit.refreshHome();
                                                   }
                                                 },
-                                              ),
-                                              project: bootcampProjects[index],
                                             ),
+                                          ),
                                           const SizedBox(
                                             width: 20,
                                           ),

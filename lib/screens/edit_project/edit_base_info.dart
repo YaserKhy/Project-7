@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -19,13 +21,20 @@ class EditBaseInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController(text: project.projectName);
-    TextEditingController bootcampController = TextEditingController(text: project.bootcampName);
-    TextEditingController typeController = TextEditingController(text: project.type);
-    TextEditingController descriptionController = TextEditingController(text: project.projectDescription);
-    TextEditingController startDateController = TextEditingController(text: project.startDate ?? "15/12/2024");
-    TextEditingController endDateController = TextEditingController(text: project.endDate);
-    TextEditingController presentationDateController = TextEditingController(text: project.presentationDate ?? "15/12/2024");
+    TextEditingController nameController =
+        TextEditingController(text: project.projectName);
+    TextEditingController bootcampController =
+        TextEditingController(text: project.bootcampName);
+    TextEditingController typeController =
+        TextEditingController(text: project.type);
+    TextEditingController descriptionController =
+        TextEditingController(text: project.projectDescription);
+    TextEditingController startDateController =
+        TextEditingController(text: project.startDate ?? "15/12/2024");
+    TextEditingController endDateController =
+        TextEditingController(text: project.endDate);
+    TextEditingController presentationDateController =
+        TextEditingController(text: project.presentationDate ?? "15/12/2024");
     return BlocProvider(
       create: (context) => EditProjectBloc(),
       child: Builder(builder: (context) {
@@ -34,10 +43,10 @@ class EditBaseInfo extends StatelessWidget {
           listener: (context, state) {
             if (state is LoadingState) {
               showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) => const Center(child: CircularProgressIndicator())
-              );
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) =>
+                      const Center(child: CircularProgressIndicator()));
             }
             if (state is SuccessState) {
               context.popAndSave();
@@ -46,118 +55,125 @@ class EditBaseInfo extends StatelessWidget {
             }
             if (state is ErrorState) {
               Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.msg)));
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text(state.msg)));
             }
           },
           child: GestureDetector(
-            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-            child: Scaffold(
-              resizeToAvoidBottomInset: false,
-              backgroundColor: AppConstants.bgColor,
-              appBar: AppBar(
-                centerTitle: true,
-                forceMaterialTransparency: true,
-                title: const Text(
-                  "Edit Project",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: AppConstants.mainPurple,
-                    fontSize: 24,
-                    fontFamily: "Lato"
+              onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+              child: Scaffold(
+                resizeToAvoidBottomInset: false,
+                backgroundColor: AppConstants.bgColor,
+                appBar: AppBar(
+                  centerTitle: true,
+                  forceMaterialTransparency: true,
+                  title: const Text(
+                    "Edit Project",
+                    style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: AppConstants.mainPurple,
+                        fontSize: 24,
+                        fontFamily: "Lato"),
                   ),
                 ),
-              ),
-              body: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      EditField(label: "Project name",controller: nameController),
-                      EditField(label: "Bootcamp",controller: bootcampController),
-                      TypeDropDown(controller: typeController),
-                      const SizedBox(height: 10),
-                      EditField(
-                        controller: descriptionController,
-                        label: "Project Description",
-                        minHeight: 300,
-                        maxLines: 4,
-                      ),
-                      const SizedBox(height: 20),
-                      const ProfileTitle(title: "Dates"),
-                      const Divider(),
-                      const SizedBox(height: 10),
-                      DateField(
-                        label: "Start Date",
-                        controller: startDateController,
-                        selectDate: (BuildContext context) async {
-                          final DateTime? picked = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2101),
-                          );
-                          if (picked != null) {
-                            final formattedDate = DateFormat('dd/MM/yyyy').format(picked);
-                            startDateController.text = formattedDate;
-                          }
-                        },
-                      ),
-                      DateField(
-                        label: "End Date",
-                        controller: endDateController,
-                        selectDate: (BuildContext context) async {
-                          final DateTime? picked = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2101),
-                          );
-                          if (picked != null) {
-                            final formattedDate = DateFormat('dd/MM/yyyy').format(picked);
-                            endDateController.text = formattedDate;
-                          }
-                        },
-                      ),
-                      DateField(
-                        label: "Presentation Date",
-                        controller: presentationDateController,
-                        selectDate: (BuildContext context) async {
-                          final DateTime? picked = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2101),
-                          );
-                          if (picked != null) {
-                            final formattedDate = DateFormat('dd/MM/yyyy').format(picked);
-                            presentationDateController.text = formattedDate;
-                          }
-                        },
-                      ),
-                      EditButton(
-                        buttonText: "Save Changes",
-                        onCancel: () => context.pop(),
-                        onSave: () async {
-                          bloc.add(EditBaseInfoEvent(
-                            token: GetIt.I.get<AuthLayer>().auth!.token,
-                            id: project.projectId,
-                            name: nameController.text,
-                            bootcamp: bootcampController.text,
-                            type: typeController.text,
-                            description: descriptionController.text,
-                            startDate: startDateController.text,
-                            endDate: endDateController.text,
-                            presentationDate: presentationDateController.text
-                          ));
-                        },
-                      )
-                    ],
+                body: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        EditField(
+                            label: "Project name", controller: nameController),
+                        EditField(
+                            label: "Bootcamp", controller: bootcampController),
+                        TypeDropDown(controller: typeController),
+                        const SizedBox(height: 10),
+                        EditField(
+                          controller: descriptionController,
+                          label: "project Description",
+                          minHeight: 300,
+                          maxLines: 4,
+                        ),
+                        const SizedBox(height: 20),
+                        const ProfileTitle(title: "Dates"),
+                        const Divider(),
+                        const SizedBox(height: 10),
+                        DateField(
+                          label: "Start Date",
+                          controller: startDateController,
+                          selectDate: (BuildContext context) async {
+                            final DateTime? picked = await showDatePicker(
+                              context: context,
+                              // initialDate: DateTime.now(),
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2101),
+                            );
+                            if (picked != null) {
+                              final formattedDate =
+                                  DateFormat('dd/MM/yyyy').format(picked);
+                              startDateController.text = formattedDate;
+                            }
+                            log("${startDateController.text}");
+                          },
+                        ),
+                        DateField(
+                          label: "End Date",
+                          controller: endDateController,
+                          selectDate: (BuildContext context) async {
+                            final DateTime? picked = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2101),
+                            );
+                            if (picked != null) {
+                              final formattedDate =
+                                  DateFormat('dd/MM/yyyy').format(picked);
+                              endDateController.text = formattedDate;
+                              log("${endDateController.text}");
+                            }
+                          },
+                        ),
+                        DateField(
+                          label: "Presentation Date",
+                          controller: presentationDateController,
+                          selectDate: (BuildContext context) async {
+                            final DateTime? picked = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2101),
+                            );
+                            if (picked != null) {
+                              final formattedDate =
+                                  DateFormat('dd/MM/yyyy').format(picked);
+                              presentationDateController.text = formattedDate;
+                            }
+                            log("${presentationDateController.text}");
+                          },
+                        ),
+                        EditButton(
+                          buttonText: "Save Changes",
+                          onCancel: () => context.pop(),
+                          onSave: () async {
+                            bloc.add(EditBaseInfoEvent(
+                                token: GetIt.I.get<AuthLayer>().auth!.token,
+                                id: project.projectId,
+                                name: nameController.text,
+                                bootcamp: bootcampController.text,
+                                type: typeController.text,
+                                description: descriptionController.text,
+                                startDate: startDateController.text,
+                                endDate: endDateController.text,
+                                presentationDate:
+                                    presentationDateController.text));
+                          },
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            )
-          ),
+              )),
         );
       }),
     );

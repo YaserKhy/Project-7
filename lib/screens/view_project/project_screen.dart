@@ -48,10 +48,10 @@ class ProjectScreen extends StatelessWidget {
           listener: (context, state) {
             if (state is v_cubit.LoadingState) {
               showDialog(
-                barrierDismissible: false,
-                context: context,
-                builder: (context) => const Center(child: CircularProgressIndicator())
-              );
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) =>
+                      const Center(child: CircularProgressIndicator()));
             }
             if (state is v_cubit.ErrorState) {
               context.pop();
@@ -99,17 +99,22 @@ class ProjectScreen extends StatelessWidget {
                                 child: CircleAvatar(
                                   radius: 50,
                                   backgroundColor: Colors.transparent,
-                                  backgroundImage: shared.handleProfilePage(logoUrl: project.logoUrl,context: context).image
-                                ),
-                              ),
+                                  backgroundImage: shared
+                                      .handleProfilePage(
+                                          logoUrl: project.logoUrl,
+                                          context: context)
+                                      .image),
                             ),
-                            const SizedBox(height: 9),
-                            // project name
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                shared.canEdit(project: project) ? const SizedBox(width: 20) : const SizedBox.shrink(),
-                                Text(project.projectName,
+                          ),
+                          const SizedBox(height: 9),
+                          // project name
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              shared.canEdit(project: project)
+                                  ? const SizedBox(width: 20)
+                                  : const SizedBox.shrink(),
+                              Text(project.projectName,
                                   style: const TextStyle(
                                     color: AppConstants.mainPurple,
                                     fontSize: 24,
@@ -432,14 +437,14 @@ class ProjectScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                )
-              )
-            )
-          ),
+                    ]),
+                ),
+              ),
+            ),
+          )
         );
-      }),
+      }
+    )
     );
   }
 }
