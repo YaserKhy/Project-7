@@ -120,7 +120,7 @@ mixin ProjectsApi on ConstantAPi {
     required String presentationPath,
   }) async {
     try {
-      final presentation = await File(presentationPath!).readAsBytes();
+      final presentation = await File(presentationPath).readAsBytes();
       final response = await dio.put(
         "$baseURl$editProjectPresentationEndPoint/$projectId",
         data: jsonEncode({
@@ -132,7 +132,7 @@ mixin ProjectsApi on ConstantAPi {
       log('Response body: ${response.data}');
     } on DioException catch (e) {
       log("-----");
-      print(e.response?.data.toString());
+      log(e.response?.data.toString() ?? "Error raised in presentation");
       log("-----");
     } catch (e) {
       log(e.toString());
@@ -185,13 +185,21 @@ mixin ProjectsApi on ConstantAPi {
     }
   }
 
-  editProjectImages({required String token, required String projectId, required List<String> imgsPaths}) async {
+  editProjectImages({required String token, required String projectId, required List<String> imgsPaths, required List<ImagesProject> currentImages, String deletedUrl=""}) async {
     List<List<int>> result = [];
-    for (var path in imgsPaths) {
-      Uint8List temp = File(path).readAsBytesSync();
-      result.add(temp.toList(growable: false));
-    }
+    log("all Images");
+    log(currentImages.length.toString());
     try {
+      for(var url in currentImages.map((img)=>img.url)) {
+        final subResponse = await dio.get(url,options: Options(responseType: ResponseType.bytes));
+        result.add(Uint8List.fromList(subResponse.data));
+      }
+      for (var path in imgsPaths) {
+        Uint8List temp = File(path).readAsBytesSync();
+        result.add(temp.toList(growable: false));
+      }
+      log("after filter 'result'"); 
+      log(result.length.toString());
       final response = await dio.put(
         "$baseURl$editProjectImagesEndPoint/$projectId",
         data: jsonEncode({"images": result}),
@@ -202,6 +210,36 @@ mixin ProjectsApi on ConstantAPi {
     } on DioException catch (e) {
       log("-----");
       log(e.response?.data.toString() ?? "Error raised in edit project images");
+      log("-----");
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+  deleteProjectImage({required String token, required String projectId, required ImagesProject imgToDelete, required List<ImagesProject> images}) async {
+    List<List<int>> result = [];
+    log("all images");
+    log(images.length.toString());
+    try {
+      for(var img in images) {
+        if(img.id==imgToDelete.id) {
+          continue;
+        }
+        final subResponse = await dio.get(img.url,options: Options(responseType: ResponseType.bytes));
+        result.add(Uint8List.fromList(subResponse.data));
+      }
+      log("after filter 'result'"); 
+      log(result.length.toString());
+      final response = await dio.put(
+        "$baseURl$editProjectImagesEndPoint/$projectId",
+        data: jsonEncode({"images": result}),
+        options: Options(headers: {'Authorization': 'Bearer $token'})
+      );
+      log('Response status: ${response.statusCode}');
+      log('Response body: ${response.data}');
+    } on DioException catch (e) {
+      log("-----");
+      log(e.response?.data.toString() ?? "Error raised in delete project image");
       log("-----");
     } catch (e) {
       log(e.toString());

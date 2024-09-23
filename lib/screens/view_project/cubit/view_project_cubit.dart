@@ -155,7 +155,7 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));
     } catch (error) {
-      emit(ErrorState(msg: "There is unknown error"));
+      emit(ErrorState(msg: error.toString()));
     }
   }
 
@@ -163,13 +163,31 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
       {required List<String> imgs,
       required String projectId,
       required List<ImagesProject> projectImages}) async {
-    // should append projectImages, currently : it overrides
     try {
       emit(LoadingState());
       await api.editProjectImages(
           token: GetIt.I.get<AuthLayer>().auth!.token,
           projectId: projectId,
-          imgsPaths: imgs);
+          imgsPaths: imgs,
+          currentImages: projectImages
+        );
+      emit(SuccessState());
+    } on FormatException catch (error) {
+      emit(ErrorState(msg: error.message));
+    } catch (error) {
+      emit(ErrorState(msg: "There is unknown error"));
+    }
+  }
+
+  deleteImage({required String projectId, required List<ImagesProject> projectImages, required ImagesProject imgToDelete}) async {
+    try {
+      emit(LoadingState());
+      await api.deleteProjectImage(
+        token: GetIt.I.get<AuthLayer>().auth!.token,
+        projectId: projectId,
+        imgToDelete: imgToDelete,
+        images: projectImages
+      );
       emit(SuccessState());
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));
@@ -185,9 +203,10 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
     try {
       emit(LoadingState());
       await api.editProjectPresentation(
-          token: GetIt.I.get<AuthLayer>().auth!.token,
-          projectId: projectId,
-          presentationPath: presentationPath);
+        token: GetIt.I.get<AuthLayer>().auth!.token,
+        projectId: projectId,
+        presentationPath: presentationPath
+      );
       emit(SuccessState());
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));

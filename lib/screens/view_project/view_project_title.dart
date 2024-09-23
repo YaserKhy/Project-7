@@ -54,6 +54,7 @@ class ViewProjectTitle extends StatelessWidget {
                   final selectedImages = await ImagePicker().pickMultiImage(limit: 4);
                   if (selectedImages.isNotEmpty) {
                     List<String> imgsPaths = selectedImages.map((img) => File(img.path).path).toList();
+                    // log("message hwerrr");
                     cubit.updateImages(
                       imgs: imgsPaths,
                       projectId: project.projectId,

@@ -132,7 +132,7 @@ class ProjectScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: List.generate(3, (index) {
-                                List titles = [project.bootcampName,project.type,"${project.endDate.split('-')[1]}/${project.endDate.split('-').first.substring(2,4)}"];
+                                List titles = [project.bootcampName,project.type,project.endDate.contains("n") ? "in progress":"${project.endDate.split('-')[1]}/${project.endDate.split('-').first.substring(2,4)}"];
                                 List colors = [0xffff8c2c,0xff01e6d5,0xff4f27b3];
                                 List icons = [Icons.lightbulb,Icons.code,Icons.calendar_month_rounded];
                                 return ProjectIcon(
@@ -179,7 +179,38 @@ class ProjectScreen extends StatelessWidget {
                       ),
                       // Section 4 : Images
                       ViewProjectTitle(project: project,title: "Images",editable: shared.canEdit(project: project)),
-                      ViewProjectImages(images: project.imagesProject),
+                      ViewProjectImages(project: project, onDelete: (imgToDelete) {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                width: context.getWidth(),
+                                height: context.getHeight(divideBy: 2),
+                                decoration: const BoxDecoration(color: AppConstants.mainWhite, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    ClipRRect(borderRadius: BorderRadius.circular(10),child: Image.network(imgToDelete.url, width: context.getWidth(divideBy: 2), height: context.getHeight(divideBy: 3),)),
+                                    AuthButton(
+                                      title: "Delete",
+                                      onPressed: () {
+                                      cubit.deleteImage(
+                                        projectId: project.projectId,
+                                        projectImages: project.imagesProject,
+                                        imgToDelete: imgToDelete,
+                                      );
+                                      context.popAndSave();
+                                    }),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }
+                        );
+                      }),
                       // Section 5 : Members
                       ViewProjectTitle(
                         project: project,

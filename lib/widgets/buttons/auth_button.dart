@@ -11,7 +11,7 @@ class AuthButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppConstants.mainPurple,
+        backgroundColor: title=="Delete" ? AppConstants.red : AppConstants.mainPurple,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         foregroundColor: Colors.white,
         fixedSize: const Size(350, 45),

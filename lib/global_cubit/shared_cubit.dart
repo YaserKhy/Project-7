@@ -109,7 +109,7 @@ class SharedCubit extends Cubit<SharedState> {
     return logoUrl.contains('assets')
         ? placeholderLogo
         : Container(
-          decoration: BoxDecoration(color: AppConstants.mainPurple, borderRadius: BorderRadius.circular(20)),
+          decoration: BoxDecoration(color: AppConstants.mainPurple, borderRadius: BorderRadius.circular(10)),
           child: Image.network(logoUrl,
               width: context.getWidth(divideBy: widthDivide ?? 1),
               height: context.getHeight(divideBy: heightDivide ?? 10),
