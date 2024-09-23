@@ -25,8 +25,7 @@ class HomeScreen extends StatelessWidget {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Column(
         children: [
-          TuwaiqAppBar(
-              page: 'home', homeCubit: cubit, myProjectsCubit: myProjectsCubit),
+          TuwaiqAppBar(page: 'home', homeCubit: cubit, myProjectsCubit: myProjectsCubit),
           BlocBuilder<home_cubit.HomeCubit, home_cubit.HomeState>(
             builder: (context, state) {
               if (state is home_cubit.LoadingState) {
@@ -44,10 +43,7 @@ class HomeScreen extends StatelessWidget {
                         SizedBox(height: context.getHeight(divideBy: 7)),
                         const Text(
                           "No Projects Found.",
-                          style: TextStyle(
-                              fontFamily: 'Lato',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700),
+                          style: TextStyle(fontFamily: 'Lato',fontSize: 16,fontWeight: FontWeight.w700),
                         ),
                       ],
                     ),
@@ -57,17 +53,9 @@ class HomeScreen extends StatelessWidget {
                   return Expanded(
                     child: SingleChildScrollView(
                       child: Column(
-                        children: List.generate(
-                            cubit.getGroupedProjects(state.projects).length,
-                            (index) {
-                          String bootcamp = cubit
-                              .getGroupedProjects(state.projects)
-                              .keys
-                              .toList()[index];
-                          List<ProjectModel> bootcampProjects = cubit
-                              .getGroupedProjects(state.projects)
-                              .values
-                              .toList()[index];
+                        children: List.generate(cubit.getGroupedProjects(state.projects).length,(index) {
+                          String bootcamp = cubit.getGroupedProjects(state.projects).keys.toList()[index];
+                          List<ProjectModel> bootcampProjects = cubit.getGroupedProjects(state.projects).values.toList()[index];
                           return Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Column(
@@ -75,16 +63,11 @@ class HomeScreen extends StatelessWidget {
                               children: [
                                 const SizedBox(height: 20),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       bootcamp,
-                                      style: const TextStyle(
-                                        fontFamily: 'Lato',
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w700,
-                                      ),
+                                      style: const TextStyle(fontSize: 20,fontFamily: 'Lato',fontWeight: FontWeight.w700,),
                                     ),
                                     InkWell(
                                       onTap: () {
@@ -101,10 +84,7 @@ class HomeScreen extends StatelessWidget {
                                         children: [
                                           Text("view all"),
                                           SizedBox(width: 10),
-                                          Icon(
-                                            Icons.arrow_forward_ios_outlined,
-                                            size: 16,
-                                          ),
+                                          Icon(Icons.arrow_forward_ios_outlined,size: 16,),
                                         ],
                                       ),
                                     ),
@@ -115,30 +95,27 @@ class HomeScreen extends StatelessWidget {
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    children: List.generate(
-                                        bootcampProjects.length, (index) {
+                                    children: List.generate(bootcampProjects.length, (index) {
                                       return Row(
                                         children: [
                                           ProjectCard(
                                             project: bootcampProjects[index],
                                             onTap: ()=>context.push(
-                                                screen: ProjectScreen(
-                                                  homeCubit: cubit,
-                                                  myProjectsCubit: myProjectsCubit,
-                                                  project: bootcampProjects[index],
-                                                ),
-                                                updateInfo: (p0) async {
-                                                  if(p0!=null) {
-                                                    await shared.getProfile(GetIt.I.get<AuthLayer>().auth!.token);
-                                                    await myProjectsCubit.getMyProjects();
-                                                    await cubit.refreshHome();
-                                                  }
-                                                },
+                                              screen: ProjectScreen(
+                                                homeCubit: cubit,
+                                                myProjectsCubit: myProjectsCubit,
+                                                project: bootcampProjects[index],
+                                              ),
+                                              updateInfo: (p0) async {
+                                                if(p0!=null) {
+                                                  await shared.getProfile(GetIt.I.get<AuthLayer>().auth!.token);
+                                                  await myProjectsCubit.getMyProjects();
+                                                  await cubit.refreshHome();
+                                                }
+                                              },
                                             ),
                                           ),
-                                          const SizedBox(
-                                            width: 20,
-                                          ),
+                                          const SizedBox(width: 20,),
                                         ],
                                       );
                                     }),

@@ -22,7 +22,9 @@ class MainApp extends StatelessWidget {
     AuthModel? auth = GetIt.I.get<AuthLayer>().auth;
     return BlocProvider(
       create: (context) => SharedCubit()..getProfile(auth?.token),
-      child: MaterialApp(home: auth == null ? const LoginScreen() : const NavigationScreen()),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: auth == null ? const LoginScreen() : const NavigationScreen()),
     );
   }
 }

@@ -57,13 +57,9 @@ class TuwaiqAppBar extends StatelessWidget {
                       "My Projects",
                       style: TextStyle(color: Colors.white,fontSize: 24,fontFamily: "Lato"),
                     ),
-                    // <<<<<<<<<<<<<< TO BE DISCUSSED NOTICE >>>>>>>>>>>>>>>>>
                     Text(
                       GetIt.I.get<AuthLayer>().currentUser!.role,
-                      style: const TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.white
+                      style: const TextStyle(fontSize: 11,fontWeight: FontWeight.w300,color: Colors.white
                       ),
                     )
                   ],
@@ -77,32 +73,27 @@ class TuwaiqAppBar extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 14),
-          Row(
-            children: [
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                width: context.getWidth(divideBy: 1.2),
-                height: 30,
-                child: TextFormField(
-                  controller: page == 'home' ? homeCubit.searchController : myProjectsCubit.mySearchController,
-                  onChanged: (value) => page == 'home' ? homeCubit.handleSearch(value) : myProjectsCubit.handleMySearch(value),
-                  cursorHeight: 17,
-                  style: const TextStyle(fontSize: 13),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: page == 'home' ? "Search for a project ...." : "Search your projects ....",
-                    hintStyle: const TextStyle(color: Colors.black45, fontSize: 13),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                    border: const OutlineInputBorder(
-                      borderSide: BorderSide(color: AppConstants.mainPurple, width: 1.5),
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
-                    ),
-                  ),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            width: context.getWidth(divideBy: 1.2),
+            height: 30,
+            child: TextFormField(
+              controller: page == 'home' ? homeCubit.searchController : myProjectsCubit.mySearchController,
+              onChanged: (value) => page == 'home' ? homeCubit.handleSearch(value) : myProjectsCubit.handleMySearch(value),
+              cursorHeight: 17,
+              style: const TextStyle(fontSize: 13),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: page == 'home' ? "Search for a project ...." : "Search your projects ....",
+                hintStyle: const TextStyle(color: Colors.black45, fontSize: 13),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                border: const OutlineInputBorder(
+                  borderSide: BorderSide(color: AppConstants.mainPurple, width: 1.5),
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
                 ),
               ),
-              const Icon(Icons.qr_code, color: Colors.white),
-            ],
+            ),
           ),
         ],
       ),
