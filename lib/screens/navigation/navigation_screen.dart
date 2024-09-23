@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
@@ -18,9 +19,12 @@ class NavigationScreen extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => PageCubit()),
-        BlocProvider(create: (context) => HomeCubit()..getAllProjects()), // Initialize HomeCubit
+        BlocProvider(
+            create: (context) =>
+                HomeCubit()..getAllProjects()), // Initialize HomeCubit
         BlocProvider(create: (context) => MyProjectsCubit()..getMyProjects()),
-        BlocProvider(create: (context) => ProfileCubit()), // Initialize ProfileCubit
+        BlocProvider(
+            create: (context) => ProfileCubit()), // Initialize ProfileCubit
       ],
       child: Builder(builder: (context) {
         final cubit = context.read<PageCubit>();
@@ -61,34 +65,30 @@ class NavigationScreen extends StatelessWidget {
                   backgroundColor: Colors.white,
                   destinations: [
                     NavigationDestination(
-                      label: "Home",
-                      icon: Icon(
-                        Icons.home_outlined,
-                        size: 30,
-                        color: cubit.currentScreen == 0
-                          ? AppConstants.mainPurple
-                          : Colors.black,
-                      )
-                    ),
+                        label: "Home",
+                        icon: HugeIcon(
+                          icon: HugeIcons.strokeRoundedHome09,
+                          color: cubit.currentScreen == 0
+                              ? AppConstants.mainPurple
+                              : Colors.black,
+                        )),
                     NavigationDestination(
-                      label: "My Projects",
-                      icon: Icon(
-                        Icons.library_books_outlined,
-                        size: 30,
-                        color: cubit.currentScreen == 1
-                          ? AppConstants.mainPurple
-                          : Colors.black,
-                      ),
-                    ),
+                        label: "My Projects",
+                        icon: HugeIcon(
+                          icon: HugeIcons.strokeRoundedFiles01,
+                          color: cubit.currentScreen == 1
+                              ? AppConstants.mainPurple
+                              : Colors.black,
+                          size: 25.0,
+                        )),
                     NavigationDestination(
                       label: "Profile",
-                      icon: Icon(
-                        Icons.person_2_outlined,
-                        size: 30,
+                      icon: HugeIcon(
+                        icon: HugeIcons.strokeRoundedUser,
                         color: cubit.currentScreen == 2
-                          ? AppConstants.mainPurple
-                          : Colors.black,
-                      )
+                            ? AppConstants.mainPurple
+                            : Colors.black,
+                      ),
                     ),
                   ],
                 ),
