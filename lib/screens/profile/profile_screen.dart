@@ -32,6 +32,7 @@ class ProfileScreen extends StatelessWidget {
             return Center(child: Text(state.msg));
           }
           if (state is ShowProfileState) {
+            print(state.profile?.id);
             return SafeArea(
               child: SingleChildScrollView(
                 child: Column(

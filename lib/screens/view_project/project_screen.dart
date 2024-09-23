@@ -139,7 +139,7 @@ class ProjectScreen extends StatelessWidget {
                                     )
                             ],
                           ),
-                          const SizedBox(height: 7),
+                          const SizedBox(height: 20),
                           // project bootcamp, type, and date
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -168,7 +168,7 @@ class ProjectScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 22),
+
                     // Section 2 : Description
                     ViewProjectTitle(
                         project: project,
