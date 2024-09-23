@@ -1,6 +1,8 @@
 
 
 ## Students Project App
+![Frame 427320177](https://github.com/user-attachments/assets/aacb7cc7-402a-407a-a302-55b50e248714)
+
 
 
 <p align ="center">
@@ -65,5 +67,13 @@ $ git push
 
 ### 5. Output
 The output will display a list of student projects, with functionality to add, edit, and delete projects, as well as navigation between different views 
+- log in - Sign up - Home screen
+![1](https://github.com/user-attachments/assets/4394d426-405b-4185-bb35-500385554a8d)
+
+- View project -  Rate project - Edit project - Diffrent dialog based on diffrent state
+![3-read](https://github.com/user-attachments/assets/577e9cea-54b8-4710-ace3-a9497a6688f5)
+
+- Profile page with editing options - Add new project (available to authorized users)
+![2-read](https://github.com/user-attachments/assets/2307f811-79cb-499e-a4d9-23e5db0872db)
 
 
