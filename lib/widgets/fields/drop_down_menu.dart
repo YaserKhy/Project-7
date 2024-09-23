@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/screens/view_project/cubit/drop_down_cubit.dart';
 
@@ -11,13 +12,13 @@ class DropDowan extends StatelessWidget {
   Icon _getIconForValue(String value) {
     switch (value) {
       case 'State':
-        return const Icon(Icons.error_outline,
+        return const Icon(HugeIcons.strokeRoundedAlertSquare,
             color: AppConstants.iconsGrayColor); // Custom icon
       case 'Privata':
-        return const Icon(Icons.lock_outline_rounded,
+        return const Icon(HugeIcons.strokeRoundedSquareLock02,
             color: AppConstants.red); // Custom icon
       case 'Public':
-        return const Icon(Icons.lock_open_outlined,
+        return const Icon(HugeIcons.strokeRoundedSquareUnlock02,
             color: AppConstants.green); // Custom icon
       default:
         return const Icon(Icons.star); // Default icon
@@ -42,27 +43,20 @@ class DropDowan extends StatelessWidget {
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 filled: true,
-                // Custom border style
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
-                    color: Colors.blue, // Border color
-                    width: 2, // Border thickness
-                  ),
-                ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(
-                    color: Colors.grey, // Border color when not focused
+                    color: AppConstants
+                        .iconsGrayColor, // Border color when not focused
                     width: 2,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(
-                    color:
-                        AppConstants.textGrayColor, // Border color when focused
-                    width: 2,
+                    color: AppConstants
+                        .iconsGrayColor, // Border color when focused
+                    width: 1,
                   ),
                 ),
               ),
