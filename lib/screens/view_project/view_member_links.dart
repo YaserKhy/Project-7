@@ -12,45 +12,31 @@ class ViewMemberLinks extends StatelessWidget {
     Map<String, dynamic> linksAsMap = links!.toJson();
     return Row(
       children: List.generate(linksAsMap.length, (index) {
-        if (linksAsMap.keys.toList()[index] == 'github') {
+        if (linksAsMap.keys.toList()[index] == 'github' && linksAsMap['github']!=null) {
           return InkWell(
             child: const Icon(CustomIcons.github),
-            onTap: () {
-              if (links?.github != null) {
-                urlLuncher("https://github.com/${links!.github}");
-              }
-            },
+            onTap: () => urlLuncher("https://github.com/${links!.github}"),
           );
-        } else if (linksAsMap.keys.toList()[index] == 'resume') {
+        }
+        else if (linksAsMap.keys.toList()[index] == 'resume' && linksAsMap['resume']!=null) {
           return InkWell(
             child: const Icon(CustomIcons.doc),
-            onTap: () {
-              if (links?.resume != null) {
-                urlLuncher(links!.resume);
-              }
-            },
+            onTap: ()=> urlLuncher(links!.resume),
           );
-        } else if (linksAsMap.keys.toList()[index] == 'linkedin') {
+        }
+        else if (linksAsMap.keys.toList()[index] == 'linkedin' && linksAsMap['linkedin']!=null) {
           return InkWell(
             child: const Icon(CustomIcons.linkedin_in),
-            onTap: () {
-              if (links?.linkedin != null) {
-                urlLuncher("https://www.linkedin.com/in/${links?.linkedin}");
-              }
-            },
+            onTap: ()=> urlLuncher("https://www.linkedin.com/in/${links?.linkedin}"),
           );
-        } else if (linksAsMap.keys.toList()[index] == 'bindlink') {
-          return InkWell(
-            child: const Icon(Icons.abc),
-            onTap: () {
-              if (links?.bindlink != null) {
-                urlLuncher("https://bind.link/@${links?.bindlink}");
-              }
-            },
-          );
-        } else {
-          return const SizedBox.shrink();
         }
+        else if (linksAsMap.keys.toList()[index] == 'bindlink' && linksAsMap['bindlink']!=null) {
+          return InkWell(
+            child: const Icon(Icons.link),
+            onTap: ()=> urlLuncher("https://bind.link/@${links?.bindlink}"),
+          );
+        }
+        else { return const SizedBox.shrink(); }
       }),
     );
   }

@@ -79,7 +79,7 @@ class EditBaseInfo extends StatelessWidget {
                       const SizedBox(height: 10),
                       EditField(
                         controller: descriptionController,
-                        label: "project Description",
+                        label: "Project Description",
                         minHeight: 300,
                         maxLines: 4,
                       ),

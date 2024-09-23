@@ -225,4 +225,23 @@ mixin ProjectsApi on ConstantAPi {
       log(e.toString());
     }
   }
+
+  addMember({required String projectId, required List<Map<String,dynamic>> newData}) async {
+    log("$baseURl$addMembersEndpoint/$projectId");
+    try {
+      final response = await dio.put(
+        "$baseURl$addMembersEndpoint/$projectId",
+        data: {"members": newData},
+        options: Options(headers: {"Authorization" : "Bearer ${GetIt.I.get<AuthLayer>().auth!.token}"})
+      );
+      log('Response status: ${response.statusCode}');
+      log('Response body: ${response.data}');
+    } on DioException catch (e) {
+      log("-----");
+      log(e.response?.data.toString() ?? "Error raised in add member");
+      log("-----");
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }

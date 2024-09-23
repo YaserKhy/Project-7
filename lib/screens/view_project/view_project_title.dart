@@ -14,11 +14,9 @@ class ViewProjectTitle extends StatelessWidget {
   final String title;
   final bool editable;
   final ProjectModel project;
-  const ViewProjectTitle(
-      {super.key,
-      required this.title,
-      this.editable = false,
-      required this.project});
+  final Function()? onEditMembers;
+  final Function()? onEditLinks;
+  const ViewProjectTitle({super.key,required this.title,this.editable = false,required this.project, this.onEditMembers, this.onEditLinks});
 
   @override
   Widget build(BuildContext context) {
@@ -31,50 +29,47 @@ class ViewProjectTitle extends StatelessWidget {
         const SizedBox(height: 12),
         Row(
           children: [
-            Text(title,
-                style: const TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w400,
-                    color: AppConstants.mainPurple)),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 18,
+                fontFamily: 'Lato',
+                fontWeight: FontWeight.w400,
+                color: AppConstants.mainPurple
+              )
+            ),
             const SizedBox(width: 5),
-            editable
-                ? InkWell(
-                    onTap: () async {
-                      if (title == 'Presentation') {
-                        presentation = await pickerFile();
-                        if (presentation != null) {
-                          presentationPath = presentation!.path;
-                          cubit.updatePresentation(
-                              projectId: project.projectId,
-                              presentationPath: presentationPath);
-                        }
-                      } else if (title == 'Images') {
-                        final selectedImages =
-                            await ImagePicker().pickMultiImage(limit: 4);
-                        if (selectedImages.isNotEmpty) {
-                          List<String> imgsPaths = selectedImages
-                              .map((img) => File(img.path).path)
-                              .toList();
-                          cubit.updateImages(
-                              imgs: imgsPaths,
-                              projectId: project.projectId,
-                              projectImages: project.imagesProject);
-                        }
-                      } else if (title == 'Members') {
-                        log('Edit Members');
-                      } else if (title == 'Links') {
-                        log('Edit Links');
-                      } else {
-                        context.push(screen: EditBaseInfo(project: project));
-                      }
-                    },
-                    child: const Icon(
-                      Icons.edit,
-                      size: 15,
-                      color: AppConstants.iconsGrayColor,
-                    ))
-                : const SizedBox.shrink()
+            editable ?
+            InkWell(
+              onTap: title=="Members" ? onEditMembers : title=="Links" ? onEditLinks
+              : () async {
+                if (title == 'Presentation') {
+                  presentation = await pickerFile();
+                  if (presentation != null) {
+                    presentationPath = presentation!.path;
+                    cubit.updatePresentation(projectId: project.projectId,presentationPath: presentationPath);
+                  }
+                }
+                else if (title == 'Images') {
+                  final selectedImages = await ImagePicker().pickMultiImage(limit: 4);
+                  if (selectedImages.isNotEmpty) {
+                    List<String> imgsPaths = selectedImages.map((img) => File(img.path).path).toList();
+                    cubit.updateImages(
+                      imgs: imgsPaths,
+                      projectId: project.projectId,
+                      projectImages: project.imagesProject
+                    );
+                  }
+                }
+                else if (title == 'Links') {
+                  log('Edit Links');
+                }
+                else {
+                  context.push(screen: EditBaseInfo(project: project));
+                }
+              },
+              child: const Icon(Icons.edit,size: 15,color: AppConstants.iconsGrayColor,)
+            ) : const SizedBox.shrink()
           ],
         ),
         const Divider(),

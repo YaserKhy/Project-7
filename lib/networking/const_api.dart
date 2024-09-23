@@ -21,6 +21,7 @@ class ConstantAPi {
   final String deleteProjectEndPoint = "/supervisor/delete/project";
 
   final String editProjectBaseEndPoint = "/user/edit/project/base";
+  final String addMembersEndpoint = "/user/edit/project/members";
   final String editProjectLogoEndPoint = "/user/edit/project/logo";
   final String editProjectImagesEndPoint = "/user/edit/project/images";
   final String rateProjectEndPoint = "/user/rating/project";

@@ -14,67 +14,64 @@ class ViewProjectLinks extends StatelessWidget {
       height: 50,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        separatorBuilder: (context, index) => const SizedBox(
-          width: 10,
-        ),
+        separatorBuilder: (context, index) => const SizedBox(width: 10,),
         itemCount: links.length,
         itemBuilder: (context, index) {
           if (links[index].type == 'github') {
             return ProjectLink(
-                title: links[index].type,
-                icon: const Icon(CustomIcons.github,
-                    color: AppConstants.iconsGrayColor),
-                urlPath: links[index].url);
+              title: links[index].type,
+              icon: const Icon(CustomIcons.github,color: AppConstants.iconsGrayColor),
+              urlPath: links[index].url
+            );
           }
           if (links[index].type == 'figma') {
             return ProjectLink(
-                title: links[index].type,
-                icon: const Icon(
-                  Icons.face,
-                  color: AppConstants.iconsGrayColor,
-                ),
-                urlPath: links[index].url);
+              title: links[index].type,
+              icon: const Icon(Icons.face,color: AppConstants.iconsGrayColor,),
+              urlPath: links[index].url
+            );
           }
           if (links[index].type == 'video') {
             return ProjectLink(
-                title: links[index].type,
-                icon: const Icon(Icons.video_collection_outlined,
-                    color: AppConstants.iconsGrayColor),
-                urlPath: links[index].url);
+              title: links[index].type,
+              icon: const Icon(Icons.video_collection_outlined,color: AppConstants.iconsGrayColor),
+              urlPath: links[index].url
+            );
           }
           if (links[index].type == 'pinterest') {
             return ProjectLink(
-                title: links[index].type,
-                icon: const Icon(CustomIcons.doc,
-                    color: AppConstants.iconsGrayColor),
-                urlPath: links[index].url);
+              title: links[index].type,
+              icon: const Icon(CustomIcons.doc,color: AppConstants.iconsGrayColor),
+              urlPath: links[index].url
+            );
           }
           if (links[index].type == 'playstore') {
             return ProjectLink(
-                title: links[index].type,
-                icon:
-                    const Icon(Icons.place, color: AppConstants.iconsGrayColor),
-                urlPath: links[index].url);
+              title: links[index].type,
+              icon: const Icon(Icons.place, color: AppConstants.iconsGrayColor),
+              urlPath: links[index].url
+            );
           }
           if (links[index].type == 'applestore') {
             return ProjectLink(
-                title: links[index].type,
-                icon:
-                    const Icon(Icons.apple, color: AppConstants.iconsGrayColor),
-                urlPath: links[index].url);
+              title: links[index].type,
+              icon: const Icon(Icons.apple, color: AppConstants.iconsGrayColor),
+              urlPath: links[index].url
+            );
           }
           if (links[index].type == 'apk') {
             return ProjectLink(
-                title: links[index].type,
-                icon: const Icon(Icons.apartment,
-                    color: AppConstants.iconsGrayColor),
-                urlPath: links[index].url);
+              title: links[index].type,
+              icon: const Icon(Icons.apartment, color: AppConstants.iconsGrayColor),
+              urlPath: links[index].url
+            );
           }
           if (links[index].type == 'weblink') {
             return ProjectLink(
-                title: links[index].type,
-                icon: const Icon(Icons.web, color: AppConstants.iconsGrayColor),
-                urlPath: links[index].url);
+              title: links[index].type,
+              icon: const Icon(Icons.web, color: AppConstants.iconsGrayColor),
+              urlPath: links[index].url
+            );
           }
           return const SizedBox.shrink();
         },

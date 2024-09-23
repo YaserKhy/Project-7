@@ -7,6 +7,7 @@ import 'package:get_it/get_it.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/extensions/screen_navigation.dart';
+import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/global_cubit/shared_cubit.dart';
 import 'package:project7/helpers/url_launcher.dart';
 import 'package:project7/models/project_model.dart';
@@ -18,7 +19,9 @@ import 'package:project7/screens/view_project/view_project_links.dart';
 import 'package:project7/screens/view_project/view_project_member.dart';
 import 'package:project7/screens/view_project/view_project_title.dart';
 import 'package:project7/screens/view_project/view_rating_project.dart';
+import 'package:project7/widgets/buttons/auth_button.dart';
 import 'package:project7/widgets/dialogs/save_dialog.dart';
+import 'package:project7/widgets/fields/edit_field.dart';
 import 'package:project7/widgets/icons/project_icon.dart';
 
 class ProjectScreen extends StatelessWidget {
@@ -30,6 +33,7 @@ class ProjectScreen extends StatelessWidget {
     File? image;
     String? imgPath = project.logoUrl;
     final shared = context.read<SharedCubit>();
+    final formKey = GlobalKey<FormState>();
     return BlocProvider(
       create: (context) => v_cubit.ViewProjectCubit(),
       child: Builder(builder: (context) {
@@ -56,6 +60,7 @@ class ProjectScreen extends StatelessWidget {
             }
           },
           child: Scaffold(
+            resizeToAvoidBottomInset: true,
             backgroundColor: AppConstants.bgColor,
             appBar: AppBar(backgroundColor: AppConstants.bgColor),
             body: SafeArea(
@@ -127,7 +132,7 @@ class ProjectScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: List.generate(3, (index) {
-                                List titles = [project.bootcampName,project.type,"${project.endDate.substring(2, 4)}/${project.endDate.substring(5, 7)}"];
+                                List titles = [project.bootcampName,project.type,"${project.endDate.split('-')[1]}/${project.endDate.split('-').first.substring(2,4)}"];
                                 List colors = [0xffff8c2c,0xff01e6d5,0xff4f27b3];
                                 List icons = [Icons.lightbulb,Icons.code,Icons.calendar_month_rounded];
                                 return ProjectIcon(
@@ -176,7 +181,56 @@ class ProjectScreen extends StatelessWidget {
                       ViewProjectTitle(project: project,title: "Images",editable: shared.canEdit(project: project)),
                       ViewProjectImages(images: project.imagesProject),
                       // Section 5 : Members
-                      ViewProjectTitle(project: project,title: 'Members',editable: shared.canEdit(project: project)),
+                      ViewProjectTitle(
+                        project: project,
+                        title: 'Members',
+                        editable: shared.canEdit(project: project),
+                        onEditMembers: () => showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) {
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                              child: Container(
+                                width: context.getWidth(),
+                                height: context.getHeight(divideBy: 2.8),
+                                decoration: const BoxDecoration(color: AppConstants.mainWhite, borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+                                child: Form(
+                                  key: formKey,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20),
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        children: [
+                                          EditField(
+                                            controller: cubit.userIdController,
+                                            label: "Enter user id"
+                                          ),
+                                          EditField(
+                                            controller: cubit.positionController,
+                                            label: "Enter Position"
+                                          ),
+                                          SizedBox(height: 20),
+                                          AuthButton(
+                                            title: "Add Member",
+                                            onPressed: () {
+                                              if(formKey.currentState!.validate()) {
+                                                cubit.addMember(projectId: project.projectId, currentMembers: project.membersProject);
+                                                context.popAndSave();
+                                              }
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                        )
+                      ),
                       project.membersProject.isEmpty ? const Text('No Members Added')
                       : Column(
                         children: List.generate(project.membersProject.length, (index) {
@@ -201,6 +255,9 @@ class ProjectScreen extends StatelessWidget {
                               saveDialog(context: context,msg: "Thank you for your rating");
                             },
                           ),
+                          updateInfo: (p0) {
+                            homeCubit.refreshHome();
+                          },
                         ),
                         tileColor: Colors.white,
                         shape: OutlineInputBorder(

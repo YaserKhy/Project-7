@@ -16,6 +16,26 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
   String canRate = "";
   String canEdit = "";
   TextEditingController commentController = TextEditingController();
+  TextEditingController userIdController = TextEditingController();
+  TextEditingController positionController = TextEditingController();
+
+  addMember({required String projectId, required List<MembersProject> currentMembers}) async {
+    try {
+      emit(LoadingState());
+      List<Map<String,dynamic>> total = [];
+      for (var member in currentMembers) {
+        total.add({'position' : member.position, 'user_id': member.id});
+      }
+      total.add({'position' : positionController.text, 'user_id': userIdController.text});
+      await api.addMember(projectId:projectId,newData: total);
+      emit(SuccessState());
+    } on FormatException catch (error) {
+      emit(ErrorState(msg: error.message));
+    } catch (error) {
+      emit(ErrorState(msg: "There is unknown Error"));
+    }
+  }
+
   Map<String, dynamic> rating = {
     "idea":0.0,
     "design":0.0,
@@ -44,13 +64,18 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
     rating['presentation'] = (rating['presentation']*2).toInt();
     rating['investment'] = (rating['investment']*2).toInt();
     rating['note'] = commentController.text;
-    emit(LoadingState());
-    await api.submitRating(ratingData: rating, projectId: projectId, token: GetIt.I.get<AuthLayer>().auth!.token);
-    emit(ShowStarsState());
+    try {
+      emit(LoadingState());
+      await api.submitRating(ratingData: rating, projectId: projectId, token: GetIt.I.get<AuthLayer>().auth!.token);
+      emit(ShowStarsState());
+    } on FormatException catch (error) {
+      emit(ErrorState(msg: error.message));
+    } catch (error) {
+      emit(ErrorState(msg: "There is unknown Error"));
+    }
   }
 
-  editProjectSettings(
-      {required String projectId, required String endDate}) async {
+  editProjectSettings({required String projectId, required String endDate}) async {
     try {
       emit(LoadingState());
       await api.editProjectStatus(

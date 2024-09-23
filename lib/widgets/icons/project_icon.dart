@@ -18,7 +18,7 @@ class ProjectIcon extends StatelessWidget {
           child: icon,
         ),
         const SizedBox(height: 9,),
-        Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xff6d6d6d)),)
+        Text(title, maxLines: 2, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xff6d6d6d)),)
       ],
     ) :
     Row(
