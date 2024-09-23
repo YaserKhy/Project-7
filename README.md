@@ -3,7 +3,6 @@
 ## Students Project App
 ![Frame 427320177](https://github.com/user-attachments/assets/aacb7cc7-402a-407a-a302-55b50e248714)
 
-![Uploading Frame 427320177.svg…]()
 
 
 <p align ="center">
