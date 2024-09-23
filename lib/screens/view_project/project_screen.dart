@@ -160,6 +160,7 @@ class ProjectScreen extends StatelessWidget {
                     ),
               const ViewProjectTitle(title: 'Rating'),
               ListTile(
+                
                 onTap: () => context.push(
                     screen: ViewRatingProject(
                   project: project,
@@ -185,7 +186,7 @@ class ProjectScreen extends StatelessWidget {
                   ? const Text("No Links Added")
                   : ViewProjectLinks(links: project.linksProject),
               const ViewProjectTitle(title: 'Settings'),
-              // DropDowan()
+
               // settings here
               BlocProvider(
                 create: (context) => DropdownCubit(),
