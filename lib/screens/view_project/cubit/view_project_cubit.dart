@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:project7/data_layers/auth_layer.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/networking/networking_api.dart';
+import 'package:project7/widgets/icons/custom_icons_icons.dart';
 
 part 'view_project_state.dart';
 
@@ -18,6 +19,46 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
   TextEditingController commentController = TextEditingController();
   TextEditingController userIdController = TextEditingController();
   TextEditingController positionController = TextEditingController();
+  
+  Map<String, dynamic> rating = {
+    "idea":0.0,
+    "design":0.0,
+    "tools":0.0,
+    "practices":0.0,
+    "presentation":0.0,
+    "investment":0.0,
+    "note": ""
+  };
+
+  updateProjectLinks({required String projectId,required Map<String,dynamic> data}) async {
+    try {
+      emit(LoadingState());
+      await api.updateProjectLinks(
+        token: GetIt.I.get<AuthLayer>().auth!.token,
+        projectId: projectId,
+        data: data
+      );
+      emit(SuccessState());
+    } on FormatException catch (error) {
+      emit(ErrorState(msg: error.message));
+    } catch (error) {
+      emit(ErrorState(msg: "There is unknown Error"));
+    }
+  }
+
+  Widget getLinkIcon(String type) {
+    switch(type.toLowerCase()) {
+      case 'github': return const Icon(CustomIcons.github, size: 25,);
+      case 'figma': return Image.asset('assets/images/figma.png', width: 40);
+      case 'video' : return const Icon(Icons.video_collection_outlined, size: 25,);
+      case 'pinterest' : return const Icon(Icons.abc, size: 25);
+      case 'playstore' : return const Icon(Icons.abc, size: 25);
+      case 'applestore' : return const Icon(Icons.abc, size: 25);
+      case 'apk' : return const Icon(Icons.abc, size: 25);
+      case 'weblink' : return const Icon(Icons.abc, size: 25);
+      default: return const Icon(Icons.accessibility_new_sharp, size: 25,);
+    }
+  }
 
   addMember({required String projectId, required List<MembersProject> currentMembers}) async {
     try {
@@ -36,15 +77,6 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
     }
   }
 
-  Map<String, dynamic> rating = {
-    "idea":0.0,
-    "design":0.0,
-    "tools":0.0,
-    "practices":0.0,
-    "presentation":0.0,
-    "investment":0.0,
-    "note": ""
-  };
 
   showStars() {
     emit(ShowStarsState());

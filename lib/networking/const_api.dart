@@ -26,4 +26,5 @@ class ConstantAPi {
   final String editProjectImagesEndPoint = "/user/edit/project/images";
   final String rateProjectEndPoint = "/user/rating/project";
   final String editProjectPresentationEndPoint = "/user/edit/project/presentation";
+  final String updateProjectLinksEndPoint = "/user/edit/project/link";
 }

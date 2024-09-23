@@ -52,18 +52,4 @@ class HomeCubit extends Cubit<HomeState> {
     }
     emit(ShowProjectsState(projects: result));
   }
-
-  Widget getLinkIcon(String type) {
-    switch(type.toLowerCase()) {
-      case 'github': return const Icon(CustomIcons.github, size: 25,);
-      case 'figma': return Image.asset('assets/images/figma.png', width: 40);
-      case 'video' : return const Icon(Icons.video_collection_outlined, size: 25,);
-      case 'pinterest' : return const Icon(Icons.abc, size: 25);
-      case 'playstore' : return const Icon(Icons.abc, size: 25);
-      case 'applestore' : return const Icon(Icons.abc, size: 25);
-      case 'apk' : return const Icon(Icons.abc, size: 25);
-      case 'weblink' : return const Icon(Icons.abc, size: 25);
-      default: return const Icon(Icons.accessibility_new_sharp, size: 25,);
-    }
-  }
 }

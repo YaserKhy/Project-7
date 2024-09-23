@@ -13,7 +13,9 @@ import 'package:project7/helpers/url_launcher.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/edit_project/edit_base_info.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
+import 'package:project7/screens/my_projects/cubit/my_projects_cubit.dart';
 import 'package:project7/screens/view_project/cubit/view_project_cubit.dart' as v_cubit;
+import 'package:project7/screens/view_project/edit_project_links.dart';
 import 'package:project7/screens/view_project/view_project_images.dart';
 import 'package:project7/screens/view_project/view_project_links.dart';
 import 'package:project7/screens/view_project/view_project_member.dart';
@@ -26,8 +28,9 @@ import 'package:project7/widgets/icons/project_icon.dart';
 
 class ProjectScreen extends StatelessWidget {
   final HomeCubit homeCubit;
+  final MyProjectsCubit myProjectsCubit;
   final ProjectModel project;
-  const ProjectScreen({super.key, required this.project, required this.homeCubit});
+  const ProjectScreen({super.key, required this.project, required this.homeCubit, required this.myProjectsCubit});
   @override
   Widget build(BuildContext context) {
     File? image;
@@ -119,7 +122,7 @@ class ProjectScreen extends StatelessWidget {
                                   onPressed: () => context.push(
                                     screen: EditBaseInfo(project: project),
                                     updateInfo: (p0) {
-                                      if (p0 != null) {
+                                      if(p0!=null) {
                                         homeCubit.refreshHome();
                                       }
                                     }
@@ -287,7 +290,9 @@ class ProjectScreen extends StatelessWidget {
                             },
                           ),
                           updateInfo: (p0) {
-                            homeCubit.refreshHome();
+                            if(p0!=null) {
+                              homeCubit.refreshHome();
+                            }
                           },
                         ),
                         tileColor: Colors.white,
@@ -303,7 +308,27 @@ class ProjectScreen extends StatelessWidget {
                         trailing: const Icon(Icons.arrow_forward_ios_outlined,color: AppConstants.iconsGrayColor),
                       ),
                       // Section 7 : Links 
-                      ViewProjectTitle(title: 'Links', project: project, editable: shared.canEdit(project: project),),
+                      ViewProjectTitle(
+                        title: "Links",
+                        project: project,
+                        editable: shared.canEdit(project: project),
+                        onEditLinks: () {
+                          context.push(
+                            screen: EditProjectLinks(
+                              links: project.linksProject,
+                              cubit: cubit,
+                              projectId: project.projectId,
+                            ),
+                            updateInfo: (p0) {
+                              if(p0!=null) {
+                                shared.getProfile(GetIt.I.get<AuthLayer>().auth!.token);
+                                homeCubit.refreshHome();
+                                myProjectsCubit.getMyProjects();
+                              }
+                            },
+                          );
+                        },
+                      ),
                       project.linksProject.isEmpty ? const Text("No Links Added") : ViewProjectLinks(links: project.linksProject),
                       // Section 8 : Settings
                       GetIt.I.get<AuthLayer>().currentUser!.id != project.adminId ? const SizedBox.shrink() : ViewProjectTitle(title: 'Settings',project: project),

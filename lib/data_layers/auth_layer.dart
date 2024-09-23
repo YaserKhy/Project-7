@@ -27,7 +27,7 @@ class AuthLayer {
     if (box.hasData('auth')) {
       auth = AuthModel.fromJson(
           Map.from(await box.read("auth")).cast<String, dynamic>());
-      log('token found ${auth?.token.substring(1, 10)}');
+      log('token found ${auth?.token}');
       currentUser = ProfileModel.fromJson(
           Map.from(await box.read('currentUser')).cast<String, dynamic>());
       log('user found ${currentUser?.firstName}');

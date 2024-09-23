@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,9 +60,6 @@ class ViewProjectTitle extends StatelessWidget {
                       projectImages: project.imagesProject
                     );
                   }
-                }
-                else if (title == 'Links') {
-                  log('Edit Links');
                 }
                 else {
                   context.push(screen: EditBaseInfo(project: project));

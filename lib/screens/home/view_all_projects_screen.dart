@@ -47,6 +47,7 @@ class ViewAllProjectsScreen extends StatelessWidget {
                 isHome: false,
                 onTap: () => context.push(
                   screen: ProjectScreen(
+                    myProjectsCubit: myProjectsCubit,
                     project: projects[index],
                     homeCubit: cubit
                   ),

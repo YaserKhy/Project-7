@@ -282,4 +282,29 @@ mixin ProjectsApi on ConstantAPi {
       log(e.toString());
     }
   }
+
+  updateProjectLinks({required String token, required String projectId, required Map<String,dynamic> data}) async {
+    List<Map<String,dynamic>> result = [];
+    for (var type in data.keys.toList()) {
+      log("message is (${data[type]})");
+      if(data[type]!="") {
+        result.add({"type" : type, "url": data[type]});
+      }
+    }
+    try {
+      final response = await dio.put(
+        "$baseURl$updateProjectLinksEndPoint/$projectId",
+        data: {'link':result},
+        options: Options(headers: {"Authorization" : "Bearer $token"}),
+      );
+      log('Response status: ${response.statusCode}');
+      log('Response body: ${response.data}');
+    } on DioException catch (e) {
+      log("-----");
+      log(e.response?.data.toString() ?? "Error raised in add member");
+      log("-----");
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }

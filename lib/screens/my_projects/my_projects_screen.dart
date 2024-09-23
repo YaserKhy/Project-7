@@ -105,6 +105,7 @@ class MyProjectsScreen extends StatelessWidget {
                                         isHome:false,
                                         onTap: ()=> context.push(
                                           screen: ProjectScreen(
+                                            myProjectsCubit: cubit,
                                             project: bootcampProjects[index],
                                             homeCubit: homeCubit
                                           ),
