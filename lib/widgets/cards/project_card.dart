@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
+import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/view_project/project_screen.dart';
@@ -8,14 +9,15 @@ import 'package:project7/screens/view_project/project_screen.dart';
 class ProjectCard extends StatelessWidget {
   final HomeCubit cubit;
   final ProjectModel project;
-  const ProjectCard({super.key, required this.project, required this.cubit});
+  final bool isHome;
+  const ProjectCard({super.key, required this.project, required this.cubit, this.isHome=true});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: ()=> context.push(screen: ProjectScreen(project: project, cubit: cubit,)),
       child: Container(
-        width: 150,
+        width: isHome ? 150 : context.getWidth(),
         height: 170,
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.all(10),
@@ -29,13 +31,13 @@ class ProjectCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: cubit.handleLogo(logoUrl: project.logoUrl, context: context, height: 66)
+              child: cubit.handleLogo(logoUrl: project.logoUrl, context: context, height: 66.0)
             ),
             const SizedBox(height: 5),
             Text(
               project.projectName,
-              maxLines: 2,
-              style: const TextStyle(fontFamily: 'Lato', fontWeight: FontWeight.w500, fontSize: 14, overflow: TextOverflow.fade),
+              maxLines: 1,
+              style: const TextStyle(fontFamily: 'Lato', fontWeight: FontWeight.w500, fontSize: 14, overflow: TextOverflow.ellipsis),
             ),
             Text(
               project.bootcampName,

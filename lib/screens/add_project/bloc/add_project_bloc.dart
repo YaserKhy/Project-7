@@ -26,7 +26,6 @@ import 'dart:core';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:project7/networking/networking_api.dart';
 
 part 'add_project_event.dart';

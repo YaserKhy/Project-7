@@ -17,18 +17,20 @@ class AuthLayer {
     final api = NetworkingApi();
     await box.write("auth", authData.toJson());
     auth = authData;
+
     currentUser = await api.getProfile(token: authData.token);
     await box.write('currentUser', currentUser?.toJson());
   }
 
   Future<void> loadDataAuth() async {
     if (box.hasData('auth')) {
-      auth = AuthModel.fromJson(Map.from(await box.read("auth")).cast<String, dynamic>());
-      log('token found ${auth?.token.substring(1,10)}');
-      currentUser = ProfileModel.fromJson(Map.from(await box.read('currentUser')).cast<String,dynamic>());
+      auth = AuthModel.fromJson(
+          Map.from(await box.read("auth")).cast<String, dynamic>());
+      log('token found ${auth?.token.substring(1, 10)}');
+      currentUser = ProfileModel.fromJson(
+          Map.from(await box.read('currentUser')).cast<String, dynamic>());
       log('user found ${currentUser?.firstName}');
-    }
-    else {
+    } else {
       log('token not found');
     }
   }

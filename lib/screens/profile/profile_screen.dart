@@ -6,7 +6,7 @@ import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/layers/auth_layer.dart';
-import 'package:project7/screens/login/login_screen.dart';
+import 'package:project7/screens/home/login/login_screen.dart';
 
 import 'package:project7/screens/profile/cubit/profile_cubit.dart';
 import 'package:project7/screens/profile/edit_profile_screen.dart';
@@ -26,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
     cubit.getProfile(token: GetIt.I.get<AuthLayer>().auth!.token);
 
     return Scaffold(
-      backgroundColor: const Color(0xffF6F4FB),
+      backgroundColor: AppConstants.bgColor,
       body: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           if (state is LoadingState) {

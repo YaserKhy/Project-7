@@ -7,20 +7,14 @@ class ProfileTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          title,
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(title,
           style: const TextStyle(
-            color: AppConstants.mainPurple,
-            fontSize: 20,
-            fontFamily: "Lato",
-            fontWeight: FontWeight.w500
-          )
-        ),
-      ),
+              color: AppConstants.mainPurple,
+              fontSize: 20,
+              fontFamily: "Lato",
+              fontWeight: FontWeight.w500)),
     );
   }
 }

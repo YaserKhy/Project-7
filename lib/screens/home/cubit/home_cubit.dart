@@ -11,6 +11,7 @@ class HomeCubit extends Cubit<HomeState> {
   final api = NetworkingApi();
   List<ProjectModel> projects = [];
   TextEditingController searchController = TextEditingController();
+  TextEditingController commentController = TextEditingController();
   double currentStars = 0;
   HomeCubit() : super(HomeInitial());
 
@@ -71,7 +72,6 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       emit(LoadingState());
       currentStars = newStars;
-      emit(ShowBottomSheetState(newStars: currentStars));
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));
     } catch (error) {

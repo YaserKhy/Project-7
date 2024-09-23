@@ -11,5 +11,13 @@ class AppConstants {
   static const Color blue = Color(0xff1D5EFF);
   static const Color mainWhite = Color(0xffEDEDED);
   static const Color bgColor = Color(0xfff6f4fb);
-  static const String emailRegex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+  static const Color iconsGrayColor = Color(0xff6D6D6D);
+  static const Color textGrayColor = Color(0xff5C5C5C);
+  static const Color brownIcon = Color(0xffA36A4A);
+  static const Color green = Color(0xff17971D);
+
+  
+
+  static const String emailRegex =
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
 }

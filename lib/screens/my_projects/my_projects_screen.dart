@@ -1,102 +1,109 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_stars/flutter_rating_stars.dart';
-import 'package:project7/constants/app_constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project7/extensions/screen_size.dart';
+import 'package:project7/models/project_model.dart';
+import 'package:project7/screens/home/cubit/home_cubit.dart' as home_cubit;
+import 'package:project7/screens/my_projects/cubit/my_projects_cubit.dart';
+import 'package:project7/widgets/cards/project_card.dart';
+import 'package:project7/widgets/tuwaiq_app_bar.dart';
 
 class MyProjectsScreen extends StatelessWidget {
   const MyProjectsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "My projects",
-          style: TextStyle(
-            color: AppConstants.mainPurple,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Lato',
-          ),
-        ),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Flutter",
-              style: TextStyle(
-                fontFamily: 'Lato',
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const Divider(),
-            Container(
-              margin: const EdgeInsets.all(10),
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                border: Border.all(width: 1.5, color: AppConstants.mainPurple),
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-                boxShadow: const [
-                  BoxShadow(
-                      color: AppConstants.mainPurple, offset: Offset(2, 4))
-                ],
-              ),
-              child: Row(
-                children: [
-                  SizedBox(
-                    height: 70,
-                    child: Image.asset("assets/images/tuwaiq_logo1.png"),
-                  ),
-                  const SizedBox(width: 10),
-                  const Expanded(
+    final homeCubit = context.read<home_cubit.HomeCubit>();
+    final cubit = context.read<MyProjectsCubit>();
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Column(
+        children: [
+          TuwaiqAppBar(page:'My Projects', cubit: cubit),
+          BlocBuilder<MyProjectsCubit, MyProjectsState>(
+            builder: (context, state) {
+              if (state is LoadingState) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state is ErrorState) {
+                return Center(child: Text(state.msg));
+              }
+              if (state is ShowMyProjectsState) {
+                if (state.myProjects.isEmpty) {
+                  return Center(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          "projectName",
+                        SizedBox(height: context.getHeight(divideBy: 7)),
+                        const Text(
+                          "No Projects Found.",
                           style: TextStyle(
-                              fontFamily: 'Lato',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14),
+                            fontFamily: 'Lato',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700
+                          ),
                         ),
-                        Text(
-                          "BootCamp",
-                          style: TextStyle(
-                              fontFamily: 'Lato',
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "type",
-                              style: TextStyle(
-                                  fontFamily: 'Lato',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14),
-                            ),
-                            RatingStars(
-                              value: 4,
-                              starCount: 5,
-                              starSize: 15,
-                              valueLabelVisibility: false,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
                       ],
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+                  );
+                }
+                if(state.myProjects.isNotEmpty) {
+                  return Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: List.generate(cubit.getGroupedProjects(state.myProjects).length, (index){
+                          String bootcamp = cubit.getGroupedProjects(state.myProjects).keys.toList()[index];
+                          List<ProjectModel> bootcampProjects = cubit.getGroupedProjects(state.myProjects).values.toList()[index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      bootcamp,
+                                      style: const TextStyle(
+                                        fontFamily: 'Lato',
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                    const Row(
+                                      children: [
+                                        Text("view all"),
+                                        SizedBox(width: 10),
+                                        Icon(
+                                          Icons.arrow_forward_ios_outlined,
+                                          size: 16,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                const Divider(),
+                                SingleChildScrollView(
+                                  child: Column(
+                                    children: List.generate(bootcampProjects.length, (index){
+                                      return ProjectCard(project: bootcampProjects[index], cubit: homeCubit, isHome:false);
+                                    }),
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  );
+                }
+              }
+              return const Text("data");
+            },
+          ),
+          const SizedBox(height: 20),
+        ],
       ),
     );
   }

@@ -2,10 +2,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_size.dart';
-import 'package:project7/screens/add_project/add_project_screen.dart';
-import 'package:project7/screens/add_project/bloc/add_project_bloc.dart';
 import 'package:project7/screens/home/cubit/home_cubit.dart';
 import 'package:project7/screens/home/home_screen.dart';
+import 'package:project7/screens/my_projects/cubit/my_projects_cubit.dart';
+import 'package:project7/screens/my_projects/my_projects_screen.dart';
 import 'package:project7/screens/navigation/cubit/page_cubit.dart';
 import 'package:project7/screens/profile/cubit/profile_cubit.dart';
 import 'package:project7/screens/profile/profile_screen.dart';
@@ -19,7 +19,7 @@ class NavigationScreen extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => PageCubit()),
         BlocProvider(create: (context) => HomeCubit()..getAllProjects()), // Initialize HomeCubit
-        BlocProvider(create: (context)=> AddProjectBloc()),
+        BlocProvider(create: (context) => MyProjectsCubit()..getMyProjects()),
         BlocProvider(create: (context) => ProfileCubit()), // Initialize ProfileCubit
       ],
       child: Builder(builder: (context) {
@@ -33,12 +33,12 @@ class NavigationScreen extends StatelessWidget {
                 children: [
                   BlocBuilder<HomeCubit, HomeState>(
                     builder: (context, homeState) {
-                      return const HomeScreen(); 
+                      return const HomeScreen();
                     },
                   ),
-                  BlocBuilder<HomeCubit, HomeState>(
-                    builder: (context, homeState) {
-                      return const AddProjectScreen();
+                  BlocBuilder<MyProjectsCubit, MyProjectsState>(
+                    builder: (context, myProjectsState) {
+                      return const MyProjectsScreen();
                     },
                   ),
                   BlocBuilder<ProfileCubit, ProfileState>(
@@ -60,9 +60,36 @@ class NavigationScreen extends StatelessWidget {
                   overlayColor: WidgetStateColor.transparent,
                   backgroundColor: Colors.white,
                   destinations: [
-                    NavigationDestination(icon: Icon(Icons.home_outlined, size:30, color: cubit.currentScreen == 0 ? AppConstants.mainPurple : Colors.black,), label: "Home"),
-                    NavigationDestination(icon: Icon(Icons.add, size:30, color: cubit.currentScreen == 1 ? AppConstants.mainPurple : Colors.black,), label: "Add"),
-                    NavigationDestination(icon: Icon(Icons.person_2_outlined, size:30, color: cubit.currentScreen == 2 ? AppConstants.mainPurple : Colors.black,), label: "Profile"),
+                    NavigationDestination(
+                      label: "Home",
+                      icon: Icon(
+                        Icons.home_outlined,
+                        size: 30,
+                        color: cubit.currentScreen == 0
+                          ? AppConstants.mainPurple
+                          : Colors.black,
+                      )
+                    ),
+                    NavigationDestination(
+                      label: "My Projects",
+                      icon: Icon(
+                        Icons.library_books_outlined,
+                        size: 30,
+                        color: cubit.currentScreen == 1
+                          ? AppConstants.mainPurple
+                          : Colors.black,
+                      ),
+                    ),
+                    NavigationDestination(
+                      label: "Profile",
+                      icon: Icon(
+                        Icons.person_2_outlined,
+                        size: 30,
+                        color: cubit.currentScreen == 2
+                          ? AppConstants.mainPurple
+                          : Colors.black,
+                      )
+                    ),
                   ],
                 ),
               ),
