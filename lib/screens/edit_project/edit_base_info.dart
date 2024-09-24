@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/data_layers/auth_layer.dart';
+import 'package:project7/helpers/date_formatter.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/edit_project/bloc/edit_project_bloc.dart';
 import 'package:project7/widgets/buttons/edit_button.dart';
@@ -29,12 +30,18 @@ class EditBaseInfo extends StatelessWidget {
         TextEditingController(text: project.type);
     TextEditingController descriptionController =
         TextEditingController(text: project.projectDescription);
-    TextEditingController startDateController =
-        TextEditingController(text: project.startDate ?? "15/12/2024");
-    TextEditingController endDateController =
-        TextEditingController(text: project.endDate);
-    TextEditingController presentationDateController =
-        TextEditingController(text: project.presentationDate ?? "15/12/2024");
+    TextEditingController startDateController = TextEditingController(
+        text: project.startDate != null
+            ? formatDate(project.startDate!)
+            : "15/12/2024");
+    TextEditingController endDateController = TextEditingController(
+        text: project.endDate != "in progress"
+            ? formatDate(project.endDate)
+            : project.endDate);
+    TextEditingController presentationDateController = TextEditingController(
+        text: project.startDate != null
+            ? formatDate(project.presentationDate!)
+            : "15/12/2024");
     return BlocProvider(
       create: (context) => EditProjectBloc(),
       child: Builder(builder: (context) {
