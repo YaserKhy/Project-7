@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project7/constants/app_constants.dart';
 import 'package:project7/global_cubit/shared_cubit.dart';
@@ -41,7 +42,6 @@ class ProfileCard extends StatelessWidget {
                   fontWeight: FontWeight.bold)),
           const SizedBox(height: 5),
           Text(profile.email, style: const TextStyle(fontFamily: "Lato")),
-          const SizedBox(height: 8),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -53,6 +53,13 @@ class ProfileCard extends StatelessWidget {
               Text(profile.id,
                   overflow: TextOverflow.fade,
                   style: const TextStyle(fontFamily: "Lato")),
+              IconButton(
+                  onPressed: () async {
+                    await Clipboard.setData(ClipboardData(text: profile.id));
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("ID copied to clipboard")));
+                  },
+                  icon: const Icon(Icons.copy, size: 20))
             ],
           )
         ],

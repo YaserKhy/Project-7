@@ -32,7 +32,6 @@ class ProfileScreen extends StatelessWidget {
             return Center(child: Text(state.msg));
           }
           if (state is ShowProfileState) {
-            print(state.profile?.id);
             return SafeArea(
               child: SingleChildScrollView(
                 child: Column(
@@ -70,7 +69,7 @@ class ProfileScreen extends StatelessWidget {
                         profile: state.profile!,
                       )),
                     ),
-                    const SizedBox(height: 60),
+                    const SizedBox(height: 30),
                     Container(
                       width: context.getWidth(divideBy: 1.1),
                       padding: const EdgeInsets.symmetric(
@@ -88,18 +87,21 @@ class ProfileScreen extends StatelessWidget {
                           AccountCard(
                               icon: CustomIcons.linkedin_in,
                               title: "LinkedIn",
-                              urlPath:
-                                  "https://www.linkedin.com/in/${state.profile!.link?.linkedin}"),
+                              urlPath: state.profile!.link?.linkedin == null
+                                  ? null
+                                  : "https://www.linkedin.com/in/${state.profile!.link?.linkedin}"),
                           AccountCard(
                               icon: CustomIcons.github,
                               title: "Github",
-                              urlPath:
-                                  "https://github.com/${state.profile!.link?.github}"),
+                              urlPath: state.profile!.link?.github == null
+                                  ? null
+                                  : "https://github.com/${state.profile!.link?.github}"),
                           AccountCard(
                               icon: Icons.link,
                               title: "Bindlink",
-                              urlPath:
-                                  "https://bind.link/@${state.profile!.link?.bindlink}"),
+                              urlPath: state.profile!.link?.bindlink == null
+                                  ? null
+                                  : "https://bind.link/@${state.profile!.link?.bindlink}"),
                           ProfileButton(
                               icon: Icons.power_settings_new,
                               color: const Color(0xffFF4B4B),
@@ -130,8 +132,3 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
-
-
-// async {
-
-//                             },

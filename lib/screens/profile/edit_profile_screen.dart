@@ -48,129 +48,167 @@ class EditProfileScreen extends StatelessWidget {
         body: Center(
           child: Form(
             key: formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 10),
-                InkWell(
-                  splashColor: Colors.transparent,
-                  onTap: () async {
-                    final selectedImage = await ImagePicker()
-                        .pickImage(source: ImageSource.gallery);
-                    if (selectedImage != null) {
-                      image = File(selectedImage.path);
-                      imagePath = image!.path;
-                      profile.imageUrl = image?.path ?? profile.imageUrl;
-                    }
-                  },
-                  child: Badge(
-                    label: const Icon(
-                      Icons.edit,
-                      size: 12,
-                      color: Colors.white,
-                    ),
-                    backgroundColor: AppConstants.mainPurple,
-                    alignment: const Alignment(.8, .65),
-                    child: CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.transparent,
-                        backgroundImage: shared
-                            .handleProfilePage(
-                                logoUrl: profile.imageUrl, context: context)
-                            .image),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 10),
+                  BlocBuilder<SharedCubit, SharedState>(
+                    builder: (context, state) {
+                      if (state is updateImageState) {
+                        return InkWell(
+                          splashColor: Colors.transparent,
+                          onTap: () async {
+                            final selectedImage = await ImagePicker()
+                                .pickImage(source: ImageSource.gallery);
+                            if (selectedImage != null) {
+                              image = File(selectedImage.path);
+                              imagePath = image!.path;
+                              profile.imageUrl =
+                                  image?.path ?? profile.imageUrl;
+                              shared.updateProfileimage(imagePath: imagePath);
+                            }
+                          },
+                          child: Badge(
+                            label: const Icon(
+                              Icons.edit,
+                              size: 12,
+                              color: Colors.white,
+                            ),
+                            backgroundColor: AppConstants.mainPurple,
+                            alignment: const Alignment(.8, .65),
+                            child: CircleAvatar(
+                                radius: 50,
+                                backgroundColor: Colors.transparent,
+                                backgroundImage: FileImage(
+                                    File(imagePath ?? profile.imageUrl!))),
+                          ),
+                        );
+                      }
+                      return InkWell(
+                        splashColor: Colors.transparent,
+                        onTap: () async {
+                          final selectedImage = await ImagePicker()
+                              .pickImage(source: ImageSource.gallery);
+                          if (selectedImage != null) {
+                            image = File(selectedImage.path);
+                            imagePath = image!.path;
+                            profile.imageUrl = image?.path ?? profile.imageUrl;
+                            shared.updateProfileimage(imagePath: imagePath);
+                          }
+                        },
+                        child: Badge(
+                          label: const Icon(
+                            Icons.edit,
+                            size: 12,
+                            color: Colors.white,
+                          ),
+                          backgroundColor: AppConstants.mainPurple,
+                          alignment: const Alignment(.8, .65),
+                          child: CircleAvatar(
+                              radius: 50,
+                              backgroundColor: Colors.transparent,
+                              backgroundImage: shared
+                                  .handleProfilePage(
+                                      logoUrl: profile.imageUrl,
+                                      context: context)
+                                  .image),
+                        ),
+                      );
+                    },
                   ),
-                ),
-                const SizedBox(width: 12),
-                // ElevatedButton(
-                //     onPressed: () async {
-                //       cv = await pickerFile();
-                //       if (cv != null) {
-                //         cvPath = cv!.path;
-                //       }
-                //     },
-                //     child: const Text('Upload cv')),
-                const SizedBox(height: 50),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    EditField(label: "First Name",controller: fNameController,width: 150,isProfile: true,),
-                    EditField(label: "Last Name",controller: lNameController,width: 150,isProfile: true,),
-                  ],
-                ),
-                const SizedBox(height: 22),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        EditLinkField(
-                            maxWidth: 200,
-                            icon: Icons.description_outlined,
-                            hint: "Upload your cv link",
-                            controller: resumeController),
-                        const SizedBox(width: 10),
-                        TextButton(
-                            onPressed: () async {
-                              cv = await pickerFile();
-                              if (cv != null) {
-                                cvPath = cv!.path;
-                              }
-                            },
-                            child: const Icon(
-                              Icons.download_for_offline,
-                              size: 45,
-                              color: AppConstants.mainPurple,
-                            )),
-                        const SizedBox(width: 20),
-                      ],
-                    ),
-                    EditLinkField(
-                        icon: CustomIcons.linkedin_in,
-                        hint: "Enter your Linked in link",
-                        controller: linkedinController),
-                    EditLinkField(
-                        icon: CustomIcons.github,
-                        hint: "Enter your GitHub username",
-                        controller: gitHubController),
-                    EditLinkField(
-                        icon: Icons.link,
-                        hint: "Enter your Bindlink username",
-                        controller: bindlinkController),
-                    ProfileButton(
-                      color: AppConstants.mainPurple,
-                      title: "Save",
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          log(imagePath ?? "no image");
-                          log(cvPath ?? "no cv");
-                          log(linkedinController.text);
-                          showDialog(
-                              barrierDismissible: false,
-                              context: context,
-                              builder: (context) => const Center(
-                                  child: CircularProgressIndicator()));
-                          shared
-                              .editProfile(
-                                  token: GetIt.I.get<AuthLayer>().auth!.token,
-                                  firstName: fNameController.text,
-                                  bindLink: bindlinkController.text,
-                                  cvPath: cvPath,
-                                  github: gitHubController.text,
-                                  imagePath: imagePath,
-                                  lastName: lNameController.text,
-                                  linkedIn: linkedinController.text)
-                              .then((_) {
-                            context.pop();
-                            context.popAndSave();
-                          });
-                        }
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 22),
-              ],
+                  const SizedBox(height: 50),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      EditField(
+                        label: "First Name",
+                        controller: fNameController,
+                        width: 150,
+                        isProfile: true,
+                      ),
+                      EditField(
+                        label: "Last Name",
+                        controller: lNameController,
+                        width: 150,
+                        isProfile: true,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 22),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          EditLinkField(
+                              maxWidth: 200,
+                              icon: Icons.description_outlined,
+                              hint: "Upload your cv link",
+                              controller: resumeController),
+                          const SizedBox(width: 10),
+                          TextButton(
+                              onPressed: () async {
+                                cv = await pickerFile();
+                                if (cv != null) {
+                                  cvPath = cv!.path;
+                                }
+                              },
+                              child: const Icon(
+                                Icons.download_for_offline,
+                                size: 45,
+                                color: AppConstants.mainPurple,
+                              )),
+                        ],
+                      ),
+                      EditLinkField(
+                          icon: CustomIcons.linkedin_in,
+                          hint: "Enter your Linked in link",
+                          controller: linkedinController),
+                      EditLinkField(
+                          icon: CustomIcons.github,
+                          hint: "Enter your GitHub username",
+                          controller: gitHubController),
+                      EditLinkField(
+                          icon: Icons.link,
+                          hint: "Enter your Bindlink username",
+                          controller: bindlinkController),
+                      ProfileButton(
+                        color: AppConstants.mainPurple,
+                        title: "Save",
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            log(imagePath ?? "no image");
+                            log(cvPath ?? "no cv");
+                            log(linkedinController.text);
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) => const Center(
+                                    child: CircularProgressIndicator()));
+                            shared
+                                .editProfile(
+                                    token: GetIt.I.get<AuthLayer>().auth!.token,
+                                    firstName: fNameController.text,
+                                    bindLink: bindlinkController.text,
+                                    cvPath: cvPath,
+                                    github: gitHubController.text,
+                                    imagePath: imagePath,
+                                    lastName: lNameController.text,
+                                    linkedIn: linkedinController.text)
+                                .then((_) {
+                              context.pop();
+                              context.popAndSave();
+                            });
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 300),
+                ],
+              ),
             ),
           ),
         ),

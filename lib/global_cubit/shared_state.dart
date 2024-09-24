@@ -12,6 +12,9 @@ final class ShowProfileState extends SharedState {
 }
 
 final class LoadingState extends SharedState {}
+
+final class updateImageState extends SharedState {}
+
 final class ErrorState extends SharedState {
   final String msg;
   ErrorState({required this.msg});

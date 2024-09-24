@@ -1,3 +1,4 @@
+
 import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,11 @@ class SharedCubit extends Cubit<SharedState> {
     emit(ShowProfileState(profile: GetIt.I.get<AuthLayer>().currentUser));
   }
 
-  bool isUser () {
+  updateProfileimage({String? imagePath}) {
+    emit(updateImageState());
+  }
+
+  bool isUser() {
     return GetIt.I.get<AuthLayer>().currentUser!.role == 'user';
   }
 
@@ -32,24 +37,30 @@ class SharedCubit extends Cubit<SharedState> {
     // either admin/supervisor or authorized team lead
 
     // if admin or supervisor
-    if(GetIt.I.get<AuthLayer>().currentUser!.id == project.adminId) {
+    if (GetIt.I.get<AuthLayer>().currentUser!.id == project.adminId) {
       return true;
     }
 
-    // if authorized team lead 
-    if(GetIt.I.get<AuthLayer>().currentUser!.id == project.userId && project.allowEdit==true) {
+    // if authorized team lead
+    if (GetIt.I.get<AuthLayer>().currentUser!.id == project.userId &&
+        project.allowEdit == true) {
       return true;
     }
     return false;
   }
 
   getProfile(String? token) async {
-    if(token==null) { return; }
+    if (token == null) {
+      return;
+    }
     try {
       emit(LoadingState());
       log("pro1");
-      GetIt.I.get<AuthLayer>().currentUser = await api.getProfile(token:token);
-      GetIt.I.get<AuthLayer>().box.write('currentUser', GetIt.I.get<AuthLayer>().currentUser);
+      GetIt.I.get<AuthLayer>().currentUser = await api.getProfile(token: token);
+      GetIt.I
+          .get<AuthLayer>()
+          .box
+          .write('currentUser', GetIt.I.get<AuthLayer>().currentUser);
       emit(ShowProfileState(profile: GetIt.I.get<AuthLayer>().currentUser));
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));
@@ -103,18 +114,22 @@ class SharedCubit extends Cubit<SharedState> {
       double? height,
       double? widthDivide}) {
     Image placeholderLogo = Image.asset('assets/images/tuwaiq_logo1.png',
-        width: height!=null ? null : context.getWidth(divideBy: widthDivide ?? 2),
+        width: height != null
+            ? null
+            : context.getWidth(divideBy: widthDivide ?? 2),
         height: height ?? context.getHeight(divideBy: heightDivide ?? 10),
         fit: BoxFit.cover);
     return logoUrl.contains('assets')
         ? placeholderLogo
         : Container(
-          decoration: BoxDecoration(color: AppConstants.mainPurple, borderRadius: BorderRadius.circular(10)),
-          child: Image.network(logoUrl,
-              width: context.getWidth(divideBy: widthDivide ?? 1),
-              height: context.getHeight(divideBy: heightDivide ?? 10),
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => placeholderLogo),
-        );
+            decoration: BoxDecoration(
+                color: AppConstants.mainPurple,
+                borderRadius: BorderRadius.circular(10)),
+            child: Image.network(logoUrl,
+                width: context.getWidth(divideBy: widthDivide ?? 1),
+                height: context.getHeight(divideBy: heightDivide ?? 10),
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => placeholderLogo),
+          );
   }
 }
