@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 class ProjectModel {
   ProjectModel({
     required this.projectId,
@@ -49,7 +47,6 @@ class ProjectModel {
   late final List<MembersProject> membersProject;
 
   ProjectModel.fromJson(Map<String, dynamic> json) {
-    log("ProjectModel.fromJson");
     projectId = json['project_id'];
     type = json['type'];
     projectName = json['project_name'] ?? 'Untitled';
@@ -59,8 +56,7 @@ class ProjectModel {
     presentationDate = json['presentation_date'];
     projectDescription = json['project_description'] ?? 'No Description Added';
     logoUrl = json['logo_url'] ?? 'assets/images/tuwaiq_logo1.png';
-    presentationUrl =
-        json['presentation_url'] ?? 'https://www.google.com.sa/?hl=ar';
+    presentationUrl = json['presentation_url'] ?? 'https://www.google.com.sa/?hl=ar';
     userId = json['user_id'];
     adminId = json['admin_id'];
     timeEndEdit = json['time_end_edit'];
@@ -69,19 +65,10 @@ class ProjectModel {
     isPublic = json['is_public'];
     rating = json['rating'] / 1.0;
     createAt = json['create_at'];
-
     updateAt = json['update_at'] ?? "null";
-
-    imagesProject = List.from(json['images_project'])
-        .map((e) => ImagesProject.fromJson(e))
-        .toList();
-    linksProject = List.from(json['links_project'])
-        .map((e) => LinksProject.fromJson(e))
-        .toList();
-    membersProject = List.from(json['members_project'])
-        .map((e) => MembersProject.fromJson(e))
-        .toList();
-    log("ProjectModel.fromJson3");
+    imagesProject = List.from(json['images_project']).map((e) => ImagesProject.fromJson(e)).toList();
+    linksProject = List.from(json['links_project']).map((e) => LinksProject.fromJson(e)).toList();
+    membersProject = List.from(json['members_project']).map((e) => MembersProject.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {

@@ -52,7 +52,7 @@ class EditProjectLinks extends StatelessWidget {
                       List labels = ["github", "figma", "video", "pinterest", "play store", "apple store", "apk", "weblink"];
                       return EditField(controller: controllers[index], label: labels[index],validate: false,prefixIcon: cubit!.getLinkIcon(labels[index]));
                     }),
-                    SizedBox(height: 5),
+                    const SizedBox(height: 5),
                     AuthButton(
                       title: "Save Links",
                       onPressed: () {

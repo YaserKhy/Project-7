@@ -1,5 +1,4 @@
 
-import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -14,19 +13,13 @@ part 'shared_state.dart';
 class SharedCubit extends Cubit<SharedState> {
   SharedCubit() : super(SharedInitial());
   final api = NetworkingApi();
-
-  // may be needed because of the delay of loading appbar after the projects
-  // getData(String? token) {
-  //   getProfile(token);
-  //   // getAllProjects
-  // }
-
+  
   updateProfile() {
     emit(ShowProfileState(profile: GetIt.I.get<AuthLayer>().currentUser));
   }
 
   updateProfileimage({String? imagePath}) {
-    emit(updateImageState());
+    emit(UpdateImageState());
   }
 
   bool isUser() {
@@ -42,8 +35,7 @@ class SharedCubit extends Cubit<SharedState> {
     }
 
     // if authorized team lead
-    if (GetIt.I.get<AuthLayer>().currentUser!.id == project.userId &&
-        project.allowEdit == true) {
+    if (GetIt.I.get<AuthLayer>().currentUser!.id == project.userId && project.allowEdit == true) {
       return true;
     }
     return false;
@@ -55,12 +47,8 @@ class SharedCubit extends Cubit<SharedState> {
     }
     try {
       emit(LoadingState());
-      log("pro1");
       GetIt.I.get<AuthLayer>().currentUser = await api.getProfile(token: token);
-      GetIt.I
-          .get<AuthLayer>()
-          .box
-          .write('currentUser', GetIt.I.get<AuthLayer>().currentUser);
+      GetIt.I.get<AuthLayer>().box.write('currentUser', GetIt.I.get<AuthLayer>().currentUser);
       emit(ShowProfileState(profile: GetIt.I.get<AuthLayer>().currentUser));
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));
@@ -81,29 +69,22 @@ class SharedCubit extends Cubit<SharedState> {
   }) async {
     emit(LoadingState());
     await api.editProfile(
-        token: token,
-        firstName: firstName,
-        bindlink: bindLink,
-        cvPath: cvPath,
-        github: github,
-        imagePath: imagePath,
-        lastName: lastName,
-        linkedin: linkedIn);
+      token: token,
+      firstName: firstName,
+      bindlink: bindLink,
+      cvPath: cvPath,
+      github: github,
+      imagePath: imagePath,
+      lastName: lastName,
+      linkedin: linkedIn
+    );
     await getProfile(token);
   }
 
   handleProfilePage({required String? logoUrl, required BuildContext context}) {
-    Widget placeholderAvatar = Image.asset('assets/images/tuwaiq_logo1.png',
-        width: context.getWidth(),
-        height: context.getHeight(divideBy: 10),
-        fit: BoxFit.cover);
-    return logoUrl!.contains('assets')
-        ? placeholderAvatar
-        : Image.network(logoUrl,
-            width: 89,
-            height: 89,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => placeholderAvatar);
+    Widget placeholderAvatar = Image.asset('assets/images/tuwaiq_logo1.png',width: context.getWidth(),height: context.getHeight(divideBy: 10),fit: BoxFit.cover);
+    return logoUrl!.contains('assets') ? placeholderAvatar
+    : Image.network(logoUrl,width: 89,height: 89,fit: BoxFit.cover,errorBuilder: (context, error, stackTrace) => placeholderAvatar);
   }
 
   Widget handleLogo(

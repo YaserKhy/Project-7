@@ -19,7 +19,7 @@ class EditField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label,style: const TextStyle(color: Color(0xff313131), fontSize: 16, fontFamily: "Lato")),
-        Container(
+        SizedBox(
           width: isProfile ? 150 : null,
           child: TextFormField(
             controller: controller,

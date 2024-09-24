@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:meta/meta.dart';
@@ -32,9 +30,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
   Future<void> resendOtp(ResendOtpEvent event, Emitter<OtpState> emit) async {
     try {
       emit(LoadingState());
-      log("message 1");
       await api.sendOtp(email: event.email);
-      log("message 2");
       emit(ResendedState());
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));

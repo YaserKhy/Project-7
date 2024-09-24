@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -61,7 +59,7 @@ class EditBaseInfo extends StatelessWidget {
               context.popAndSave();
             }
             if (state is ErrorState) {
-              Navigator.pop(context);
+              context.pop();
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(state.msg)));
             }
@@ -120,7 +118,6 @@ class EditBaseInfo extends StatelessWidget {
                                   DateFormat('dd/MM/yyyy').format(picked);
                               startDateController.text = formattedDate;
                             }
-                            log("${startDateController.text}");
                           },
                         ),
                         DateField(
@@ -137,7 +134,6 @@ class EditBaseInfo extends StatelessWidget {
                               final formattedDate =
                                   DateFormat('dd/MM/yyyy').format(picked);
                               endDateController.text = formattedDate;
-                              log("${endDateController.text}");
                             }
                           },
                         ),
@@ -156,7 +152,6 @@ class EditBaseInfo extends StatelessWidget {
                                   DateFormat('dd/MM/yyyy').format(picked);
                               presentationDateController.text = formattedDate;
                             }
-                            log("${presentationDateController.text}");
                           },
                         ),
                         EditButton(
@@ -184,19 +179,5 @@ class EditBaseInfo extends StatelessWidget {
         );
       }),
     );
-  }
-}
-
-Future<void> selectDate(BuildContext context) async {
-  final DateTime? picked = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime(2000),
-    lastDate: DateTime(2101),
-  );
-
-  if (picked != null) {
-    final formattedDate = DateFormat('dd/MM/yyyy').format(picked);
-    // context.read<AddProjectBloc>().add(ChangeDateEvent(date: formattedDate));
   }
 }

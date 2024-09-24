@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,7 +41,7 @@ class EditProfileScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         backgroundColor: AppConstants.bgColor,
         appBar: AppBar(forceMaterialTransparency: true),
         body: Center(
@@ -55,7 +54,7 @@ class EditProfileScreen extends StatelessWidget {
                   const SizedBox(height: 10),
                   BlocBuilder<SharedCubit, SharedState>(
                     builder: (context, state) {
-                      if (state is updateImageState) {
+                      if (state is UpdateImageState) {
                         return InkWell(
                           splashColor: Colors.transparent,
                           onTap: () async {
@@ -179,9 +178,6 @@ class EditProfileScreen extends StatelessWidget {
                         title: "Save",
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
-                            log(imagePath ?? "no image");
-                            log(cvPath ?? "no cv");
-                            log(linkedinController.text);
                             showDialog(
                                 barrierDismissible: false,
                                 context: context,

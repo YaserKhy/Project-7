@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -98,8 +97,6 @@ class MyProjectsScreen extends StatelessWidget {
                                 SingleChildScrollView(
                                   child: Column(
                                     children: List.generate(bootcampProjects.length, (index){
-                                      ProjectModel project = bootcampProjects[index];
-                                      log("${project.projectName} ${project.logoUrl}");
                                       return ProjectCard(
                                         project: bootcampProjects[index],
                                         isHome:false,

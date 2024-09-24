@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
@@ -8,12 +7,10 @@ import 'package:project7/networking/const_api.dart';
 mixin ProfileApi on ConstantAPi {
   Future<ProfileModel> getProfile({required String token}) async {
     try {
-      log("get1");
-
-      final response = await dio.get(baseURl + getProfileEndPoint,
-          options: Options(headers: {'Authorization': 'Bearer $token'}));
-      log("get2");
-
+      final response = await dio.get(
+        baseURl + getProfileEndPoint,
+        options: Options(headers: {'Authorization': 'Bearer $token'})
+      );
       return ProfileModel.fromJson(response.data['data']);
     } on DioException catch (error) {
       throw FormatException(error.response?.data["data"]);
@@ -34,21 +31,13 @@ mixin ProfileApi on ConstantAPi {
   }) async {
     Uint8List? image;
     Uint8List? cv;
-    bool validImage = false;
-    bool validCv = false;
     try {
       image = await File(imagePath!).readAsBytes();
-      validImage = true;
     } catch (_) {}
     try {
       cv = await File(cvPath!).readAsBytes();
-      validCv = true;
     } catch (_) {}
     try {
-      // log(image.toString());
-      // log(cv.toString());
-      // log(imagePath.toString());
-      // log(cvPath.toString());
       String linkedinUsername = linkedin.split("/").last;
       final datax = {
         "first_name": firstName,
@@ -62,20 +51,15 @@ mixin ProfileApi on ConstantAPi {
         }
       };
       datax.removeWhere((k, v) => v == null);
-      log(datax.toString());
-      final response = await dio.put(
+      await dio.put(
         baseURl + editProfileEndPoint,
         options: Options(headers: {'Authorization': 'Bearer $token'}),
         data: datax,
       );
-      log('Response status: ${response.statusCode}');
-      log('Response body: ${response.data}');
     } on DioException catch (e) {
-      log("-----");
-      log(e.response?.data.toString() ?? "Error raised in edit profile");
-      log("-----");
+      throw FormatException(e.toString());
     } catch (e) {
-      log(e.toString());
+      throw FormatException(e.toString());
     }
   }
 }

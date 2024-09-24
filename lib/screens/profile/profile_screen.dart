@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -110,11 +109,8 @@ class ProfileScreen extends StatelessWidget {
                                 warningDialog(
                                   context: context,
                                   onPressed: () async {
-                                    log('user was ${GetIt.I.get<AuthLayer>().auth?.token.substring(1, 10)}');
                                     await GetIt.I.get<AuthLayer>().logOut();
-                                    log('user is ${GetIt.I.get<AuthLayer>().auth?.token}');
-                                    context.pushRemove(
-                                        screen: const LoginScreen());
+                                    context.pushRemove(screen: const LoginScreen());
                                   },
                                 );
                               }),

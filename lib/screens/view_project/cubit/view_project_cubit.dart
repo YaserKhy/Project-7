@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -74,13 +72,11 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
 
   changeStars(String field,double newStars, Map<String,dynamic> rating) {
     rating[field] = newStars;
-    log(rating.toString());
     emit(StarChangedState(field: field, newStars:newStars));
   }
 
   submitRating({required String projectId, required Map<String,dynamic> rating}) async {
     rating['idea'] = (rating['idea']*2).toInt();
-    log('LOOOOOOOOOOOK HEEEEEEEERE ${rating['idea'].toString()}');
     rating['design'] = (rating['design']*2).toInt();
     rating['tools'] = (rating['tools']*2).toInt();
     rating['practices'] = (rating['practices']*2).toInt();
@@ -126,7 +122,6 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
 
   setCurrentState({required String value}) {
     stateNow = value;
-    log(stateNow);
     emit(UpdateRadioButtonState(status: stateNow));
   }
 
@@ -137,7 +132,6 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
 
   setCurrentRatingState({required String value}) {
     canRate = value;
-    log(canRate);
     emit(UpdateRadioButtonRating(rating: canRate));
   }
 
@@ -150,7 +144,6 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
 
   setCurrentEditingState({required String value}) {
     canEdit = value;
-    log(canEdit);
     emit(UpdateRadioButtonEditing(editing: canEdit));
   }
 

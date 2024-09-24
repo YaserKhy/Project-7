@@ -13,7 +13,7 @@ final class ShowProfileState extends SharedState {
 
 final class LoadingState extends SharedState {}
 
-final class updateImageState extends SharedState {}
+final class UpdateImageState extends SharedState {}
 
 final class ErrorState extends SharedState {
   final String msg;

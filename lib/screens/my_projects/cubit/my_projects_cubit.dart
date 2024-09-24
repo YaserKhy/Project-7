@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -13,8 +12,6 @@ class MyProjectsCubit extends Cubit<MyProjectsState> {
 
   getMyProjects() {
     myProjects = GetIt.I.get<AuthLayer>().currentUser!.projects;
-    log('My Projects : ${myProjects.length}');
-    log('My Projects : ${myProjects.map((p)=>p.projectName).toList().toString()}');
     emit(ShowMyProjectsState(myProjects: myProjects));
   }
 

@@ -33,11 +33,11 @@ class LoginScreen extends StatelessWidget {
                 );
               }
               if (state is SuccessState) {
-                Navigator.pop(context);
+                context.pop();
                 context.pushReplacement(screen: OtpVerificationScreen(email: bloc.controllerEmail!.text));
               }
               if (state is ErrorState) {
-                Navigator.pop(context);
+                context.pop();
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.msg)));
               }
             },

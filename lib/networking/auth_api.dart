@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:project7/models/auth_model.dart';
 import 'const_api.dart';
@@ -25,11 +23,7 @@ mixin AuthApi on ConstantAPi {
 
   Future<String> sendOtp({required String email}) async {
     try {
-      log("1");
-      final response = await dio.post(baseURl + loginEndPoint, data: {
-        "email": email.trim(),
-      });
-      log("2");
+      final response = await dio.post(baseURl + loginEndPoint, data: {"email": email.trim(),});
       return response.data["data"]["email"];
     } on DioException catch (error) {
       throw FormatException(error.response?.data["data"]);

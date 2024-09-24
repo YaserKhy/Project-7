@@ -10,7 +10,5 @@ Future<void> urlLuncher(String? urlPath) async {
             const WebViewConfiguration(enableJavaScript: true))) {
       throw Exception('Could not launch $url');
     }
-  } catch (e) {
-    print(e);
-  }
+  } catch (_) {}
 }

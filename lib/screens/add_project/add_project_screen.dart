@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -8,7 +6,6 @@ import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/extensions/screen_size.dart';
 import 'package:project7/screens/add_project/bloc/add_project_bloc.dart';
 import 'package:project7/widgets/buttons/edit_button.dart';
-
 import 'package:project7/widgets/fields/auth_field.dart';
 
 class AddProjectScreen extends StatelessWidget {
@@ -31,19 +28,18 @@ class AddProjectScreen extends StatelessWidget {
               listener: (context, state) {
                 if (state is LoadingState) {
                   showDialog(
-                      barrierDismissible: false,
-                      context: context,
-                      builder: (context) =>
-                          const Center(child: CircularProgressIndicator()));
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) => const Center(child: CircularProgressIndicator())
+                  );
                 }
                 if (state is SuccessState) {
                   context.popAndSave();
                   context.popAndSave();
                 }
                 if (state is ErrorState) {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text(state.msg)));
+                  context.pop();
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.msg)));
                 }
               },
               child: Scaffold(
@@ -217,6 +213,5 @@ Future<void> selectDate(
     final formattedDate = DateFormat('dd/MM/yyyy').format(picked);
     controller.text = formattedDate;
     context.read<AddProjectBloc>().add(ChangeDateEvent(date: formattedDate));
-    log("${controller.text}");
   }
 }

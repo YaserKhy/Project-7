@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
@@ -34,19 +33,15 @@ class OtpVerificationScreen extends StatelessWidget {
                 );
               }
               if (state is SuccessState) {
-                log("success 1");
                 borderColor = Colors.green;
-                Navigator.pop(context);
-                log("success 2");
+                context.pop();
                 context.pushReplacement(screen: const NavigationScreen());
-                log("success 3");
               }
               if (state is ResendedState) {
-                log("success 1");
-                Navigator.pop(context);
+                context.pop();
               }
               if (state is ErrorState) {
-                Navigator.pop(context);
+                context.pop();
                 borderColor = Colors.red;
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("There is an error")));
               }
