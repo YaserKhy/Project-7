@@ -37,7 +37,7 @@ class EditBaseInfo extends StatelessWidget {
     TextEditingController endDateController = TextEditingController(
         text: project.endDate != "in progress"
             ? formatDate(project.endDate)
-            : project.endDate);
+            : "15/12/2024");
     TextEditingController presentationDateController = TextEditingController(
         text: project.startDate != null
             ? formatDate(project.presentationDate!)
