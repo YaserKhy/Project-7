@@ -34,7 +34,7 @@ class ProjectIcon extends StatelessWidget {
                 height: 9,
               ),
               SizedBox(
-                  height: 100,
+                  height: 30,
                   width: 120,
                   child: Text(
                     title,

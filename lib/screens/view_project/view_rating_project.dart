@@ -14,8 +14,9 @@ class ViewRatingProject extends StatelessWidget {
   final ProjectModel project;
   final ViewProjectCubit cubit;
   final Function()? onSave;
+  final Map<String,dynamic> rating;
   const ViewRatingProject(
-      {super.key, required this.project, required this.cubit, this.onSave});
+      {super.key, required this.project, required this.cubit, this.onSave, required this.rating});
 
   @override
   Widget build(BuildContext context) {
@@ -99,48 +100,54 @@ class ViewRatingProject extends StatelessWidget {
                                     fontSize: 15),
                               ),
                               const SizedBox(height: 20),
-                              const RatingField(
+                              RatingField(
+                                rating: rating,
                                   title: 'Idea',
-                                  iconToAdd: Icon(
+                                  iconToAdd: const Icon(
                                     Icons.lightbulb,
                                     color: AppConstants.orange,
                                   )),
                               const SizedBox(height: 20),
-                              const RatingField(
+                              RatingField(
+                                rating: rating,
                                   title: "Design",
-                                  iconToAdd: Icon(
+                                  iconToAdd: const Icon(
                                     Icons.color_lens_outlined,
                                     color: Color(0xffF565BB),
                                   )),
                               const SizedBox(
                                 height: 20,
                               ),
-                              const RatingField(
+                              RatingField(
+                                rating: rating,
                                   title: "Tools",
-                                  iconToAdd: Icon(
+                                  iconToAdd: const Icon(
                                     Icons.keyboard_command_key_sharp,
                                     color: AppConstants.brownIcon,
                                   )),
                               const SizedBox(
                                 height: 20,
                               ),
-                              const RatingField(
+                              RatingField(
+                                rating: rating,
                                   title: "Practices",
-                                  iconToAdd: Icon(
+                                  iconToAdd: const Icon(
                                     Icons.shape_line_outlined,
                                     color: AppConstants.blue,
                                   )),
                               const SizedBox(height: 20),
-                              const RatingField(
+                              RatingField(
+                                rating: rating,
                                   title: "Presentation",
-                                  iconToAdd: Icon(
+                                  iconToAdd: const Icon(
                                     Icons.screenshot_monitor_outlined,
                                     color: Color(0xffff8c2c),
                                   )),
                               const SizedBox(height: 20),
-                              const RatingField(
+                              RatingField(
+                                rating: rating,
                                   title: "Investment",
-                                  iconToAdd: Icon(
+                                  iconToAdd: const Icon(
                                     Icons.attach_money_sharp,
                                     color: Colors.green,
                                   )),

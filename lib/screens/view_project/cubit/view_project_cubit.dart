@@ -19,16 +19,6 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
   TextEditingController commentController = TextEditingController();
   TextEditingController userIdController = TextEditingController();
   TextEditingController positionController = TextEditingController();
-  
-  Map<String, dynamic> rating = {
-    "idea":0.0,
-    "design":0.0,
-    "tools":0.0,
-    "practices":0.0,
-    "presentation":0.0,
-    "investment":0.0,
-    "note": ""
-  };
 
   updateProjectLinks({required String projectId,required Map<String,dynamic> data}) async {
     try {
@@ -69,7 +59,7 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
       }
       total.add({'position' : positionController.text, 'user_id': userIdController.text});
       await api.addMember(projectId:projectId,newData: total);
-      emit(SuccessState());
+      emit(SuccessState(isAddMember:true));
     } on FormatException catch (error) {
       emit(ErrorState(msg: error.message));
     } catch (error) {
@@ -82,14 +72,15 @@ class ViewProjectCubit extends Cubit<ViewProjectState> {
     emit(ShowStarsState());
   }
 
-  changeStars(String field,double newStars) {
-    log('$field rating is ${(newStars*2).toInt()}');
+  changeStars(String field,double newStars, Map<String,dynamic> rating) {
     rating[field] = newStars;
+    log(rating.toString());
     emit(StarChangedState(field: field, newStars:newStars));
   }
 
-  submitRating({required String projectId}) async {
+  submitRating({required String projectId, required Map<String,dynamic> rating}) async {
     rating['idea'] = (rating['idea']*2).toInt();
+    log('LOOOOOOOOOOOK HEEEEEEEERE ${rating['idea'].toString()}');
     rating['design'] = (rating['design']*2).toInt();
     rating['tools'] = (rating['tools']*2).toInt();
     rating['practices'] = (rating['practices']*2).toInt();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project7/constants/app_constants.dart';
+import 'package:project7/extensions/screen_navigation.dart';
 import 'package:project7/models/project_model.dart';
 import 'package:project7/screens/view_project/cubit/view_project_cubit.dart';
 import 'package:project7/widgets/buttons/auth_button.dart';
@@ -54,7 +55,8 @@ class EditProjectLinks extends StatelessWidget {
                     SizedBox(height: 5),
                     AuthButton(
                       title: "Save Links",
-                      onPressed: ()=>cubit!.updateProjectLinks(
+                      onPressed: () {
+                        cubit!.updateProjectLinks(
                         projectId: projectId,
                         data: {
                           "github" : githubController.text,
@@ -66,7 +68,9 @@ class EditProjectLinks extends StatelessWidget {
                           "apk" : apkController.text,
                           "weblink" : webController.text
                         }
-                      )
+                      );
+                      context.popAndSave();
+                      }
                     )
                   ],
                 ),

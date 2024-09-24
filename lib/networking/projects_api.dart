@@ -246,10 +246,11 @@ mixin ProjectsApi on ConstantAPi {
   }
 
   submitRating({required String token,required String projectId,required Map<String,dynamic> ratingData}) async {
+    log(ratingData.toString());
     try {
       final response = await dio.post(
         "$baseURl$rateProjectEndPoint/$projectId",
-        data: ratingData,
+        data: jsonEncode(ratingData),
         options: Options(headers: {'Authorization': 'Bearer $token'})
       );
       log('Response status: ${response.statusCode}');

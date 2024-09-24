@@ -57,7 +57,6 @@ class ViewAllProjectsScreen extends StatelessWidget {
                       cubit.refreshHome();
                       myProjectsCubit.getMyProjects();
                     }
-                    context.pushRemove(screen: const HomeScreen());
                   },
                 )
               );

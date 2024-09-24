@@ -38,6 +38,15 @@ class ProjectScreen extends StatelessWidget {
     String? imgPath = project.logoUrl;
     final shared = context.read<SharedCubit>();
     final formKey = GlobalKey<FormState>();
+    Map<String, dynamic> rating = {
+    "idea":0.0,
+    "design":0.0,
+    "tools":0.0,
+    "practices":0.0,
+    "presentation":0.0,
+    "investment":0.0,
+    "note": ""
+  };
     return BlocProvider(
       create: (context) => v_cubit.ViewProjectCubit(),
       child: Builder(builder: (context) {
@@ -61,6 +70,10 @@ class ProjectScreen extends StatelessWidget {
             if (state is v_cubit.SuccessState) {
               context.popAndSave(); // exit loading
               context.popAndSave(); // back home
+              if(state.isAddMember!=null && state.isAddMember==true) {
+                context.popAndSave();
+                saveDialog(context: context, msg: "Member is Added Successfully");
+              }
             }
           },
           child: Scaffold(
@@ -89,7 +102,7 @@ class ProjectScreen extends StatelessWidget {
                                   image = File(selectedImage.path);
                                   imgPath = image!.path;
                                   project.logoUrl = image?.path ?? project.logoUrl;
-                                  cubit.updateLogo(projectId:project.projectId,logoUrl: project.logoUrl);
+                                  await cubit.updateLogo(projectId:project.projectId,logoUrl: project.logoUrl);
                                 }
                               },
                               child: Badge(
@@ -124,7 +137,9 @@ class ProjectScreen extends StatelessWidget {
                                     screen: EditBaseInfo(project: project),
                                     updateInfo: (p0) {
                                       if(p0!=null) {
+                                        shared.getProfile(GetIt.I.get<AuthLayer>().auth!.token);
                                         homeCubit.refreshHome();
+                                        myProjectsCubit.getMyProjects();
                                       }
                                     }
                                   ),
@@ -149,7 +164,6 @@ class ProjectScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 22),
                       // Section 2 : Description
                       ViewProjectTitle(project: project,title: 'Description',editable: shared.canEdit(project: project)),
                       Text(
@@ -247,10 +261,16 @@ class ProjectScreen extends StatelessWidget {
                                           const SizedBox(height: 20),
                                           AuthButton(
                                             title: "Add Member",
-                                            onPressed: () {
+                                            onPressed: () async {
                                               if(formKey.currentState!.validate()) {
-                                                cubit.addMember(projectId: project.projectId, currentMembers: project.membersProject);
-                                                context.popAndSave();
+                                                await cubit.addMember(projectId: project.projectId, currentMembers: project.membersProject);
+                                                // await shared.getProfile(GetIt.I.get<AuthLayer>().auth!.token);
+                                                // log("message profile updateeed");
+                                                // await homeCubit.refreshHome();
+                                                // log("message profile updateeed 2");
+                                                // await myProjectsCubit.getMyProjects();
+                                                // context.popAndSave();
+                                                
                                               }
                                             },
                                           )
@@ -281,8 +301,9 @@ class ProjectScreen extends StatelessWidget {
                           screen: ViewRatingProject(
                             project: project,
                             cubit: cubit,
+                            rating: rating,
                             onSave: () async {
-                              await cubit.submitRating(projectId: project.projectId);
+                              await cubit.submitRating(projectId: project.projectId, rating: rating);
                               context.popAndSave();
                               context.popAndSave();
                               saveDialog(context: context,msg: "Thank you for your rating");
@@ -318,11 +339,11 @@ class ProjectScreen extends StatelessWidget {
                               cubit: cubit,
                               projectId: project.projectId,
                             ),
-                            updateInfo: (p0) {
+                            updateInfo: (p0) async {
                               if(p0!=null) {
-                                shared.getProfile(GetIt.I.get<AuthLayer>().auth!.token);
-                                homeCubit.refreshHome();
-                                myProjectsCubit.getMyProjects();
+                                await shared.getProfile(GetIt.I.get<AuthLayer>().auth!.token);
+                                await homeCubit.refreshHome();
+                                await myProjectsCubit.getMyProjects();
                               }
                             },
                           );
@@ -433,7 +454,7 @@ class ProjectScreen extends StatelessWidget {
                             onPressed: () async {
                               log(project.projectId);
                               log(GetIt.I.get<AuthLayer>().auth!.token);
-                              cubit.deleteProject(projectId: project.projectId);
+                              await cubit.deleteProject(projectId: project.projectId);
                             },
                             child: const Text("delete", style: TextStyle(color: Colors.white),)
                           ),

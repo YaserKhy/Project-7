@@ -46,7 +46,7 @@ class ViewProjectTitle extends StatelessWidget {
                   presentation = await pickerFile();
                   if (presentation != null) {
                     presentationPath = presentation!.path;
-                    cubit.updatePresentation(projectId: project.projectId,presentationPath: presentationPath);
+                    await cubit.updatePresentation(projectId: project.projectId,presentationPath: presentationPath);
                   }
                 }
                 else if (title == 'Images') {
@@ -54,7 +54,7 @@ class ViewProjectTitle extends StatelessWidget {
                   if (selectedImages.isNotEmpty) {
                     List<String> imgsPaths = selectedImages.map((img) => File(img.path).path).toList();
                     // log("message hwerrr");
-                    cubit.updateImages(
+                    await cubit.updateImages(
                       imgs: imgsPaths,
                       projectId: project.projectId,
                       projectImages: project.imagesProject

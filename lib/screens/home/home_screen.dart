@@ -109,8 +109,8 @@ class HomeScreen extends StatelessWidget {
                                               updateInfo: (p0) async {
                                                 if(p0!=null) {
                                                   await shared.getProfile(GetIt.I.get<AuthLayer>().auth!.token);
-                                                  await myProjectsCubit.getMyProjects();
                                                   await cubit.refreshHome();
+                                                  await myProjectsCubit.getMyProjects();
                                                 }
                                               },
                                             ),

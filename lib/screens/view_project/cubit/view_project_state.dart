@@ -12,7 +12,10 @@ final class ErrorState extends ViewProjectState {
   ErrorState({required this.msg});
 }
 
-final class SuccessState extends ViewProjectState {}
+final class SuccessState extends ViewProjectState {
+  final bool? isAddMember;
+  SuccessState({this.isAddMember});
+}
 
 final class UpdateRadioButtonState extends ViewProjectState {
   final String? status;
