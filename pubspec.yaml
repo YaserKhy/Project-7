@@ -26,6 +26,7 @@ dependencies:
   animated_item_picker: ^2.0.0
 
   hugeicons: ^0.0.7
+  device_preview: ^1.2.0
 
 dev_dependencies:
   flutter_test:

@@ -21,7 +21,7 @@ class ProjectCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: isHome ? 150 : context.getWidth(),
-        height: 175,
+        height: context.getHeight(divideBy: 5.2),
         margin: const EdgeInsets.all(10),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(

@@ -7,12 +7,24 @@ import 'package:project7/models/auth_model.dart';
 import 'package:project7/screens/login/login_screen.dart';
 import 'package:project7/screens/navigation/navigation_screen.dart';
 import 'package:project7/services/setup.dart';
+import 'package:device_preview/device_preview.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initSetup();
-  runApp(const MainApp());
+  runApp(
+    DevicePreview(
+      enabled: false,
+      builder: (context) => const MainApp(),
+    ),
+  );
 }
+
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await initSetup();
+//   runApp(const MainApp());
+// }
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
