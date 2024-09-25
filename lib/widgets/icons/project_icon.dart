@@ -35,9 +35,10 @@ class ProjectIcon extends StatelessWidget {
               ),
               SizedBox(
                   height: 30,
-                  width: 120,
+                  width: 110,
                   child: Text(
                     title,
+                    overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                         fontSize: 14,
