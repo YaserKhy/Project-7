@@ -20,12 +20,6 @@ void main() async {
   );
 }
 
-// Future<void> main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await initSetup();
-//   runApp(const MainApp());
-// }
-
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
